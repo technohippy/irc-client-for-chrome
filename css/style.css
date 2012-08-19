@@ -1,0 +1,109 @@
+* {
+  margin: 0;
+  padding: 0; }
+
+body {
+  background: #221100;
+  color: white;
+  overflow: hidden; }
+
+li {
+  list-style: none; }
+
+.container {
+  display: -webkit-box;
+  height: 100%;
+  /* TODO */
+  height: 500px;
+  width: 100%;
+  /* TODO */
+  width: 700px; }
+
+.left-pane {
+  -webkit-box-flex: 1;
+  -webkit-box-orient: vertical;
+  display: -webkit-box; }
+
+.messages {
+  -webkit-box-flex: 1;
+  border: 1px solid gray;
+  overflow: scroll; }
+  .messages .line {
+    width: 100%; }
+    .messages .line .timestamp {
+      color: gray;
+      right: 0; }
+
+.command {
+  background: #221100;
+  color: white;
+  font-size: 12px;
+  height: 25px;
+  width: 100%; }
+
+.logs {
+  border: 1px solid gray;
+  font-size: 12px;
+  height: 150px;
+  overflow: scroll; }
+  .logs .timestamp {
+    color: gray;
+    margin-right: 5px; }
+  .logs .notice {
+    color: gray; }
+
+.right-pane {
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  width: 200px; }
+
+.members {
+  -webkit-box-flex: 1;
+  border: 1px solid gray; }
+
+.channels {
+  height: 300px;
+  border: 1px solid gray; }
+  .channels .server {
+    font-weight: bold; }
+    .channels .server .channel {
+      font-weight: normal;
+      margin-left: 10px; }
+    .channels .server .selected {
+      background: rgba(255, 0, 0, 0.3); }
+
+.server-settings {
+  border-bottom: 1px solid black;
+  -webkit-box-orient: vertical;
+  -webkit-transition: top 0.3s linear;
+  background-color: #552b00;
+  display: -webkit-box;
+  height: 300px;
+  left: 0;
+  position: absolute;
+  top: -300px;
+  width: 100%; }
+  .server-settings .settings-head {
+    width: 100%;
+    height: 30px;
+    padding: 5px; }
+    .server-settings .settings-head input {
+      width: 70%;
+      float: left; }
+  .server-settings .settings-body {
+    -webkit-box-flex: 1;
+    display: -webkit-box;
+    width: 100%;
+    padding: 10px; }
+    .server-settings .settings-body .general-settings {
+      -webkit-box-flex: 1; }
+      .server-settings .settings-body .general-settings input {
+        width: 80%; }
+    .server-settings .settings-body .channel-list {
+      width: 30%; }
+    .server-settings .settings-body .channel-settings {
+      width: 30%; }
+
+.server-settings.show {
+  -webkit-box-shadow: 0 0 30px 3px black;
+  top: 0; }

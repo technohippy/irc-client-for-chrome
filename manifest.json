@@ -1,0 +1,13 @@
+{
+  "name": "IRC Client for Chrome",
+  "description": "IRC Client for Chrome",
+  "manifest_version": 2,
+  "version": "0.1",
+  "app": {
+    "background": {
+      "scripts": ["js/background.js"]
+    }
+  },
+  "permissions": ["experimental", "app.window", "socket", "storage"],
+  "icons": { "16": "image/yunomi-16.png", "128": "image/yunomi-128.png" }
+}
