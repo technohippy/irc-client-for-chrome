@@ -69,14 +69,18 @@ IRC.App.Settings = function(app) {
       }
       var removedChannels = [];
       for (var i = 0; i < serverChannels.length; i++) {
-        if (this.settings.channels.indexOf(serverChannels[i]) < 0) {
-          removedChannels.push(serverChannels[i]);
+        var serverChannelName = serverChannels[i];
+        if (this.settings.channels.indexOf(serverChannelName) < 0) {
+          removedChannels.push(serverChannelName);
+          this.server.removeChannel(serverChannelName);
         }
       }
       var addedChannels = [];
       for (var i = 0; i < this.settings.channels.length; i++) {
-        if (serverChannels.indexOf(this.settings.channels[i]) < 0) {
-          addedChannels.push(this.settings.channels[i]);
+        var settingsChannelName = serverChannels[i];
+        if (serverChannels.indexOf(settingsChannelName) < 0) {
+          addedChannels.push(settingsChannelName);
+          this.server.addChannel(settingsChannelName);
         }
       }
 

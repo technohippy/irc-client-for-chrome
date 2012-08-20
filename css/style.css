@@ -22,16 +22,24 @@ li {
 .left-pane {
   -webkit-box-flex: 1;
   -webkit-box-orient: vertical;
-  display: -webkit-box; }
+  display: -webkit-box;
+  overflow: hidden;
+  border-right: 1px solid gray; }
 
 .messages {
   -webkit-box-flex: 1;
-  border: 1px solid gray;
-  overflow: scroll; }
+  border-bottom: 1px solid gray;
+  overflow: scroll;
+  padding: 5px; }
   .messages .line {
-    width: 100%; }
+    width: 100%;
+    position: relative; }
+    .messages .line .sender {
+      color: #ccc;
+      margin-right: 10px; }
     .messages .line .timestamp {
       color: gray;
+      position: absolute;
       right: 0; }
 
 .command {
@@ -39,13 +47,16 @@ li {
   color: white;
   font-size: 12px;
   height: 25px;
-  width: 100%; }
+  width: 95%;
+  padding: 0 5px;
+  border: none; }
 
 .logs {
-  border: 1px solid gray;
+  border-top: 1px solid gray;
   font-size: 12px;
   height: 150px;
-  overflow: scroll; }
+  overflow: scroll;
+  padding: 5px; }
   .logs .timestamp {
     color: gray;
     margin-right: 5px; }
@@ -59,11 +70,12 @@ li {
 
 .members {
   -webkit-box-flex: 1;
-  border: 1px solid gray; }
+  border-bottom: 1px solid gray;
+  padding: 5px; }
 
 .channels {
   height: 300px;
-  border: 1px solid gray; }
+  padding: 5px; }
   .channels .server {
     font-weight: bold; }
     .channels .server .channel {

@@ -8,7 +8,7 @@ IRC.Settings = function(server) {
     this.nick = server.nick;
     this.user = server.user;
     this.encoding = server.encoding;
-    this.channels = [];
+    this.channels = []; // TODO: とりあえずchannelNameの配列。将来的にはchannelの配列にする
     for (var channelName in server.channels) {
       this.channels.push(channelName);
     }
