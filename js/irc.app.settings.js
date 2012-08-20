@@ -15,6 +15,7 @@ IRC.App.Settings = function(app) {
   this.channelsElm = document.getElementById('channel-list');
   this.channelPasswordElm = document.getElementById('password');
   this.channelJoinOnConnectElm = document.getElementById('join-on-connect');
+  this.backgroundElm = document.getElementById('settings-background');
 
   document.getElementById('ok').addEventListener('click', function() {
     // TODO
@@ -77,7 +78,7 @@ IRC.App.Settings = function(app) {
       }
       var addedChannels = [];
       for (var i = 0; i < this.settings.channels.length; i++) {
-        var settingsChannelName = serverChannels[i];
+        var settingsChannelName = this.settings.channels[i];
         if (serverChannels.indexOf(settingsChannelName) < 0) {
           addedChannels.push(settingsChannelName);
           this.server.addChannel(settingsChannelName);
@@ -112,6 +113,10 @@ IRC.App.Settings = function(app) {
   }.bind(this));
 
   document.getElementById('cancel').addEventListener('click', function() {
+    this.close();
+  }.bind(this));
+
+  this.backgroundElm.addEventListener('click', function() {
     this.close();
   }.bind(this));
 
@@ -191,7 +196,9 @@ IRC.App.Settings.prototype.addChannel = function(channel) {
 };
 IRC.App.Settings.prototype.show = function() {
   this.elm.className = 'server-settings show';
+  this.backgroundElm.className = 'settings-background show';
 };
 IRC.App.Settings.prototype.hide = function() {
   this.elm.className = 'server-settings';
+  this.backgroundElm.className = 'settings-background';
 };

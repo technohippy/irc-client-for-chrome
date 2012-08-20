@@ -139,6 +139,20 @@ IRC.App.prototype.channelListener = function(eventType, channels) {
       serverUlElm.appendChild(channelLiElm);
     }
   }
+  else if (eventType == IRC.Events.CHANNEL_REMOVED) {
+    for (var channelName in channels) {
+      var channel = channels[channelName];
+      // TODO
+      var serverElm = document.getElementById('server-' + channel.server.serverNick);
+      var serverUlElm = serverElm.getElementsByTagName('ul')[0];
+      for (var i = 0; i < serverUlElm.childNodes.length; i++) {
+        var liElm = serverUlElm.childNodes[i];
+        if (liElm.childNodes[0].textContent == channelName) {
+          liElm.parentNode.removeChild(liElm);
+        }
+      }
+    }
+  }
 };
 IRC.App.start = function() {
   function $(id) {return document.getElementById(id)}
@@ -196,11 +210,11 @@ IRC.App.start = function() {
   }.bind(app));
 
   document.addEventListener('online', function() {
-    console.log('>>>>>> ONLINE');
+    //console.log('>>>>>> ONLINE');
   });
 
   document.addEventListener('offline', function() {
-    console.log('>>>>>> OFFLINE');
+    //console.log('>>>>>> OFFLINE');
   });
 
   return app;

@@ -50,7 +50,11 @@ IRC.Server.prototype.addChannel = function(channel) {
   }
   this.channels[channelName] = channel;
   for (var i = 0; i < this.channelListeners.length; i++) {
-    this.channelListeners[i](IRC.Events.CHANNEL_ADDED, channel);
+    // TODO: オブジェクト以外を渡せるように
+    //this.channelListeners[i](IRC.Events.CHANNEL_ADDED, channel);
+    var data = {};
+    data[channelName] = channel;
+    this.channelListeners[i](IRC.Events.CHANNEL_ADDED, data);
   }
 };
 IRC.Server.prototype.removeChannel = function(channel) {
@@ -65,7 +69,11 @@ IRC.Server.prototype.removeChannel = function(channel) {
   delete this.channels[channelName];
 
   for (var i = 0; i < this.channelListeners.length; i++) {
-    this.channelListeners[i](IRC.Events.CHANNEL_REMOVED, channel);
+    // TODO: オブジェクト以外を渡せるように
+    //this.channelListeners[i](IRC.Events.CHANNEL_ADDED, channel);
+    var data = {};
+    data[channelName] = channel;
+    this.channelListeners[i](IRC.Events.CHANNEL_REMOVED, data);
   }
 };
 IRC.Server.prototype.join = function(channelName) {
@@ -148,7 +156,6 @@ IRC.Server.prototype.connect = function() {
         else if (message.command == 'JOIN') {
           message.interprete();
           var channel = this.getChannel(message.channelName);
-if (!channel) console.log('>>>>>> ', message );
           if (0 < channel.addMember(message.sender).length) {
             for (var j = 0; j < this.memberListeners.length; j++) {
               this.memberListeners[j](IRC.Events.MEMBER_ADDED, message.sender, channel);
