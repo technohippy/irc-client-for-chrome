@@ -4,6 +4,7 @@
     <script src="lib/encoding-indexes.js"></script>
     <script src="lib/encoding.js"></script>
     <script src="lib/tcp-client.js"></script>
+    <script src="lib/translate.js"></script>
     <script src="js/irc/irc.errors.js"></script>
     <script src="js/irc/irc.replies.js"></script>
     <script src="js/irc/irc.events.js"></script>
@@ -31,7 +32,7 @@
         <div class="members">
         </div>
         <ul class="channels">
-          <li id="add-new-server">[New Server]</li>
+          <li id="add-new-server" class="translate">addNewServer</li>
         </ul>
       </div>
     </div>
@@ -39,8 +40,8 @@
     <div class="server-settings">
       <div class="settings-head">
         <input id="servernick" name="servernick" placeholder="Server Displayname" />
-        <button id="ok">OK</button>
-        <button id="cancel">Cancel</button>
+        <button id="ok" class="translate">ok</button>
+        <button id="cancel" class="translate">cancel</button>
       </div>
       <div class="settings-body">
         <div class="general-settings">
