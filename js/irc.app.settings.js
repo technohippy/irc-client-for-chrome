@@ -10,6 +10,7 @@ IRC.App.Settings = function(app) {
   this.portElm = document.getElementById('port');
   this.nickElm = document.getElementById('nick');
   this.userElm = document.getElementById('user');
+  this.passElm = document.getElementById('pass');
   this.encodingElm = document.getElementById('encoding');
   this.newChannelElm = document.getElementById('new-channel');
   this.channelsElm = document.getElementById('channel-list');
@@ -103,7 +104,7 @@ IRC.App.Settings = function(app) {
     else {
       // created
       var server = new IRC.Server(this.settings.host, this.settings.port, 
-        this.settings.nick, this.settings.user, this.settings.encoding);
+        this.settings.nick, this.settings.user, this.settings.pass, this.settings.encoding);
       for (var i = 0; i < this.settings.channels.length; i++) {
         server.addChannel(this.settings.channels[i]);
       }
@@ -147,6 +148,7 @@ IRC.App.Settings.prototype.open = function(server) {
     this.portElm.value = server.port;
     this.nickElm.value = server.nick;
     this.userElm.value = server.user;
+    this.passElm.value = server.pass;
     this.encodingElm.value = server.encoding;
     for (var channelName in server.channels) {
       this.addChannel(server.getChannel(channelName));

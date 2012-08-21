@@ -1,24 +1,13 @@
 if (typeof(IRC) == 'undefined') var IRC = {};
 
-IRC.Server = function(host, port, nick, user, encoding) {
-  this.encoding = 'utf-8';
-  if (user) {
-    this.host = host;
-    this.port = port;
-    this.nick = nick;
-    this.user = user;
-    if (encoding) this.encoding = encoding;
-  }
-  else {
-    this.host = host;
-    this.port = 6667;
-    this.nick = port;
-    this.user = nick;
-    if (user) this.encoding = user;
-  }
-  this.pass = null;
+IRC.Server = function(host, port, nick, user, pass, encoding) {
+  this.host = host;
+  this.port = port;
+  this.nick = nick;
+  this.user = user;
+  this.pass = pass;
+  this.encoding = encoding || 'utf-8';
   this.channels = {};
-  //this.tcpClient = new TcpClient(this.host, this.port, this.encoding);
   this.tcpClient = null;
   this.reservedCommands = [];
   this.ready = false;
@@ -78,7 +67,10 @@ IRC.Server.prototype.removeChannel = function(channel) {
 };
 IRC.Server.prototype.join = function(channelName) {
   if (!this.getChannel(channelName)) this.addChannel(channelName);
-  this.send(new IRC.Message('JOIN', channelName));
+  //this.send(new IRC.Message('JOIN', channelName));
+  this.send(new IRC.Message('JOIN', channelName), function() {
+    this.send(new IRC.Message('NAMES', channelName));
+  }.bind(this));
   return this.getChannel(channelName);
 };
 IRC.Server.prototype.joinAllOnConnect = function() {
@@ -213,9 +205,16 @@ IRC.Server.prototype.connect = function() {
       }
     }.bind(this));
 
-    if (this.pass) this.send(new IRC.Message('PASS', this.pass));
-    this.forceSend(new IRC.Message('NICK', this.nick));
-    this.forceSend(new IRC.Message('USER', this.user, '0', '*', ':user name')); // TODO
+    if (this.pass) {
+      this.send(new IRC.Message('PASS', this.pass), function() {
+        this.forceSend(new IRC.Message('NICK', this.nick));
+        this.forceSend(new IRC.Message('USER', this.user, '0', '*', ':user name')); // TODO
+      }.bind(this));
+    }
+    else {
+      this.forceSend(new IRC.Message('NICK', this.nick));
+      this.forceSend(new IRC.Message('USER', this.user, '0', '*', ':user name')); // TODO
+    }
   }.bind(this));
 };
 IRC.Server.prototype.disconnect = function(afterDisconnect) {

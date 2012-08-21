@@ -7,6 +7,10 @@
     "message": "Chrome用IRCクライアント",
     "description": "アプリケーションの説明"
   },
+  "inputMessage": {
+    "message": "メッセージを入力して下さい",
+    "description": "メッセージプロンプト"
+  },
   "addNewServer": {
     "message": "[サーバー追加]",
     "description": "サーバー追加ボタンラベル"
@@ -18,6 +22,34 @@
   "cancel": {
     "message": "Cancel",
     "description": "キャンセルボタンラベル"
+  },
+  "servernick": {
+    "message": "ネットワーク名",
+    "description": "ネットワーク名入力エリア用プレースホルダ"
+  },
+  "host": {
+    "message": "ホスト名",
+    "description": "ホスト名入力エリア用プレースホルダ"
+  },
+  "port": {
+    "message": "ポート番号",
+    "description": "ポート番号入力エリア用プレースホルダ"
+  },
+  "nick": {
+    "message": "ニックネーム",
+    "description": "ニックネーム入力エリア用プレースホルダ"
+  },
+  "user": {
+    "message": "ユーザー名",
+    "description": "ユーザー名入力エリア用プレースホルダ"
+  },
+  "pass": {
+    "message": "パスワード",
+    "description": "パスワード入力エリア用プレースホルダ"
+  },
+  "addChannel": {
+    "message": "チャンネル追加",
+    "description": "チャンネル名入力エリア用プレースホルダ"
   }
 }
 

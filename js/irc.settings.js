@@ -7,6 +7,7 @@ IRC.Settings = function(server) {
     this.port = server.port;
     this.nick = server.nick;
     this.user = server.user;
+    this.pass = server.pass;
     this.encoding = server.encoding;
     this.channels = []; // TODO: とりあえずchannelNameの配列。将来的にはchannelの配列にする
     for (var channelName in server.channels) {
@@ -19,6 +20,7 @@ IRC.Settings = function(server) {
     this.port = 6667;
     this.nick = null;
     this.user = null;
+    this.pass = null;
     this.encoding = null;
     this.channels = [];
   }
@@ -34,8 +36,27 @@ IRC.Settings.setupTestData = function() {
   var data = {};
   data[IRC.Settings.KEY_SERVERS] = [serverNick1, serverNick2];
   chrome.storage.sync.set(data);
-  new IRC.Settings(serverNick1, 'irc.freenode.net', 6667, 'ando12345', 'ando12345', 'iso-2022-jp', channels1).save();
-  new IRC.Settings(serverNick2, 'irc.ircnet.ne.jp', 6667, 'ando12345', 'ando12345', 'iso-2022-jp', channels2).save();
+
+  var s1 = new IRC.Settings();
+  s1.serverNick = serverNick1;
+  s1.host = 'irc.freenode.net';
+  s1.nick = 'ando12345';
+  s1.user = 'ando12345';
+  s1.encoding = 'iso-2022-jp';
+  s1.channels = channels1;
+  s1.save();
+
+  var s2 = new IRC.Settings();
+  s2.serverNick = serverNick2;
+  s2.host = 'irc.ircnet.ne.jp';
+  s2.nick = 'ando12345';
+  s2.user = 'ando12345';
+  s2.encoding = 'iso-2022-jp';
+  s2.channels = channels2;
+  s2.save();
+
+  //new IRC.Settings(serverNick1, 'irc.freenode.net', 6667, 'ando12345', 'ando12345', 'iso-2022-jp', channels1).save();
+  //new IRC.Settings(serverNick2, 'irc.ircnet.ne.jp', 6667, 'ando12345', 'ando12345', 'iso-2022-jp', channels2).save();
 
   chrome.storage.local.set({
     current:{
@@ -95,6 +116,7 @@ IRC.Settings.prototype.save = function(callback) {
     port:this.port, 
     nick:this.nick, 
     user:this.user,
+    pass:this.pass,
     encoding:this.encoding,
     channels:this.channels
   };

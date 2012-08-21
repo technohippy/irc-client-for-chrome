@@ -24,7 +24,7 @@
       <div class="left-pane">
         <div class="messages">
         </div>
-        <input id="command" class="command" placeholder="Input your message"></input>
+        <input id="command" class="command translate" placeholder="inputMessage"></input>
         <div class="logs">
         </div>
       </div>
@@ -39,16 +39,17 @@
     <div id="settings-background" class="settings-background"></div>
     <div class="server-settings">
       <div class="settings-head">
-        <input id="servernick" name="servernick" placeholder="Server Displayname" />
+        <input id="servernick" name="servernick" class="translate" placeholder="servernick" />
         <button id="ok" class="translate">ok</button>
         <button id="cancel" class="translate">cancel</button>
       </div>
       <div class="settings-body">
         <div class="general-settings">
-          <input id="host" name="host" placeholder="Host" /><br />
-          <input id="port" name="port" placeholder="Port" value="6667" /><br />
-          <input id="nick" name="nick" placeholder="Nickname" /><br />
-          <input id="user" name="user" placeholder="User" />
+          <input id="host" name="host" class="translate" placeholder="host" /><br />
+          <input id="port" name="port" class="translate" placeholder="port" value="6667" /><br />
+          <input id="nick" name="nick" class="translate" placeholder="nick" /><br />
+          <input id="user" name="user" class="translate" placeholder="user" /><br />
+          <input id="pass" name="pass" class="translate" placeholder="pass" />
           <select id="encoding" name="encoding">
             <option value="utf-8" selected="true">UTF8</option>
 
@@ -74,7 +75,7 @@
           </select>
         </div>
         <div class="channel-list">
-          <input id="new-channel" name="new-channel" placeholder="Add Channel" />
+          <input id="new-channel" name="new-channel" class="translate" placeholder="addChannel" />
           <button id="add-channel">+</button>
           <ul id="channel-list">
           </ul>

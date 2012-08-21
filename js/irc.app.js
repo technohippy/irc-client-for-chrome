@@ -170,7 +170,7 @@ IRC.App.start = function() {
         var settings = IRC.Settings.load(serverNick, function(serverNick, settings) {
           // TODO
           var server = new IRC.Server(settings.host, settings.port, 
-            settings.nick, settings.user, settings.encoding);
+            settings.nick, settings.user, settings.pass, settings.encoding);
           for (var j = 0; j < settings.channels.length; j++) {
             server.addChannel(settings.channels[j]);
           }

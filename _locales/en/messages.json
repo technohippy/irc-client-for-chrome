@@ -7,6 +7,10 @@
     "message": "IRC Client for Chrome",
     "description": "The description for the application"
   },
+  "inputMessage": {
+    "message": "Input your message",
+    "description": "Prompt for a message"
+  },
   "addNewServer": {
     "message": "[New Server]",
     "description": "The label for the button to add new server"
@@ -18,5 +22,33 @@
   "cancel": {
     "message": "Cancel",
     "description": "The label for the cancel button"
+  },
+  "servernick": {
+    "message": "Server Displayname",
+    "description": "The label for the server name"
+  },
+  "host": {
+    "message": "Host",
+    "description": "The placeholder for the input for a host name"
+  },
+  "port": {
+    "message": "Port",
+    "description": "The placeholder for the input for a port number"
+  },
+  "nick": {
+    "message": "Nickname",
+    "description": "The placeholder for the input for a nickname"
+  },
+  "user": {
+    "message": "Username",
+    "description": "The placeholder for the input for a username"
+  },
+  "pass": {
+    "message": "Password",
+    "description": "The placeholder for the input for a password"
+  },
+  "addChannel": {
+    "message": "Add Channel",
+    "description": "The placeholder for the input for a channel name"
   }
 }

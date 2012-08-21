@@ -34,3 +34,9 @@ IRC.Channel.prototype.sendMessage = function(message) {
 IRC.Channel.prototype.removeMember = function(member) {
   this.members.splice(this.members.indexOf(member), 1);
 };
+IRC.Channel.prototype.join = function(callback) {
+  this.server.send(new IRC.Message('JOIN', this.name), callback);
+};
+IRC.Channel.prototype.part = function(callback) {
+  this.server.send(new IRC.Message('PART', this.name), callback);
+};

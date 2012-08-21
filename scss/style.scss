@@ -120,10 +120,9 @@ li {
 
   -webkit-box-orient:vertical;
   -webkit-transition:top 0.3s linear;
-  //background-color:lighten($background-color, 20%);
   background:-webkit-gradient(linear, left top, left bottom, from(#aae), to(#669));
   display:-webkit-box; 
-  height:210px;
+  height:230px;
   left:0;
   position:absolute;
   top:-300px;
