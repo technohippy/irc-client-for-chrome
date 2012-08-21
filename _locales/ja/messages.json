@@ -1,0 +1,11 @@
+{
+  "appName": {
+    "message": "黒茶",
+    "description": "アプリケーション名"
+  },
+  "appDescription": {
+    "message": "Chrome用IRCクライアント",
+    "description": "アプリケーションの説明"
+  }
+}
+

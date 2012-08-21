@@ -168,6 +168,7 @@ IRC.App.start = function() {
       for (var i = 0; i < serverNicks.length; i++) {
         var serverNick = serverNicks[i];
         var settings = IRC.Settings.load(serverNick, function(serverNick, settings) {
+          // TODO
           var server = new IRC.Server(settings.host, settings.port, 
             settings.nick, settings.user, settings.encoding);
           for (var j = 0; j < settings.channels.length; j++) {

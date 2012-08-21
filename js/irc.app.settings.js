@@ -86,8 +86,18 @@ IRC.App.Settings = function(app) {
       }
 
       if (shouldReconnect) {
-        this.server.connect();
+        this.server.reconnect();
         this.server.joinAll();
+      }
+      else {
+        for (var i = 0; i < removedChannels.length; i++) {
+          // TODO: removedChannels[i].part();
+          this.server.send(new IRC.Message('PART', removedChannels[i]));
+        }
+        for (var i = 0; i < addedChannels.length; i++) {
+          // TODO: addedChannels[i].join();
+          this.server.send(new IRC.Message('JOIN', addedChannels[i]));
+        }
       }
     }
     else {

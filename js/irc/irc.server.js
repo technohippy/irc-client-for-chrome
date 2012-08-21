@@ -215,9 +215,17 @@ IRC.Server.prototype.connect = function() {
 
     if (this.pass) this.send(new IRC.Message('PASS', this.pass));
     this.forceSend(new IRC.Message('NICK', this.nick));
-    this.forceSend(new IRC.Message('USER', this.user, '0', '*', ':ando yasushi')); // TODO
+    this.forceSend(new IRC.Message('USER', this.user, '0', '*', ':user name')); // TODO
   }.bind(this));
 };
-IRC.Server.prototype.disconnect = function() {
-  if (this.tcpClient.isConnected) this.tcpClient.disconnect();
+IRC.Server.prototype.disconnect = function(afterDisconnect) {
+  if (this.tcpClient.isConnected) {
+    this.tcpClient.disconnect(afterDisconnect);
+  }
+  else {
+    afterDisconnect();
+  }
+};
+IRC.Server.prototype.reconnect = function() {
+  this.disconnect(function() {this.connect()}.bind(this));
 };

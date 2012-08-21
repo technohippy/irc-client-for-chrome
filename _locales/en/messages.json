@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "ChroCha",
+    "description": "The name of the application"
+  },
+  "appDescription": {
+    "message": "IRC Client for Chrome",
+    "description": "The description for the application"
+  }
+}

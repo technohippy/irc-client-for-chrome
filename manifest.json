@@ -1,8 +1,9 @@
 {
-  "name": "IRC Client for Chrome",
-  "description": "IRC Client for Chrome",
+  "name": "__MSG_appName__",
+  "description": "__MSG_appDescription__",
   "manifest_version": 2,
   "version": "0.1",
+  "default_locale": "en",
   "app": {
     "background": {
       "scripts": ["js/background.js"]
