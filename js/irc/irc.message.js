@@ -46,13 +46,6 @@ IRC.Message.parse = function(str) {
     var command = RegExp.$2;
     var lastParam = RegExp.$4;
     var paramsWithSpace = RegExp.$3.split(/ +/);
-/*
-  if (str.match(/((:[^ ]+) +)?([a-zA-Z]+|\d{3})([^:]*)(:.+)?$/)) {
-    var prefix = RegExp.$2;
-    var command = RegExp.$3;
-    var lastParam = RegExp.$5;
-    var paramsWithSpace = RegExp.$4.split(/ +/);
-*/
     var params = [];
     for (var i = 0; i < paramsWithSpace.length; i++) {
       var param = paramsWithSpace[i];

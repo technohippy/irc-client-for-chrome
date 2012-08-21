@@ -67,10 +67,8 @@ IRC.Server.prototype.removeChannel = function(channel) {
 };
 IRC.Server.prototype.join = function(channelName) {
   if (!this.getChannel(channelName)) this.addChannel(channelName);
-  //this.send(new IRC.Message('JOIN', channelName));
-  this.send(new IRC.Message('JOIN', channelName), function() {
-    this.send(new IRC.Message('NAMES', channelName));
-  }.bind(this));
+  this.send(new IRC.Message('JOIN', channelName));
+  this.send(new IRC.Message('NAMES', channelName));
   return this.getChannel(channelName);
 };
 IRC.Server.prototype.joinAllOnConnect = function() {
@@ -206,7 +204,7 @@ IRC.Server.prototype.connect = function() {
     }.bind(this));
 
     if (this.pass) {
-      this.send(new IRC.Message('PASS', this.pass), function() {
+      this.forceSend(new IRC.Message('PASS', this.pass), function() {
         this.forceSend(new IRC.Message('NICK', this.nick));
         this.forceSend(new IRC.Message('USER', this.user, '0', '*', ':user name')); // TODO
       }.bind(this));

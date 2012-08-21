@@ -191,16 +191,24 @@ IRC.App.start = function() {
   $('command').addEventListener('keypress', function(evt) {
     if (evt.keyCode == 13) { // enter key
       var text = evt.target.value;
-      if (!text.match(/^:/)) text = ':' + text
-      var channel = this.getCurrentChannel();
-      // TODO
-      var message = new IRC.Message('PRIVMSG', channel.name, text);
-      //var prefix = ':' + this.getCurrentServer().nick + '!';
-      //var message = new IRC.Message(prefix, 'PRIVMSG', channel.name, text);
-      channel.sendMessage(message);
-      message.prefix = ':' + this.getCurrentServer().nick + '!'; // TODO
-      message.interprete(); // TODO
-      this.messagesElm.innerHTML += IRC.Util.messageToHTML(message);
+      var message;
+      if (text.match(/^\/(.+)/)) {
+        // TODO
+        message = RegExp.$1;
+        this.getCurrentServer().send(message);
+      }
+      else {
+        if (!text.match(/^:/)) text = ':' + text
+        var channel = this.getCurrentChannel();
+        // TODO
+        message = new IRC.Message('PRIVMSG', channel.name, text);
+        //var prefix = ':' + this.getCurrentServer().nick + '!';
+        //var message = new IRC.Message(prefix, 'PRIVMSG', channel.name, text);
+        channel.sendMessage(message);
+        message.prefix = ':' + this.getCurrentServer().nick + '!'; // TODO
+        message.interprete(); // TODO
+        this.messagesElm.innerHTML += IRC.Util.messageToHTML(message);
+      }
       this.logsElm.innerHTML += message.toString() + '<br />';
       evt.target.value = '';
     }

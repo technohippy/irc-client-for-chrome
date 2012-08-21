@@ -82,7 +82,7 @@ li {
       font-weight: normal;
       margin-left: 10px; }
     .channels .server .selected {
-      background: rgba(0, 0, 255, 0.3); }
+      background: blue; }
 
 .settings-background {
   position: absolute;
