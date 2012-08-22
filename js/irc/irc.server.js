@@ -166,9 +166,11 @@ IRC.Server.prototype.connect = function() {
         else if (message.command == 'JOIN') {
           message.interprete();
           var channel = this.getChannel(message.channelName);
-          if (0 < channel.addMember(message.sender).length) {
-            for (var j = 0; j < this.memberListeners.length; j++) {
-              this.memberListeners[j](IRC.Events.MEMBER_ADDED, message.sender, channel);
+          if (channel) {
+            if (0 < channel.addMember(message.sender).length) {
+              for (var j = 0; j < this.memberListeners.length; j++) {
+                this.memberListeners[j](IRC.Events.MEMBER_ADDED, message.sender, channel);
+              }
             }
           }
         }

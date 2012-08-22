@@ -1,5 +1,5 @@
 Attention:
-This app works on the developer channel of Chrome. Please get it here: http://www.chromium.org/getting-involved/dev-channel
+This app works only on the developer channel of the Chrome. Please get it here: http://www.chromium.org/getting-involved/dev-channel
 
 Other resources:
 [tcp-client.js] https://github.com/GoogleChrome/chrome-app-samples/tree/master/telnet
