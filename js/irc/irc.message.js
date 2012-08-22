@@ -65,6 +65,9 @@ IRC.Message.prototype.interprete = function() {
     this.text = this.params[this.params.length - 1];
   }
   else if (this.command == 'NOTICE') {
+    // TODO
+    this.sender = this.prefix.split('!')[0].substring(1);
+    this.channelName = this.params[this.params.length - 2];
     this.text = this.params[this.params.length - 1];
   }
   else if (this.command == 'PART') {

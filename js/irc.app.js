@@ -200,8 +200,9 @@ IRC.App.start = function() {
       else {
         if (!text.match(/^:/)) text = ':' + text
         var channel = this.getCurrentChannel();
+        var command = evt.ctrlKey ? 'NOTICE' : 'PRIVMSG';
         // TODO
-        message = new IRC.Message('PRIVMSG', channel.name, text);
+        message = new IRC.Message(command, channel.name, text);
         //var prefix = ':' + this.getCurrentServer().nick + '!';
         //var message = new IRC.Message(prefix, 'PRIVMSG', channel.name, text);
         channel.sendMessage(message);
