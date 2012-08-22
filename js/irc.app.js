@@ -87,7 +87,7 @@ IRC.App.prototype.isFocused = function() {
 IRC.App.prototype.replyListener = function(reply) {
   // TODO
   //console.log(reply.toString());
-  if (reply.command == 'PRIVMSG') {
+  if (reply.command == 'PRIVMSG' || reply.command == 'NOTICE') {
     //reply.interprete();
     if (reply.channelName == this.currentChannelName) {
       this.messagesElm.innerHTML += '<div class="line"><span class="sender">' + 

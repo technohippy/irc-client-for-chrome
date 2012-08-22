@@ -155,7 +155,7 @@ IRC.Server.prototype.connect = function() {
           // TODO
           message.interprete();
           var channel = this.getChannel(message.channelName);
-          channel.messages.push(message);
+          if (channel) channel.messages.push(message);
         }
         else if (message.command == 'PING') {
           console.log(message);

@@ -29,7 +29,7 @@ li {
 .messages {
   -webkit-box-flex: 1;
   border-bottom: 1px solid #bbbbbb;
-  overflow: scroll;
+  overflow: auto;
   padding: 5px; }
   .messages .line {
     width: 100%;
@@ -55,7 +55,7 @@ li {
   border-top: 1px solid #bbbbbb;
   font-size: 12px;
   height: 150px;
-  overflow: scroll;
+  overflow: auto;
   padding: 5px; }
   .logs .timestamp {
     color: gray;
@@ -71,7 +71,7 @@ li {
 .members {
   -webkit-box-flex: 1;
   border-bottom: 1px solid #bbbbbb;
-  overflow: scroll;
+  overflow: auto;
   padding: 5px; }
 
 .channels {

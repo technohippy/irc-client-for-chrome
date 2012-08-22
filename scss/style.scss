@@ -30,7 +30,8 @@ li {
 .messages {
   -webkit-box-flex:1;
   border-bottom:$separator-border;
-  overflow:scroll;
+  //overflow:scroll;
+  overflow:auto;
   padding:5px;
 
   .line {
@@ -65,7 +66,8 @@ li {
   border-top:$separator-border;
   font-size:12px;
   height:150px;
-  overflow:scroll;
+  //overflow:scroll;
+  overflow:auto;
   padding:5px;
 
   .timestamp {
@@ -85,7 +87,8 @@ li {
 .members {
   -webkit-box-flex:1;
   border-bottom:$separator-border;
-  overflow:scroll;
+  //overflow:scroll;
+  overflow:auto;
   padding:5px;
 }
 .channels {
