@@ -133,6 +133,9 @@ IRC.App.Settings = function(app) {
 
   document.getElementById('add-channel').addEventListener('click', function() {
     var channelName = document.getElementById('new-channel').value;
+    if (!channelName.match(/^#/) && !channelName.match(/^&/)) {
+      channelName = '#' + channelName;
+    }
     document.getElementById('new-channel').value = '';
     this.addChannel(new IRC.Channel(null, channelName));
   }.bind(this));

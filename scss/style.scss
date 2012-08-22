@@ -85,6 +85,7 @@ li {
 .members {
   -webkit-box-flex:1;
   border-bottom:$separator-border;
+  overflow:scroll;
   padding:5px;
 }
 .channels {
@@ -99,8 +100,7 @@ li {
       margin-left:10px;
     }
     .selected {
-      //background:rgba(0,0,255,0.3);
-      background:blue;
+      background:#009;
     }
   }
 }

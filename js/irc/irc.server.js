@@ -14,6 +14,7 @@ IRC.Server = function(host, port, nick, user, pass, encoding) {
   this.replyListeners = [];
   this.memberListeners = [];
   this.channelListeners = [];
+  this.closed = false;
 }
 IRC.Server.prototype.hasChannel = function(channelName) {
   return this.getChannel(channelName) != null;
@@ -66,10 +67,23 @@ IRC.Server.prototype.removeChannel = function(channel) {
   }
 };
 IRC.Server.prototype.join = function(channelName) {
+  var server = this;
+  // JOINの返り値にIRC.Replies.NAMREPLYを返さないサーバーがある気がするので
+  // メンバー一覧が得られるまでNAMESを定期的に実行する
+  function pollNames(channel) {
+    setTimeout(function() {
+      if (0 == channel.members.length && !server.closed) {
+        server.send(new IRC.Message('NAMES', channel.name));
+        pollNames(channel);
+      }
+    }, 5000);
+  };
+
   if (!this.getChannel(channelName)) this.addChannel(channelName);
-  this.send(new IRC.Message('JOIN', channelName));
-  this.send(new IRC.Message('NAMES', channelName));
-  return this.getChannel(channelName);
+  var channel = this.getChannel(channelName);
+  this.send(new IRC.Message('JOIN', channel.name));
+  pollNames(channel);
+  return channel;
 };
 IRC.Server.prototype.joinAllOnConnect = function() {
   for (var channelName in this.channels) {
@@ -137,6 +151,12 @@ IRC.Server.prototype.connect = function() {
           var channel = this.getChannel(message.channelName);
           channel.messages.push(message);
         }
+        else if (message.command == 'NOTICE') {
+          // TODO
+          message.interprete();
+          var channel = this.getChannel(message.channelName);
+          channel.messages.push(message);
+        }
         else if (message.command == 'PING') {
           console.log(message);
           var pong = message.copy();
@@ -168,6 +188,11 @@ IRC.Server.prototype.connect = function() {
             for (var j = 0; j < this.memberListeners.length; j++) {
               this.memberListeners[j](IRC.Events.MEMBER_QUITTED, member, channel);
             }
+          }
+        }
+        else if (message.command == 'ERROR') {
+          if (message.params[0].match(/^:Closing Link:/)) {
+            this.closed = true;
           }
         }
         else if (message.command == IRC.Errors.NICKNAMEINUSE) {

@@ -71,6 +71,7 @@ li {
 .members {
   -webkit-box-flex: 1;
   border-bottom: 1px solid #bbbbbb;
+  overflow: scroll;
   padding: 5px; }
 
 .channels {
@@ -82,7 +83,7 @@ li {
       font-weight: normal;
       margin-left: 10px; }
     .channels .server .selected {
-      background: blue; }
+      background: #009; }
 
 .settings-background {
   position: absolute;
