@@ -177,9 +177,11 @@ IRC.Server.prototype.connect = function() {
         else if (message.command == 'PART') {
           message.interprete();
           var channel = this.getChannel(message.channelName);
-          channel.removeMember(message.sender);
-          for (var j = 0; j < this.memberListeners.length; j++) {
-            this.memberListeners[j](IRC.Events.MEMBER_QUITTED, message.sender, channel);
+          if (channel) { // TODO: how to notify to listners
+            channel.removeMember(message.sender);
+            for (var j = 0; j < this.memberListeners.length; j++) {
+              this.memberListeners[j](IRC.Events.MEMBER_QUITTED, message.sender, channel);
+            }
           }
         }
         else if (message.command == 'QUIT') {

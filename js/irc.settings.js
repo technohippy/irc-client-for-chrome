@@ -21,17 +21,17 @@ IRC.Settings = function(server) {
     this.nick = null;
     this.user = null;
     this.pass = null;
-    this.encoding = null;
+    this.encoding = 'utf-8';
     this.channels = [];
   }
 }
 IRC.Settings.KEY_SERVERS = 'servers';
 IRC.Settings.setupTestData = function() {
   var serverNick1 = 'freenode';
-  var channels1 = ['#testmybot', '#testmybot2'];
+  var channels1 = ['#testmyclient1', '#testmyclient2'];
 
   var serverNick2 = 'ircnet';
-  var channels2 = ['#testmybot3', '#testmybot4'];
+  var channels2 = ['#testmyclient3', '#testmyclient4'];
 
   var data = {};
   data[IRC.Settings.KEY_SERVERS] = [serverNick1, serverNick2];
