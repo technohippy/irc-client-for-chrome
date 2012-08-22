@@ -191,6 +191,7 @@ IRC.App.start = function() {
   $('command').addEventListener('keypress', function(evt) {
     if (evt.keyCode == 13) { // enter key
       var text = evt.target.value;
+      if (text.replace(/\s+/, '').length == 0) return;
       var message;
       if (text.match(/^\/(.+)/)) {
         // TODO
@@ -209,6 +210,7 @@ IRC.App.start = function() {
         message.prefix = ':' + this.getCurrentServer().nick + '!'; // TODO
         message.interprete(); // TODO
         this.messagesElm.innerHTML += IRC.Util.messageToHTML(message);
+        this.messagesElm.scrollTop = this.messagesElm.scrollHeight;
       }
       this.logsElm.innerHTML += message.toString() + '<br />';
       evt.target.value = '';

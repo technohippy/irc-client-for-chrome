@@ -37,6 +37,12 @@ li {
     .messages .line .sender {
       color: #ccc;
       margin-right: 10px; }
+    .messages .line .text a, .messages .line .text a:visited, .messages .line .text a:active, .messages .line .text a:hover {
+      color: #aaf; }
+    .messages .line .text img {
+      width: 200px;
+      height: 150px;
+      border: 1px solid white; }
     .messages .line .timestamp {
       color: gray;
       position: absolute;
