@@ -39,15 +39,22 @@ li {
     position:relative;
 
     .sender {
-      color:#ccc;
       margin-right:10px;
     }
-
+    .color0 { color: #ccc; }
+    .color1 { color: #ccf; }
+    .color2 { color: #cfc; }
+    .color3 { color: #cff; }
+    .color4 { color: #fcc; }
+    .color5 { color: #fcf; }
+    .color6 { color: #ffc; }
+    .color7 { color: #fff; }
     .text {
+      color: #fff;
+
       a, a:visited, a:active, a:hover {
         color:#aaf;
       }
-
       img {
         width:200px;
         height:150px;

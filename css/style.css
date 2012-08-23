@@ -35,14 +35,31 @@ li {
     width: 100%;
     position: relative; }
     .messages .line .sender {
-      color: #ccc;
       margin-right: 10px; }
-    .messages .line .text a, .messages .line .text a:visited, .messages .line .text a:active, .messages .line .text a:hover {
-      color: #aaf; }
-    .messages .line .text img {
-      width: 200px;
-      height: 150px;
-      border: 1px solid white; }
+    .messages .line .color0 {
+      color: #ccc; }
+    .messages .line .color1 {
+      color: #ccf; }
+    .messages .line .color2 {
+      color: #cfc; }
+    .messages .line .color3 {
+      color: #cff; }
+    .messages .line .color4 {
+      color: #fcc; }
+    .messages .line .color5 {
+      color: #fcf; }
+    .messages .line .color6 {
+      color: #ffc; }
+    .messages .line .color7 {
+      color: #fff; }
+    .messages .line .text {
+      color: #fff; }
+      .messages .line .text a, .messages .line .text a:visited, .messages .line .text a:active, .messages .line .text a:hover {
+        color: #aaf; }
+      .messages .line .text img {
+        width: 200px;
+        height: 150px;
+        border: 1px solid white; }
     .messages .line .timestamp {
       color: gray;
       position: absolute;

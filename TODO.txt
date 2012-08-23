@@ -7,7 +7,6 @@ TODO
   - document.body.addEventListener("online", function () {}, false);
 - document.querySelector()
 - ログをchrome.storage.localに保存
-- 発言者の名前はニックネームから何かしらの数値を生成して色を変える
 - ニックネームが衝突した場合につけるサフィックスを定数に
 - TOPIC表示
 - KICKされたとき対応
@@ -25,6 +24,7 @@ TODO
 - 他の拡張機能に組み込めるようにAPI化
 
 DONE
+- 発言者の名前はニックネームから何かしらの数値を生成して色を変える
 - URLはリンクする
 - README
   - chrome dev channelのDL方法とか
