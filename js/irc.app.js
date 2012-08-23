@@ -90,9 +90,12 @@ IRC.App.prototype.replyListener = function(reply) {
   if (reply.command == 'PRIVMSG' || reply.command == 'NOTICE') {
     //reply.interprete();
     if (reply.channelName == this.currentChannelName) {
+/*
       this.messagesElm.innerHTML += '<div class="line"><span class="sender">' + 
         reply.sender + '</span>' + '<span class="text">' + reply.text + '</span>' +
         '<span class="timestamp">' + reply.timestamp.hm() + '</span></div>';
+*/
+      this.messagesElm.innerHTML += IRC.Util.messageToHTML(reply);
       this.messagesElm.scrollTop = this.messagesElm.scrollHeight;
     }
   }

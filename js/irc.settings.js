@@ -114,7 +114,7 @@ IRC.Settings.prototype.save = function(callback) {
   data[this.serverNick] = {
     host:this.host, 
     port:this.port, 
-    nick:this.nick, 
+    nick:this.nick.replace(/_+$/, ''), // TODO
     user:this.user,
     pass:this.pass,
     encoding:this.encoding,

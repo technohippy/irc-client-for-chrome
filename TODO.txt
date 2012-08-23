@@ -1,5 +1,5 @@
 TODO
-- KICKされたとき対応
+- jQuery
 - メッセージとログの横スクロールバーを非表示
 - アプリケーションアイコンはBJによろしくからお茶飲んでるシーンを拝借したい
 - オンライン/オフラインイベント対応
@@ -8,6 +8,11 @@ TODO
 - document.querySelector()
 - ログをchrome.storage.localに保存
 - 発言者の名前はニックネームから何かしらの数値を生成して色を変える
+- ニックネームが衝突した場合につけるサフィックスを定数に
+- TOPIC表示
+- KICKされたとき対応
+- メンバーと個別に会話
+- IRC.Util.messageToHTMLの処理をconverterのチェーンに
 
 - ttsを使った読み上げ
 - webIntents

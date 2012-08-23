@@ -47,6 +47,10 @@ li {
       color: gray;
       position: absolute;
       right: 0; }
+  .messages .privmsg .text {
+    color: #fff; }
+  .messages .notice .text {
+    color: #999; }
 
 .command {
   background: #110022;
@@ -82,7 +86,8 @@ li {
 
 .channels {
   height: 300px;
-  padding: 5px; }
+  padding: 5px;
+  overflow: auto; }
   .channels .server {
     font-weight: bold; }
     .channels .server .channel {

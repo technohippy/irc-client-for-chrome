@@ -54,11 +54,20 @@ li {
         border:1px solid white;
       }
     }
-
     .timestamp {
       color:gray;
       position:absolute;
       right:0;
+    }
+  }
+  .privmsg {
+    .text {
+      color:#fff;
+    }
+  }
+  .notice {
+    .text {
+      color:#999;
     }
   }
 }
@@ -103,6 +112,7 @@ li {
 .channels {
   height:300px;
   padding:5px;
+  overflow:auto;
 
   .server {
     font-weight:bold;

@@ -1,6 +1,9 @@
 if (typeof(IRC) == 'undefined') var IRC = {};
 
 IRC.Util = {};
+IRC.Util.toColorClass = function(str) {
+  return 'color' + (parseInt(str.toLowerCase().replace(/[^a-z0-9]/g, ''), 36) % 10);
+};
 IRC.Util.messageToHTML = function(message) {
   var htmlMessage = message.text.substring(1).replace('<', '&lt;');
   htmlMessage = htmlMessage.replace(
@@ -16,7 +19,10 @@ IRC.Util.messageToHTML = function(message) {
           text + '</a>';
       }
     });
-  return '<div class="line"><span class="sender">' + message.sender + '</span>' + 
+IRC.Util.toColorClass('$#$adkjfas=^');
+  return '<div class="line ' + message.command.toLowerCase() + '">' +
+    '<span class="sender ' + IRC.Util.toColorClass(message.sender) + '">' + 
+    message.sender + '</span>' + 
     '<span class="text">' + htmlMessage + '</span>' +
     '<span class="timestamp">' + message.timestamp.hm() + '</span></div>';
 };
