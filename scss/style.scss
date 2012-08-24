@@ -32,6 +32,7 @@ li {
   border-bottom:$separator-border;
   //overflow:scroll;
   overflow:auto;
+  overflow-x:hidden;
   padding:5px;
 
   .line {
@@ -41,14 +42,33 @@ li {
     .sender {
       margin-right:10px;
     }
-    .color0 { color: #ccc; }
-    .color1 { color: #ccf; }
-    .color2 { color: #cfc; }
-    .color3 { color: #cff; }
-    .color4 { color: #fcc; }
-    .color5 { color: #fcf; }
-    .color6 { color: #ffc; }
-    .color7 { color: #fff; }
+    .color0 { color:#bbb; }
+    .color1 { color:#bbd; }
+    .color2 { color:#bbf; }
+    .color3 { color:#bdb; }
+    .color4 { color:#bdd; }
+    .color5 { color:#bdf; }
+    .color6 { color:#bfb; }
+    .color7 { color:#bfd; }
+    .color8 { color:#bff; }
+    .color9 { color:#dbb; }
+    .color10 { color:#dbd; }
+    .color11 { color:#dbf; }
+    .color12 { color:#ddb; }
+    .color13 { color:#ddd; }
+    .color14 { color:#ddf; }
+    .color15 { color:#dfb; }
+    .color16 { color:#dfd; }
+    .color17 { color:#dff; }
+    .color18 { color:#fbb; }
+    .color19 { color:#fbd; }
+    .color20 { color:#fbf; }
+    .color21 { color:#fdb; }
+    .color22 { color:#fdd; }
+    .color23 { color:#fdf; }
+    .color24 { color:#ffb; }
+    .color25 { color:#ffd; }
+    .color26 { color:#fff; }
     .text {
       color: #fff;
 
@@ -93,6 +113,7 @@ li {
   height:150px;
   //overflow:scroll;
   overflow:auto;
+  overflow-x:hidden;
   padding:5px;
 
   .timestamp {
@@ -102,6 +123,14 @@ li {
 
   .notice {
     color:gray;
+  }
+
+  .warn {
+    color:red;
+  }
+
+  .error {
+    color:red;
   }
 }
 .right-pane {
@@ -114,12 +143,14 @@ li {
   border-bottom:$separator-border;
   //overflow:scroll;
   overflow:auto;
+  overflow-x:hidden;
   padding:5px;
 }
 .channels {
   height:300px;
   padding:5px;
   overflow:auto;
+  overflow-x:hidden;
 
   .server {
     font-weight:bold;

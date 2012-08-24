@@ -2,7 +2,7 @@ if (typeof(IRC) == 'undefined') var IRC = {};
 
 IRC.Util = {};
 IRC.Util.toColorClass = function(str) {
-  return 'color' + (parseInt(str.toLowerCase().replace(/[^a-z0-9]/g, ''), 36) % 8);
+  return 'color' + (parseInt(str.toLowerCase().replace(/[^a-z0-9]/g, ''), 36) % 27);
 };
 IRC.Util.messageToHTML = function(message) {
   var htmlMessage = message.text.substring(1).replace('<', '&lt;');

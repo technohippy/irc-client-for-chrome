@@ -50,5 +50,10 @@
   "addChannel": {
     "message": "Add Channel",
     "description": "The placeholder for the input for a channel name"
+  },
+
+  "warnOffline": {
+    "message": "No Network",
+    "description": "Warning message"
   }
 }

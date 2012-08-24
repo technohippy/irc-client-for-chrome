@@ -50,6 +50,11 @@
   "addChannel": {
     "message": "チャンネル追加",
     "description": "チャンネル名入力エリア用プレースホルダ"
+  },
+
+  "warnOffline": {
+    "message": "オフラインです",
+    "description": "警告メッセージ"
   }
 }
 

@@ -25,6 +25,10 @@ IRC.App.prototype.addServer = function(serverNick, server) {
   serverLiElm.addEventListener('click', function() {
     this.settingsApp.open(server);
   }.bind(this));
+  serverLiElm.addEventListener('contextmenu', function(evt) {
+    evt.preventDefault();
+    // TODO: connect/disconnect
+  }.bind(this));
   this.channelsElm.appendChild(serverLiElm);
   this.servers[serverNick] = server;
   this.channelListener(IRC.Events.CHANNEL_ADDED, server.channels);
@@ -84,25 +88,24 @@ IRC.App.prototype.focus = function(serverNick, channelName, force) {
 IRC.App.prototype.isFocused = function() {
   return this.currentServerNick != null;
 };
+IRC.App.prototype.log = function(obj, cls) {
+  if (!cls) cls = 'message'; 
+  this.logsElm.innerHTML += '<span class="timestamp">' + new Date().ymdhm() + 
+    '</span><span class="' + cls + '">' + obj.toString() + '</span><br />';
+  this.logsElm.scrollTop = this.logsElm.scrollHeight;
+};
 IRC.App.prototype.replyListener = function(reply) {
   // TODO
   //console.log(reply.toString());
   if (reply.command == 'PRIVMSG' || reply.command == 'NOTICE') {
     //reply.interprete();
     if (reply.channelName == this.currentChannelName) {
-/*
-      this.messagesElm.innerHTML += '<div class="line"><span class="sender">' + 
-        reply.sender + '</span>' + '<span class="text">' + reply.text + '</span>' +
-        '<span class="timestamp">' + reply.timestamp.hm() + '</span></div>';
-*/
       this.messagesElm.innerHTML += IRC.Util.messageToHTML(reply);
       this.messagesElm.scrollTop = this.messagesElm.scrollHeight;
     }
   }
 
-  this.logsElm.innerHTML += '<span class="timestamp">' + reply.timestamp.ymdhm() + 
-    '</span><span class="message">' + reply.toString() + '</span><br />';
-  this.logsElm.scrollTop = this.logsElm.scrollHeight;
+  this.log(reply);
 };
 IRC.App.prototype.memberListener = function(eventType, members, channel) {
   if (eventType == IRC.Events.MEMBER_ADDED) {
@@ -138,6 +141,10 @@ IRC.App.prototype.channelListener = function(eventType, channels) {
       channelLiElm.addEventListener('click', function(evt) {
         evt.stopPropagation();
         this.focus(serverElm.childNodes[0].textContent, evt.target.innerHTML);
+      }.bind(this));
+      channelLiElm.addEventListener('contextmenu', function(evt) {
+        evt.preventDefault();
+        // TODO: rejoin/leave
       }.bind(this));
       serverUlElm.appendChild(channelLiElm);
     }
@@ -181,8 +188,14 @@ IRC.App.start = function() {
           if (!this.isFocused()) {
             this.focus(serverNick, settings.channels[0]);
           }
-          server.connect();
-          server.joinAllOnConnect();
+
+          if (navigator.onLine) {
+            server.connect();
+            server.joinAllOnConnect();
+          }
+          else {
+            this.log(chrome.i18n.getMessage('warnOffline'), 'warn');
+          }
         }.bind(this));
       }
     }.bind(app),
@@ -190,6 +203,23 @@ IRC.App.start = function() {
       this.settingsApp.open();
     }.bind(app)
   );
+
+  window.addEventListener('online', function() {
+    for (var serverName in this.servers) {
+      var server = this.getServer(serverName);
+      server.connect();
+      server.joinAllOnConnect();
+    }
+  }.bind(app), false);
+
+  window.addEventListener('offline', function() {
+    app.log(chrome.i18n.getMessage('warnOffline'), 'warn');
+/*
+    for (var serverName in this.servers) {
+      var server = this.getServer(serverName);
+    }
+*/
+  }.bind(app), false);
 
   $('command').addEventListener('keypress', function(evt) {
     if (evt.keyCode == 13) { // enter key
@@ -215,7 +245,7 @@ IRC.App.start = function() {
         this.messagesElm.innerHTML += IRC.Util.messageToHTML(message);
         this.messagesElm.scrollTop = this.messagesElm.scrollHeight;
       }
-      this.logsElm.innerHTML += message.toString() + '<br />';
+      this.log(message);
       evt.target.value = '';
     }
   }.bind(app));

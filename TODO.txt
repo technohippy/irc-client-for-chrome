@@ -2,7 +2,8 @@ TODO
 - jQuery
 - メッセージとログの横スクロールバーを非表示
 - アプリケーションアイコンはBJによろしくからお茶飲んでるシーンを拝借したい
-- オンライン/オフラインイベント対応
+- オンライン/オフライン対応
+  - navigator.onLine
   - document.body.addEventListener("offline", function () {}, false);
   - document.body.addEventListener("online", function () {}, false);
 - document.querySelector()
@@ -12,6 +13,7 @@ TODO
 - KICKされたとき対応
 - メンバーと個別に会話
 - IRC.Util.messageToHTMLの処理をconverterのチェーンに
+- ユーザー情報登録
 
 - ttsを使った読み上げ
 - webIntents
