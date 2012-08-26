@@ -52,6 +52,10 @@
     "description": "The placeholder for the input for a channel name"
   },
 
+  "online": {
+    "message": "Online",
+    "description": "Warning message"
+  },
   "warnOffline": {
     "message": "No Network",
     "description": "Warning message"

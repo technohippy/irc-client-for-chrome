@@ -90,9 +90,16 @@ IRC.App.prototype.isFocused = function() {
 };
 IRC.App.prototype.log = function(obj, cls) {
   if (!cls) cls = 'message'; 
+  var message = obj.toString();
+  if (message.match(/^__(.+)__$/)) {
+    message = chrome.i18n.getMessage(RegExp.$1);
+  }
   this.logsElm.innerHTML += '<span class="timestamp">' + new Date().ymdhm() + 
-    '</span><span class="' + cls + '">' + obj.toString() + '</span><br />';
+    '</span><span class="' + cls + '">' + message + '</span><br />';
   this.logsElm.scrollTop = this.logsElm.scrollHeight;
+};
+IRC.App.prototype.logWarn = function(obj) {
+  this.log(obj, 'warn');
 };
 IRC.App.prototype.replyListener = function(reply) {
   // TODO
@@ -110,17 +117,28 @@ IRC.App.prototype.replyListener = function(reply) {
 IRC.App.prototype.memberListener = function(eventType, members, channel) {
   if (eventType == IRC.Events.MEMBER_ADDED) {
     if (channel.name == this.currentChannelName) {
-      if (!Array.isArray(members))  members = [members];
+      if (!Array.isArray(members)) members = [members];
       for (var i = 0; i < members.length; i++) {
         this.membersElm.innerHTML += '<div>' + members[i] + '</div>';
       }
     }
   }
   else if (eventType == IRC.Events.MEMBER_QUITTED) {
-    for (var i = 0; i < this.membersElm.childNodes.length; i++) {
-      var div = this.membersElm.childNodes[i];
-      if (div.innerHTML == members) {
-        div.parentNode.removeChild(div);
+    if (channel.name == this.currentChannelName) {
+      if (!Array.isArray(members)) members = [members];
+      var removedDivs = [];
+      for (var i = 0; i < members.length; i++) {
+        var member = members[i];
+        for (var j = 0; j < this.membersElm.childNodes.length; j++) {
+          var div = this.membersElm.childNodes[j];
+          if (div.innerHTML == members) {
+            removedDivs.push(div);
+          }
+        }
+      }
+      for (var i = 0; i < removedDivs.length; i++) {
+        var removedDiv = removedDivs[i];
+        removedDiv.parentNode.removeChild(removedDiv);
       }
     }
   }
@@ -194,7 +212,7 @@ IRC.App.start = function() {
             server.joinAllOnConnect();
           }
           else {
-            this.log(chrome.i18n.getMessage('warnOffline'), 'warn');
+            this.logWarn('__warnOffline__');
           }
         }.bind(this));
       }
@@ -205,20 +223,22 @@ IRC.App.start = function() {
   );
 
   window.addEventListener('online', function() {
+    app.log('__online__');
     for (var serverName in this.servers) {
-      var server = this.getServer(serverName);
-      server.connect();
-      server.joinAllOnConnect();
+      setTimeout(function() {
+        this.connect();
+        this.joinAllOnConnect();
+      }.bind(this.getServer(serverName)), 50);
     }
   }.bind(app), false);
 
   window.addEventListener('offline', function() {
-    app.log(chrome.i18n.getMessage('warnOffline'), 'warn');
-/*
+    app.logWarn(chrome.i18n.getMessage('warnOffline'));
     for (var serverName in this.servers) {
       var server = this.getServer(serverName);
+      server.disconnect();
+      server.removeAllMembers();
     }
-*/
   }.bind(app), false);
 
   $('command').addEventListener('keypress', function(evt) {

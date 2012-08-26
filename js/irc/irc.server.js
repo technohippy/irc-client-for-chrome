@@ -245,6 +245,7 @@ IRC.Server.prototype.connect = function() {
   }.bind(this));
 };
 IRC.Server.prototype.disconnect = function(afterDisconnect) {
+  this.ready = false;
   if (this.tcpClient.isConnected) {
     this.tcpClient.disconnect(afterDisconnect);
   }
@@ -254,4 +255,13 @@ IRC.Server.prototype.disconnect = function(afterDisconnect) {
 };
 IRC.Server.prototype.reconnect = function() {
   this.disconnect(function() {this.connect()}.bind(this));
+};
+IRC.Server.prototype.removeAllMembers = function() {
+  for (var channelName in this.channels) {
+    var channel = this.getChannel(channelName);
+    var removedMembers = channel.removeAllMembers();
+    for (var i = 0; i < this.memberListeners.length; i++) {
+      this.memberListeners[i](IRC.Events.MEMBER_QUITTED, removedMembers, channel);
+    }
+  }
 };

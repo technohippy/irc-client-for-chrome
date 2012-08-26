@@ -34,6 +34,11 @@ IRC.Channel.prototype.sendMessage = function(message) {
 IRC.Channel.prototype.removeMember = function(member) {
   this.members.splice(this.members.indexOf(member), 1);
 };
+IRC.Channel.prototype.removeAllMembers = function() {
+  var oldMembers = this.members;
+  this.members = [];
+  return oldMembers;
+};
 IRC.Channel.prototype.join = function(callback) {
   this.server.send(new IRC.Message('JOIN', this.name), callback);
 };

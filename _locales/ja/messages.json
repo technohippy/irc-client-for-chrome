@@ -52,6 +52,10 @@
     "description": "チャンネル名入力エリア用プレースホルダ"
   },
 
+  "online": {
+    "message": "オンラインになりました",
+    "description": "Warning message"
+  },
   "warnOffline": {
     "message": "オフラインです",
     "description": "警告メッセージ"
