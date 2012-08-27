@@ -54,10 +54,10 @@
 
   "online": {
     "message": "オンラインになりました",
-    "description": "Warning message"
+    "description": "警告メッセージ"
   },
   "warnOffline": {
-    "message": "オフラインです",
+    "message": "オフラインになりました",
     "description": "警告メッセージ"
   }
 }

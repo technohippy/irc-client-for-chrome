@@ -9,6 +9,11 @@
       "scripts": ["js/background.js"]
     }
   },
-  "permissions": ["experimental", "app.window", "socket", "storage"],
+  "permissions": [
+    "experimental", 
+    "app.window", 
+    "storage", 
+    {"socket":["tcp-connect:*:*"]}
+  ],
   "icons": { "16": "image/yunomi-16.png", "128": "image/yunomi-128.png" }
 }

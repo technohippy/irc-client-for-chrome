@@ -53,11 +53,11 @@
   },
 
   "online": {
-    "message": "Online",
+    "message": "Connected",
     "description": "Warning message"
   },
   "warnOffline": {
-    "message": "No Network",
+    "message": "Disconnected",
     "description": "Warning message"
   }
 }

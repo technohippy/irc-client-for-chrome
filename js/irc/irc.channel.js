@@ -9,20 +9,20 @@ IRC.Channel = function(server, name) {
   this.topic = null;
   this.shouldJoinOnConnect = true;
 };
-IRC.Channel.prototype.addMember = function(member) {
+IRC.Channel.prototype.addMember = function(members) {
   var added = [];
-  if (member instanceof Array) {
-    for (var i = 0; i < member.length; i++) {
-      if (this.members.indexOf(member[i]) < 0) {
-        this.members.push(member[i]);
-        added.push(member[i]);
-      }
-    }
-  }
-  else {
+  if (!(members instanceof Array)) members = [members];
+  for (var i = 0; i < members.length; i++) {
+    var member = members[i];
+    var anotherMember = member.match(/^@.+/) ? member.substring(1) : '@' + member;
     if (this.members.indexOf(member) < 0) {
-      this.members.push(member);
-      added.push(member);
+      this.members.push(members[i]);
+      if (0 <= this.members.indexOf(anotherMember)) {
+        this.members.splice(this.members.indexOf(anotherMember), 1);
+      }
+      else {
+        added.push(members[i]);
+      }
     }
   }
   return added;

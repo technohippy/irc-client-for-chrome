@@ -67,7 +67,7 @@ IRC.App.prototype.focus = function(serverNick, channelName, force) {
     }
     this.membersElm.innerHTML = '';
     for (var i = 0; i < channel.members.length; i++) {
-      this.membersElm.innerHTML += channel.members[i] + '<br />';
+      this.membersElm.innerHTML += '<div>' + channel.members[i] + '</div>';
     }
 
     for (var i = 0; i < document.getElementsByClassName('channel').length; i++) {
@@ -131,7 +131,7 @@ IRC.App.prototype.memberListener = function(eventType, members, channel) {
         var member = members[i];
         for (var j = 0; j < this.membersElm.childNodes.length; j++) {
           var div = this.membersElm.childNodes[j];
-          if (div.innerHTML == members) {
+          if (div.innerHTML == member) {
             removedDivs.push(div);
           }
         }
@@ -233,7 +233,7 @@ IRC.App.start = function() {
   }.bind(app), false);
 
   window.addEventListener('offline', function() {
-    app.logWarn(chrome.i18n.getMessage('warnOffline'));
+    app.logWarn('__warnOffline__');
     for (var serverName in this.servers) {
       var server = this.getServer(serverName);
       server.disconnect();
@@ -273,14 +273,6 @@ IRC.App.start = function() {
   $('add-new-server').addEventListener('click', function() {
     this.settingsApp.open();
   }.bind(app));
-
-  document.addEventListener('online', function() {
-    //console.log('>>>>>> ONLINE');
-  });
-
-  document.addEventListener('offline', function() {
-    //console.log('>>>>>> OFFLINE');
-  });
 
   return app;
 };
