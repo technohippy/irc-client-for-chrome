@@ -1,23 +1,5 @@
 if (typeof(IRC) == 'undefined') var IRC = {};
 
-Date.prototype.ymdhm = function() {
-  function fillZero(n) {return (n < 10 ? '0' : '') + n}
-  var year = this.getFullYear();
-  var month = this.getMonth() + 1;
-  var date = this.getDate();
-  var hours = this.getHours();
-  var minutes = this.getMinutes();
-  return '' + year + '-' + fillZero(month) + '-' + fillZero(date) + 
-    ' ' + fillZero(hours) + ':' + fillZero(minutes);
-};
-
-Date.prototype.hm = function() {
-  function fillZero(n) {return (n < 10 ? '0' : '') + n}
-  var hours = this.getHours();
-  var minutes = this.getMinutes();
-  return '' + fillZero(hours) + ':' + fillZero(minutes);
-};
-
 IRC.Message = function() {
   this.timestamp = new Date();
   var firstIndex = 0;

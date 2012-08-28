@@ -166,6 +166,9 @@ IRC.Server.prototype.connect = function() {
           else {
             // private message from a user
             var channel = this.getOrCreateChannel(message.sender);
+            if (channel.members.length == 0) {
+              channel.addMember([message.channelName, message.sender]);
+            }
             channel.messages.push(message);
           }
         }
