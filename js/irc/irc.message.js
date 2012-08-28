@@ -4,10 +4,10 @@ Date.prototype.ymdhm = function() {
   function fillZero(n) {return (n < 10 ? '0' : '') + n}
   var year = this.getFullYear();
   var month = this.getMonth() + 1;
-  var day = this.getDay();
+  var date = this.getDate();
   var hours = this.getHours();
   var minutes = this.getMinutes();
-  return '' + year + '-' + fillZero(month) + '-' + fillZero(day) + 
+  return '' + year + '-' + fillZero(month) + '-' + fillZero(date) + 
     ' ' + fillZero(hours) + ':' + fillZero(minutes);
 };
 
@@ -62,6 +62,7 @@ IRC.Message.prototype.interprete = function() {
   if (this.command == 'PRIVMSG') {
     this.sender = this.prefix.split('!')[0].substring(1);
     this.channelName = this.params[this.params.length - 2];
+    this.isToChannel = this.channelName.match(/^#/);
     this.text = this.params[this.params.length - 1];
   }
   else if (this.command == 'NOTICE') {

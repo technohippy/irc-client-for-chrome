@@ -28,6 +28,14 @@ IRC.Server.prototype.getAnyChannel = function() {
   }
   return null;
 };
+IRC.Server.prototype.getOrCreateChannel = function(channelName) {
+  if (this.hasChannel(channelName)) {
+    return this.getChannel(channelName);
+  }
+  else {
+    return this.addChannel(channelName);
+  }
+};
 IRC.Server.prototype.addChannel = function(channel) {
   var channelName;
   if (typeof(channel) == 'string') {
@@ -46,6 +54,7 @@ IRC.Server.prototype.addChannel = function(channel) {
     data[channelName] = channel;
     this.channelListeners[i](IRC.Events.CHANNEL_ADDED, data);
   }
+  return channel;
 };
 IRC.Server.prototype.removeChannel = function(channel) {
   var channelName;
@@ -147,9 +156,18 @@ IRC.Server.prototype.connect = function() {
         if (!message) continue;
 
         if (message.command == 'PRIVMSG') {
+          // TODO
           message.interprete();
-          var channel = this.getChannel(message.channelName);
-          channel.messages.push(message);
+          if (message.isToChannel) {
+            // public message among the channel
+            var channel = this.getChannel(message.channelName);
+            channel.messages.push(message);
+          }
+          else {
+            // private message from a user
+            var channel = this.getOrCreateChannel(message.sender);
+            channel.messages.push(message);
+          }
         }
         else if (message.command == 'NOTICE') {
           // TODO

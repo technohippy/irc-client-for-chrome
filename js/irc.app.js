@@ -67,7 +67,7 @@ IRC.App.prototype.focus = function(serverNick, channelName, force) {
     }
     this.membersElm.innerHTML = '';
     for (var i = 0; i < channel.members.length; i++) {
-      this.membersElm.innerHTML += '<div>' + channel.members[i] + '</div>';
+      this.membersElm.innerHTML += '<li>' + channel.members[i] + '</li>';
     }
 
     for (var i = 0; i < document.getElementsByClassName('channel').length; i++) {
@@ -106,10 +106,23 @@ IRC.App.prototype.replyListener = function(reply) {
   //console.log(reply.toString());
   if (reply.command == 'PRIVMSG' || reply.command == 'NOTICE') {
     //reply.interprete();
-    if (reply.channelName == this.currentChannelName) {
+    if ((reply.isToChannel && reply.channelName == this.currentChannelName)
+      || (!reply.isToChannel && reply.sender == this.currentChannelName)) {
+
       this.messagesElm.innerHTML += IRC.Util.messageToHTML(reply);
       this.messagesElm.scrollTop = this.messagesElm.scrollHeight;
     }
+/*
+    chrome.storage.local.get(reply.channelName, function(messages) {
+      var data = {};
+      data[reply.channelName] = messages.push(reply);
+      chrome.storage.local.set(data);
+    }, function() {
+      var data = {};
+      data[reply.channelName] = [reply];
+      chrome.storage.local.set(data);
+    });
+*/
   }
 
   this.log(reply);
@@ -119,7 +132,7 @@ IRC.App.prototype.memberListener = function(eventType, members, channel) {
     if (channel.name == this.currentChannelName) {
       if (!Array.isArray(members)) members = [members];
       for (var i = 0; i < members.length; i++) {
-        this.membersElm.innerHTML += '<div>' + members[i] + '</div>';
+        this.membersElm.innerHTML += '<li>' + members[i] + '</li>';
       }
     }
   }

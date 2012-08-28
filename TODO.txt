@@ -1,3 +1,6 @@
+??
+- "content_security_policy": "img-src",
+
 TODO
 - メッセージtimestampのz-indexを本文よりも小さく
 - @付きがaddされたときに@なし同名がいたら置き換える
