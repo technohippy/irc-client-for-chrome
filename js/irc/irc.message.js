@@ -1,6 +1,15 @@
 if (typeof(IRC) == 'undefined') var IRC = {};
 
 IRC.Message = function() {
+  if (arguments.length == 0) {
+    this.timestamp = new Date();
+    this.prefix = null;
+    this.command = null;
+    this.params = [];
+    this.server = null;
+    return;
+  }
+
   this.timestamp = new Date();
   var firstIndex = 0;
   var first = arguments[firstIndex++];
@@ -49,14 +58,14 @@ IRC.Message.prototype.interprete = function() {
     this.channelName = this.params[this.params.length - 2];
     this.isToChannel = this.channelName.match(/^#/) != null;
     this.text = this.params[this.params.length - 1];
-    this.fullChannelName = IRC.Channel.getFqn(this.server, this.channelName);
+    if (this.server) this.fullChannelName = IRC.Channel.getFqn(this.server, this.channelName);
   }
   else if (this.command == 'NOTICE') {
     // TODO
     this.sender = this.prefix.split('!')[0].substring(1);
     this.channelName = this.params[this.params.length - 2];
     this.text = this.params[this.params.length - 1];
-    this.fullChannelName = IRC.Channel.getFqn(this.server, this.channelName);
+    if (this.server) this.fullChannelName = IRC.Channel.getFqn(this.server, this.channelName);
   }
   else if (this.command == 'PART') {
     this.sender = this.prefix.split('!')[0].substring(1);
@@ -69,7 +78,18 @@ IRC.Message.prototype.interprete = function() {
   }
 };
 IRC.Message.prototype.copy = function() {
-  return new IRC.Message(this.prefix, this.command, this.params.slice(0));
+  //return new IRC.Message(this.prefix, this.command, this.params.slice(0));
+  var copied = new IRC.Message();
+  // TODO
+  //for (var prop in this) copied[prop] = this[prop];
+  copied.timestamp = this.timestamp;
+  copied.prefix = this.prefix;
+  copied.command = this.command;
+  copied.params = this.params;
+  copied.server = this.server;
+  copied.sender = this.sender;
+  copied.fullChannelName = this.fullChannelName;
+  return copied;
 };
 IRC.Message.prototype.toString = function() {
   var ret = '';
@@ -80,4 +100,16 @@ IRC.Message.prototype.toString = function() {
   }
   ret += '\r\n';
   return ret;
+};
+IRC.Message.prototype.toJson = function() {
+  var message = this.copy();
+  message.interprete();
+  message.server = null;
+  return JSON.stringify(message);
+};
+IRC.Message.fromJson = function(json, server) {
+  var message = JSON.parse(json);
+  message.server = server;
+  message.timestamp = new Date(Date.parse(message.timestamp));
+  return message;
 };

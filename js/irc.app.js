@@ -113,16 +113,17 @@ IRC.App.prototype.replyListener = function(reply) {
     }
 
     // TODO
+    this.storeMessage(reply);
+/*
     chrome.storage.local.get(reply.fullChannelName, function(data) {
       if (!data[reply.fullChannelName]) data[reply.fullChannelName] = [];
       while (IRC.Settings.MAX_MESSAGE_LOG < data[reply.fullChannelName].length) {
         data[reply.fullChannelName].shift();
       }
-      reply.server = null; // TODO: remove circular refs
-      data[reply.fullChannelName].push(JSON.stringify(reply));
-console.log('>>>>> data', data);
+      data[reply.fullChannelName].push(reply.toJSON());
       chrome.storage.local.set(data);
     });
+*/
   }
 
   this.log(reply);
@@ -210,6 +211,16 @@ IRC.App.prototype.channelListener = function(eventType, channels) {
     }
   }
 };
+IRC.App.prototype.storeMessage = function(message) {
+  chrome.storage.local.get(message.fullChannelName, function(data) {
+    if (!data[message.fullChannelName]) data[message.fullChannelName] = [];
+    while (IRC.Settings.MAX_MESSAGE_LOG < data[message.fullChannelName].length) {
+      data[message.fullChannelName].shift();
+    }
+    data[message.fullChannelName].push(message.toJson());
+    chrome.storage.local.set(data);
+  });
+};
 IRC.App.start = function() {
   function $(id) {return document.getElementById(id)}
 
@@ -238,10 +249,7 @@ IRC.App.start = function() {
               var messages = data[channel.getFqn()];
               if (messages) {
                 for (var j = 0; j < messages.length; j++) {
-                  messages[j] = JSON.parse(messages[j]);
-                  messages[j].prototype = IRC.Message.prototype;
-                  messages[j].server = server;
-                  messages[j].timestamp = new Date(Date.parse(messages[j].timestamp));
+                  messages[j] = IRC.Message.fromJson(messages[j], server);
                 }
                 channel.messages = messages;
               }
@@ -311,6 +319,7 @@ IRC.App.start = function() {
         message.interprete(); // TODO
         this.messagesElm.innerHTML += IRC.Util.messageToHTML(message);
         this.messagesElm.scrollTop = this.messagesElm.scrollHeight;
+        this.storeMessage(message);
       }
       this.log(message);
       evt.target.value = '';
