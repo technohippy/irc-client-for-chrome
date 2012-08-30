@@ -21,8 +21,9 @@ IRC.Message = function() {
       this.params.push(arguments[i + firstIndex]);
     }
   }
+  this.server = null;
 };
-IRC.Message.parse = function(str) {
+IRC.Message.parse = function(str, server) {
   if (str.match(/(:[^ ]+ +)?([a-zA-Z]+|\d{3})([^:]*)(:.+)?$/)) {
     var prefix = RegExp.$1.trim();
     var command = RegExp.$2;
@@ -34,7 +35,9 @@ IRC.Message.parse = function(str) {
       if (param != '') params.push(param);
     }
     if (lastParam) params.push(lastParam);
-    return new IRC.Message(prefix, command, params);
+    var message = new IRC.Message(prefix, command, params);
+    message.server = server;
+    return message;
   }
   else {
     return null;
@@ -44,14 +47,16 @@ IRC.Message.prototype.interprete = function() {
   if (this.command == 'PRIVMSG') {
     this.sender = this.prefix.split('!')[0].substring(1);
     this.channelName = this.params[this.params.length - 2];
-    this.isToChannel = this.channelName.match(/^#/);
+    this.isToChannel = this.channelName.match(/^#/) != null;
     this.text = this.params[this.params.length - 1];
+    this.fullChannelName = IRC.Channel.getFqn(this.server, this.channelName);
   }
   else if (this.command == 'NOTICE') {
     // TODO
     this.sender = this.prefix.split('!')[0].substring(1);
     this.channelName = this.params[this.params.length - 2];
     this.text = this.params[this.params.length - 1];
+    this.fullChannelName = IRC.Channel.getFqn(this.server, this.channelName);
   }
   else if (this.command == 'PART') {
     this.sender = this.prefix.split('!')[0].substring(1);

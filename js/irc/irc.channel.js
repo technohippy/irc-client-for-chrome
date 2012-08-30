@@ -9,6 +9,12 @@ IRC.Channel = function(server, name) {
   this.topic = null;
   this.shouldJoinOnConnect = true;
 };
+IRC.Channel.getFqn = function(server, name) {
+  return server.host + ':' + server.port + '/' + name;
+};
+IRC.Channel.prototype.getFqn = function() {
+  return IRC.Channel.getFqn(this.server, this.name);
+};
 IRC.Channel.prototype.addMember = function(members) {
   var added = [];
   if (!(members instanceof Array)) members = [members];
@@ -25,6 +31,8 @@ IRC.Channel.prototype.addMember = function(members) {
       }
     }
   }
+  //this.members.sort();
+  //return added.sort();
   return added;
 };
 IRC.Channel.prototype.sendMessage = function(message) {

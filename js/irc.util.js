@@ -8,7 +8,7 @@ IRC.Util.messageToHTML = function(message) {
   var imageTags = '';
   var htmlMessage = message.text.substring(1).replace('<', '&lt;');
   htmlMessage = htmlMessage.replace(
-    /https?:\/\/([a-zA-Z0-9_\.\/%=&?:-;#]+)/, 
+    /https?:\/\/([-a-zA-Z0-9_\.\/%=&?:;#]+)/, 
     function(url, text) {
       if (url.match(/\.(jpeg|jpg|png|gif)/i)) {
         imageTags += '<br/><a href="' + url + '" target="_blank" title="' + url + '">' + 

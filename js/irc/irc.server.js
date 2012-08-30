@@ -152,7 +152,7 @@ IRC.Server.prototype.connect = function() {
       for (var i = 0; i < replies.length; i++) {
         var reply = replies[i];
         if (reply == '\r\n') continue;
-        var message = IRC.Message.parse(reply);
+        var message = IRC.Message.parse(reply, this);
         if (!message) continue;
 
         if (message.command == 'PRIVMSG') {

@@ -92,7 +92,7 @@ IRC.App.prototype.log = function(obj, cls) {
   if (!cls) cls = 'message'; 
   var message = obj.toString();
   if (message.match(/^__(.+)__$/)) {
-    message = chrome.i18n.getMessage(RegExp.$1);
+    message = chrome.i18n.getMessage(RegExp.$1) || message;
   }
   this.logsElm.innerHTML += '<span class="timestamp">' + new Date().ymdhm() + 
     '</span><span class="' + cls + '">' + message + '</span><br />';
@@ -106,23 +106,23 @@ IRC.App.prototype.replyListener = function(reply) {
   //console.log(reply.toString());
   if (reply.command == 'PRIVMSG' || reply.command == 'NOTICE') {
     //reply.interprete();
-    if ((reply.isToChannel && reply.channelName == this.currentChannelName)
-      || (!reply.isToChannel && reply.sender == this.currentChannelName)) {
-
+    var channelName = reply.isToChannel ? reply.channelName : reply.sender;
+    if (channelName == this.currentChannelName) {
       this.messagesElm.innerHTML += IRC.Util.messageToHTML(reply);
       this.messagesElm.scrollTop = this.messagesElm.scrollHeight;
     }
-/*
-    chrome.storage.local.get(reply.channelName, function(messages) {
-      var data = {};
-      data[reply.channelName] = messages.push(reply);
-      chrome.storage.local.set(data);
-    }, function() {
-      var data = {};
-      data[reply.channelName] = [reply];
+
+    // TODO
+    chrome.storage.local.get(reply.fullChannelName, function(data) {
+      if (!data[reply.fullChannelName]) data[reply.fullChannelName] = [];
+      while (IRC.Settings.MAX_MESSAGE_LOG < data[reply.fullChannelName].length) {
+        data[reply.fullChannelName].shift();
+      }
+      reply.server = null; // TODO: remove circular refs
+      data[reply.fullChannelName].push(JSON.stringify(reply));
+console.log('>>>>> data', data);
       chrome.storage.local.set(data);
     });
-*/
   }
 
   this.log(reply);
@@ -133,6 +133,21 @@ IRC.App.prototype.memberListener = function(eventType, members, channel) {
       if (!Array.isArray(members)) members = [members];
       for (var i = 0; i < members.length; i++) {
         this.membersElm.innerHTML += '<li>' + members[i] + '</li>';
+/*
+        var member = members[i];
+        var newLi = document.createElement('li');
+        newLi.innerHTML = member;
+        var added = false;
+        for (var j = 0; j < this.membersElm.childNodes.length; j++) {
+          var li = this.membersElm.childNodes[j];
+          if (member < li.innerHTML) {
+            li.insertBefore(newLi);
+            added = true;
+            break;
+          }
+        }
+        if (!added) this.membersElm.appendChild(newLi);
+*/
       }
     }
   }
@@ -215,6 +230,24 @@ IRC.App.start = function() {
           for (var j = 0; j < settings.channels.length; j++) {
             server.addChannel(settings.channels[j]);
           }
+
+          // TODO
+          chrome.storage.local.get(null, function(data) {
+            for (var channelName in server.channels) {
+              var channel = server.getChannel(channelName);
+              var messages = data[channel.getFqn()];
+              if (messages) {
+                for (var j = 0; j < messages.length; j++) {
+                  messages[j] = JSON.parse(messages[j]);
+                  messages[j].prototype = IRC.Message.prototype;
+                  messages[j].server = server;
+                  messages[j].timestamp = new Date(Date.parse(messages[j].timestamp));
+                }
+                channel.messages = messages;
+              }
+            }
+          });
+
           this.addServer(serverNick, server);
           if (!this.isFocused()) {
             this.focus(serverNick, settings.channels[0]);
@@ -270,6 +303,7 @@ IRC.App.start = function() {
         var command = evt.ctrlKey ? 'NOTICE' : 'PRIVMSG';
         // TODO
         message = new IRC.Message(command, channel.name, text);
+        message.server = this.getCurrentServer(); // TODO
         //var prefix = ':' + this.getCurrentServer().nick + '!';
         //var message = new IRC.Message(prefix, 'PRIVMSG', channel.name, text);
         channel.sendMessage(message);

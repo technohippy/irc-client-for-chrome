@@ -25,6 +25,7 @@ IRC.Settings = function(server) {
     this.channels = [];
   }
 }
+IRC.Settings.MAX_MESSAGE_LOG = 10;
 IRC.Settings.KEY_SERVERS = 'servers';
 IRC.Settings.setupTestData = function() {
   var serverNick1 = 'freenode';
