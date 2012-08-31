@@ -53,17 +53,10 @@ IRC.Message.parse = function(str, server) {
   }
 };
 IRC.Message.prototype.interprete = function() {
-  if (this.command == 'PRIVMSG') {
+  if (this.command == 'PRIVMSG' || this.command == 'NOTICE') {
     this.sender = this.prefix.split('!')[0].substring(1);
     this.channelName = this.params[this.params.length - 2];
     this.isToChannel = this.channelName.match(/^#/) != null;
-    this.text = this.params[this.params.length - 1];
-    if (this.server) this.fullChannelName = IRC.Channel.getFqn(this.server, this.channelName);
-  }
-  else if (this.command == 'NOTICE') {
-    // TODO
-    this.sender = this.prefix.split('!')[0].substring(1);
-    this.channelName = this.params[this.params.length - 2];
     this.text = this.params[this.params.length - 1];
     if (this.server) this.fullChannelName = IRC.Channel.getFqn(this.server, this.channelName);
   }

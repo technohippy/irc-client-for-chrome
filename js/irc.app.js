@@ -114,16 +114,6 @@ IRC.App.prototype.replyListener = function(reply) {
 
     // TODO
     this.storeMessage(reply);
-/*
-    chrome.storage.local.get(reply.fullChannelName, function(data) {
-      if (!data[reply.fullChannelName]) data[reply.fullChannelName] = [];
-      while (IRC.Settings.MAX_MESSAGE_LOG < data[reply.fullChannelName].length) {
-        data[reply.fullChannelName].shift();
-      }
-      data[reply.fullChannelName].push(reply.toJSON());
-      chrome.storage.local.set(data);
-    });
-*/
   }
 
   this.log(reply);
@@ -212,6 +202,7 @@ IRC.App.prototype.channelListener = function(eventType, channels) {
   }
 };
 IRC.App.prototype.storeMessage = function(message) {
+  if (message.command != 'PRIVMSG') return; // TODO
   chrome.storage.local.get(message.fullChannelName, function(data) {
     if (!data[message.fullChannelName]) data[message.fullChannelName] = [];
     while (IRC.Settings.MAX_MESSAGE_LOG < data[message.fullChannelName].length) {
