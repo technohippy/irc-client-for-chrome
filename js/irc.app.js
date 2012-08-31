@@ -67,7 +67,9 @@ IRC.App.prototype.focus = function(serverNick, channelName, force) {
     }
     this.membersElm.innerHTML = '';
     for (var i = 0; i < channel.members.length; i++) {
-      this.membersElm.innerHTML += '<li>' + channel.members[i] + '</li>';
+      var member = channel.members[i];
+      this.membersElm.innerHTML += '<li class="' + IRC.Util.toColorClass(member) + '">' + 
+        member + '</li>';
     }
 
     for (var i = 0; i < document.getElementsByClassName('channel').length; i++) {
@@ -123,7 +125,9 @@ IRC.App.prototype.memberListener = function(eventType, members, channel) {
     if (channel.name == this.currentChannelName) {
       if (!Array.isArray(members)) members = [members];
       for (var i = 0; i < members.length; i++) {
-        this.membersElm.innerHTML += '<li>' + members[i] + '</li>';
+        var member = members[i];
+        this.membersElm.innerHTML += '<li class="' + IRC.Util.toColorClass(member) + '">' +
+          member + '</li>';
 /*
         var member = members[i];
         var newLi = document.createElement('li');

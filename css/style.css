@@ -37,60 +37,6 @@ li {
     position: relative; }
     .messages .line .sender {
       margin-right: 10px; }
-    .messages .line .color0 {
-      color: #bbb; }
-    .messages .line .color1 {
-      color: #bbd; }
-    .messages .line .color2 {
-      color: #bbf; }
-    .messages .line .color3 {
-      color: #bdb; }
-    .messages .line .color4 {
-      color: #bdd; }
-    .messages .line .color5 {
-      color: #bdf; }
-    .messages .line .color6 {
-      color: #bfb; }
-    .messages .line .color7 {
-      color: #bfd; }
-    .messages .line .color8 {
-      color: #bff; }
-    .messages .line .color9 {
-      color: #dbb; }
-    .messages .line .color10 {
-      color: #dbd; }
-    .messages .line .color11 {
-      color: #dbf; }
-    .messages .line .color12 {
-      color: #ddb; }
-    .messages .line .color13 {
-      color: #ddd; }
-    .messages .line .color14 {
-      color: #ddf; }
-    .messages .line .color15 {
-      color: #dfb; }
-    .messages .line .color16 {
-      color: #dfd; }
-    .messages .line .color17 {
-      color: #dff; }
-    .messages .line .color18 {
-      color: #fbb; }
-    .messages .line .color19 {
-      color: #fbd; }
-    .messages .line .color20 {
-      color: #fbf; }
-    .messages .line .color21 {
-      color: #fdb; }
-    .messages .line .color22 {
-      color: #fdd; }
-    .messages .line .color23 {
-      color: #fdf; }
-    .messages .line .color24 {
-      color: #ffb; }
-    .messages .line .color25 {
-      color: #ffd; }
-    .messages .line .color26 {
-      color: #fff; }
     .messages .line .text {
       color: #fff; }
       .messages .line .text a, .messages .line .text a:visited, .messages .line .text a:active, .messages .line .text a:hover {
@@ -229,3 +175,84 @@ li {
 .server-settings.show {
   -webkit-box-shadow: 0 0 30px 3px black;
   top: 0; }
+
+.color0 {
+  color: #bbb; }
+
+.color1 {
+  color: #bbd; }
+
+.color2 {
+  color: #bbf; }
+
+.color3 {
+  color: #bdb; }
+
+.color4 {
+  color: #bdd; }
+
+.color5 {
+  color: #bdf; }
+
+.color6 {
+  color: #bfb; }
+
+.color7 {
+  color: #bfd; }
+
+.color8 {
+  color: #bff; }
+
+.color9 {
+  color: #dbb; }
+
+.color10 {
+  color: #dbd; }
+
+.color11 {
+  color: #dbf; }
+
+.color12 {
+  color: #ddb; }
+
+.color13 {
+  color: #ddd; }
+
+.color14 {
+  color: #ddf; }
+
+.color15 {
+  color: #dfb; }
+
+.color16 {
+  color: #dfd; }
+
+.color17 {
+  color: #dff; }
+
+.color18 {
+  color: #fbb; }
+
+.color19 {
+  color: #fbd; }
+
+.color20 {
+  color: #fbf; }
+
+.color21 {
+  color: #fdb; }
+
+.color22 {
+  color: #fdd; }
+
+.color23 {
+  color: #fdf; }
+
+.color24 {
+  color: #ffb; }
+
+.color25 {
+  color: #ffd; }
+
+.color26 {
+  color: #fff; }
