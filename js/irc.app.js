@@ -204,6 +204,11 @@ IRC.App.prototype.channelListener = function(eventType, channels) {
       }
     }
   }
+  else if (eventType == IRC.Events.CHANNEL_CLOSED) {
+    var server = channels;
+    var serverElm = document.getElementById('server-' + server.serverNick);
+    serverElm.classList.add('closed');
+  }
 };
 IRC.App.prototype.storeMessage = function(message) {
   if (message.command != 'PRIVMSG') return; // TODO
@@ -313,6 +318,12 @@ IRC.App.start = function() {
         message.prefix = ':' + this.getCurrentServer().nick + '!'; // TODO
         message.interprete(); // TODO
         this.messagesElm.innerHTML += IRC.Util.messageToHTML(message);
+/*
+var img = document.createElement('img');
+img.setAttribute('src', 'http://tenki.jp/component/static_api/forecast_map/japan_forecast_1.jpg');
+this.messagesElm.appendChild(img);
+        //this.messagesElm.innerHTML.appendChild(IRC.Util.messageToElement(message));
+*/
         this.messagesElm.scrollTop = this.messagesElm.scrollHeight;
         this.storeMessage(message);
       }

@@ -104,6 +104,8 @@ li {
       margin-left: 10px; }
     .channels .server .selected {
       background: #009; }
+  .channels .closed {
+    color: gray; }
 
 .settings-background {
   position: absolute;

@@ -218,6 +218,9 @@ IRC.Server.prototype.connect = function() {
         else if (message.command == 'ERROR') {
           if (message.params[0].match(/^:Closing Link:/)) {
             this.closed = true;
+            for (var j = 0; j < this.channelListeners.length; j++) {
+              this.channelListeners[j](IRC.Events.CHANNEL_CLOSED, this);
+            }
           }
         }
         else if (message.command == IRC.Errors.NICKNAMEINUSE) {
