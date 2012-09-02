@@ -1,3 +1,5 @@
+https://raw.github.com/technohippy/irc-client-for-chrome/master/doc/img/chrocha_main_en.png
+
 Attention:
 This app works only on the dev channel of the Chrome. Please get it here: http://www.chromium.org/getting-involved/dev-channel
 
