@@ -1,0 +1,21 @@
+<!doctype Html>
+<html>
+  <head>
+  <script>
+  window.addEventListener('message', function(evt) {
+    var anchor = document.getElementsByTagName('');
+    var image = document.getElementsByTagName('image');
+    var imageData = evt.data;
+    
+    anchor.href = imageData.src;
+    anchor.title = imageData.title;
+    image.alt = imageData.alt;
+    image.title = imageData.title;
+    image.src = imageData.src;
+  });
+  </script>
+  </head>
+  <body>
+    <a target="_blank"><img /></a>
+  </body>
+</html>
