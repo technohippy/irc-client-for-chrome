@@ -16,7 +16,7 @@
     {"socket":["tcp-connect:*:*"]}
   ],
   "sandbox": {
-    "pages": ["image.html"]
+    "pages": ["html/image.html"]
   },
   "icons": { "16": "image/yunomi-16.png", "128": "image/yunomi-128.png" }
 }

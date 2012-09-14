@@ -1,35 +1,31 @@
 if (typeof(IRC) == 'undefined') var IRC = {};
 
 IRC.App = function() {
-  this.messagesElm = document.getElementsByClassName('messages')[0];
-  this.logsElm = document.getElementsByClassName('logs')[0];
-  this.membersElm = document.getElementsByClassName('members')[0];
-  this.channelsElm = document.getElementsByClassName('channels')[0];
+  this.messagesElm = $('.messages');
+  this.logsElm = $('.logs');
+  this.membersElm = $('.members');
+  this.channelsElm = $('.channels');
   this.settingsApp = new IRC.App.Settings(this);
 
   this.servers = {};
   this.currentServerNick = null;
   this.currentChannelName = null;
 }
+IRC.App.DELAY = 100;
 IRC.App.prototype.addServer = function(serverNick, server) {
+  $('<li/>')
+    .attr('id', 'server-' + serverNick)
+    .addClass('server')
+    .text(serverNick)
+    .append($('<ul/>'))
+    .click(function() {this.settingsApp.open(server)}.bind(this))
+    .bind('contextmenu', function(evt) {evt.preventDefault()}.bind(this))
+    .appendTo(this.channelsElm);
+
   server.serverNick = serverNick;
   server.addReplyListener(this.replyListener.bind(this));
   server.addMemberListener(this.memberListener.bind(this));
   server.addChannelListener(this.channelListener.bind(this));
-
-  var serverId = 'server-' + serverNick;
-  var serverLiElm = document.createElement('li');
-  serverLiElm.id = serverId;
-  serverLiElm.className = 'server';
-  serverLiElm.innerHTML = serverNick + '<ul></ul>';
-  serverLiElm.addEventListener('click', function() {
-    this.settingsApp.open(server);
-  }.bind(this));
-  serverLiElm.addEventListener('contextmenu', function(evt) {
-    evt.preventDefault();
-    // TODO: connect/disconnect
-  }.bind(this));
-  this.channelsElm.appendChild(serverLiElm);
   this.servers[serverNick] = server;
   this.channelListener(IRC.Events.CHANNEL_ADDED, server.channels);
 };
@@ -54,6 +50,8 @@ IRC.App.prototype.getCurrentChannel = function() {
   }
 };
 IRC.App.prototype.focus = function(serverNick, channelName, force) {
+console.log('>> focus', serverNick, channelName, force);
+console.log('>> focus', this.getServer(serverNick));
   if (force || this.getServer(serverNick).hasChannel(channelName)) {
     this.currentServerNick = serverNick;
     this.currentChannelName = channelName;
@@ -61,25 +59,23 @@ IRC.App.prototype.focus = function(serverNick, channelName, force) {
     var channel = this.getCurrentChannel();
     if (!channel) return;
 
-    this.messagesElm.innerHTML = '';
+    this.messagesElm.text('');
     for (var i = 0; i < channel.messages.length; i++) {
-      this.messagesElm.innerHTML += IRC.Util.messageToHTML(channel.messages[i]);
+      IRC.Util.appendMessage(this.messagesElm, channel.messages[i]);
     }
-    this.membersElm.innerHTML = '';
+    this.membersElm.text('');
     for (var i = 0; i < channel.members.length; i++) {
       var member = channel.members[i];
-      this.membersElm.innerHTML += '<li class="' + IRC.Util.toColorClass(member) + '">' + 
-        member + '</li>';
+      $('<li/>')
+        .addClass(IRC.Util.toColorClass(member))
+        .text(member)
+        .appendTo(this.membersElm);
     }
 
-    for (var i = 0; i < document.getElementsByClassName('channel').length; i++) {
-      var elm = document.getElementsByClassName('channel')[i];
-      if (elm.innerHTML == channelName) {
-        elm.className = 'channel selected';
-      }
-      else {
-        elm.className = 'channel';
-      }
+    var channels = $('.channel');
+    for (var i = 0; i < channels.length; i++) {
+      var channel = $(channels[i]);
+      channel[channel.text() == channelName ? 'addClass' : 'removeClass']('selected');
     }
   }
   else {
@@ -96,9 +92,11 @@ IRC.App.prototype.log = function(obj, cls) {
   if (message.match(/^__(.+)__$/)) {
     message = chrome.i18n.getMessage(RegExp.$1) || message;
   }
-  this.logsElm.innerHTML += '<span class="timestamp">' + new Date().ymdhm() + 
-    '</span><span class="' + cls + '">' + message + '</span><br />';
-  this.logsElm.scrollTop = this.logsElm.scrollHeight;
+  this.logsElm
+    .append($('<span/>').addClass('timestamp').text(new Date().ymdhm()))
+    .append($('<span/>').addClass(cls).text(message))
+    .append($('<br/>'));
+  this.logsElm.scrollTop(this.logsElm.get(0).scrollHeight);
 };
 IRC.App.prototype.logWarn = function(obj) {
   this.log(obj, 'warn');
@@ -110,8 +108,7 @@ IRC.App.prototype.replyListener = function(reply) {
     //reply.interprete();
     var channelName = reply.isToChannel ? reply.channelName : reply.sender;
     if (channelName == this.currentChannelName) {
-      this.messagesElm.innerHTML += IRC.Util.messageToHTML(reply);
-      this.messagesElm.scrollTop = this.messagesElm.scrollHeight;
+      IRC.Util.appendMessage(this.messagesElm, reply);
     }
 
     // TODO
@@ -126,42 +123,29 @@ IRC.App.prototype.memberListener = function(eventType, members, channel) {
       if (!Array.isArray(members)) members = [members];
       for (var i = 0; i < members.length; i++) {
         var member = members[i];
-        this.membersElm.innerHTML += '<li class="' + IRC.Util.toColorClass(member) + '">' +
-          member + '</li>';
-/*
-        var member = members[i];
-        var newLi = document.createElement('li');
-        newLi.innerHTML = member;
-        var added = false;
-        for (var j = 0; j < this.membersElm.childNodes.length; j++) {
-          var li = this.membersElm.childNodes[j];
-          if (member < li.innerHTML) {
-            li.insertBefore(newLi);
-            added = true;
-            break;
-          }
-        }
-        if (!added) this.membersElm.appendChild(newLi);
-*/
+        $('<li/>')
+          .addClass(IRC.Util.toColorClass(member))
+          .text(member)
+          .appendTo(this.membersElm);
       }
     }
   }
   else if (eventType == IRC.Events.MEMBER_QUITTED) {
     if (channel.name == this.currentChannelName) {
       if (!Array.isArray(members)) members = [members];
-      var removedDivs = [];
+      var removedLis = [];
       for (var i = 0; i < members.length; i++) {
         var member = members[i];
-        for (var j = 0; j < this.membersElm.childNodes.length; j++) {
-          var div = this.membersElm.childNodes[j];
-          if (div.innerHTML == member) {
-            removedDivs.push(div);
+        var lis = this.membersElm.children('li');
+        for (var j = 0; j < lis.length; j++) {
+          if (lis[j].innerHTML == member) {
+            removedLis.push(lis[j]);
           }
         }
       }
-      for (var i = 0; i < removedDivs.length; i++) {
-        var removedDiv = removedDivs[i];
-        removedDiv.parentNode.removeChild(removedDiv);
+      for (var i = 0; i < removedLis.length; i++) {
+        var removedLi = removedLis[i];
+        removedLi.parentNode.removeChild(removedLi);
       }
     }
   }
@@ -170,44 +154,37 @@ IRC.App.prototype.channelListener = function(eventType, channels) {
   if (eventType == IRC.Events.CHANNEL_ADDED) {
     for (var channelName in channels) {
       var channel = channels[channelName];
-      // TODO
-      var serverElm = document.getElementById('server-' + channel.server.serverNick);
-      var serverUlElm = serverElm.getElementsByTagName('ul')[0];
-      var channelLiElm = document.createElement('li');
-      channelLiElm.obj = channel;
-      channelLiElm.innerHTML = channelName;
-      channelLiElm.className = channelName == this.currentChannelName 
-        ? 'channel selected' 
-        : 'channel';
-      channelLiElm.addEventListener('click', function(evt) {
-        evt.stopPropagation();
-        this.focus(serverElm.childNodes[0].textContent, evt.target.innerHTML);
-      }.bind(this));
-      channelLiElm.addEventListener('contextmenu', function(evt) {
-        evt.preventDefault();
-        // TODO: rejoin/leave
-      }.bind(this));
-      serverUlElm.appendChild(channelLiElm);
+      var serverElm = $('#server-' + channel.server.serverNick);
+      var serverUlElm = $('#server-' + channel.server.serverNick + ' ul');
+      var channelLiElm = $('<li/>')
+        .text(channelName)
+        .addClass('channel')
+        .click(function(evt) {
+          evt.stopPropagation();
+          this.focus(channel.server.serverNick, evt.target.innerHTML);
+        }.bind(this))
+        .bind('contextmenu', function(evt) {
+          evt.stopPropagation();
+        }.bind(this))
+        .appendTo(serverUlElm);
+      if (channelName == this.currentChannelName) channelLiElm.addClass('selected');
     }
   }
   else if (eventType == IRC.Events.CHANNEL_REMOVED) {
     for (var channelName in channels) {
       var channel = channels[channelName];
       // TODO
-      var serverElm = document.getElementById('server-' + channel.server.serverNick);
-      var serverUlElm = serverElm.getElementsByTagName('ul')[0];
-      for (var i = 0; i < serverUlElm.childNodes.length; i++) {
-        var liElm = serverUlElm.childNodes[i];
-        if (liElm.childNodes[0].textContent == channelName) {
-          liElm.parentNode.removeChild(liElm);
+      var serverUlElm = $('#server-' + channel.server.serverNick + ' ul');
+      for (var serverLiElm in serverUlElm.children('li')) {
+        if (serverLiElm.text() == channelName) {
+          serverUlElm.remote(serverLiElm);
         }
       }
     }
   }
   else if (eventType == IRC.Events.CHANNEL_CLOSED) {
     var server = channels;
-    var serverElm = document.getElementById('server-' + server.serverNick);
-    serverElm.classList.add('closed');
+    $('#server-' + server.serverNick).addClass('closed');
   }
 };
 IRC.App.prototype.storeMessage = function(message) {
@@ -222,8 +199,6 @@ IRC.App.prototype.storeMessage = function(message) {
   });
 };
 IRC.App.start = function() {
-  function $(id) {return document.getElementById(id)}
-
   var app = new IRC.App();
   chrome.storage.local.get('current', function(data) {
     if (data.current) {
@@ -258,7 +233,9 @@ IRC.App.start = function() {
 
           this.addServer(serverNick, server);
           if (!this.isFocused()) {
-            this.focus(serverNick, settings.channels[0]);
+            setTimeout(function() {
+              this.focus(serverNick, settings.channels[0]);
+            }.bind(this), IRC.App.DELAY);
           }
 
           if (navigator.onLine) {
@@ -295,7 +272,7 @@ IRC.App.start = function() {
     }
   }.bind(app), false);
 
-  $('command').addEventListener('keypress', function(evt) {
+  $('#command').bind('keypress', function(evt) {
     if (evt.keyCode == 13) { // enter key
       var text = evt.target.value;
       if (text.replace(/\s+/, '').length == 0) return;
@@ -317,14 +294,7 @@ IRC.App.start = function() {
         channel.sendMessage(message);
         message.prefix = ':' + this.getCurrentServer().nick + '!'; // TODO
         message.interprete(); // TODO
-        this.messagesElm.innerHTML += IRC.Util.messageToHTML(message);
-/*
-var img = document.createElement('img');
-img.setAttribute('src', 'http://tenki.jp/component/static_api/forecast_map/japan_forecast_1.jpg');
-this.messagesElm.appendChild(img);
-        //this.messagesElm.innerHTML.appendChild(IRC.Util.messageToElement(message));
-*/
-        this.messagesElm.scrollTop = this.messagesElm.scrollHeight;
+        IRC.Util.appendMessage(this.messagesElm, message);
         this.storeMessage(message);
       }
       this.log(message);
@@ -332,7 +302,7 @@ this.messagesElm.appendChild(img);
     }
   }.bind(app));
 
-  $('add-new-server').addEventListener('click', function() {
+  $('#add-new-server').click(function() {
     this.settingsApp.open();
   }.bind(app));
 

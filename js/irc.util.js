@@ -4,23 +4,6 @@ IRC.Util = {};
 IRC.Util.toColorClass = function(str) {
   return 'color' + (parseInt(str.toLowerCase().replace(/[^a-z0-9]/g, ''), 36) % 27);
 };
-IRC.Util.messageToElement = function(message) {
-  var container = document.createElement('div');
-  container.className = message.command.toLowerCase();
-  var sender = document.createElement('span');
-  sender.classList.add('sender');
-  sender.classList.add(IRC.Util.toColorClass(message.sender));
-  sender.appendChild(document.createTextNode(message.sender));
-  var text = document.createElement('span');
-  text.classList.add('text');
-  var timestamp = document.createElement('span');
-  timestamp.classList.add('timestamp');
-  timestamp.appendChild(document.createTextNode(message.timestamp.hm()));
-  container.appendChild(sender);
-  container.appendChild(text);
-  container.appendChild(timestamp);
-  return container;
-};
 IRC.Util.messageToHTML = function(message) {
   var imageTags = '';
   var htmlMessage = message.text.substring(1).replace('<', '&lt;');
@@ -40,6 +23,11 @@ IRC.Util.messageToHTML = function(message) {
     message.sender + '</span>' + 
     '<span class="text">' + htmlMessage + imageTags + '</span>' +
     '<span class="timestamp">' + message.timestamp.hm() + '</span></div>';
+};
+IRC.Util.appendMessage = function(container, message) {
+  container.append($(IRC.Util.messageToHTML(message)));
+  container.scrollTop(container.get(0).scrollHeight);
+  return container;
 };
 IRC.Util.isBlank = function(val) {
   return val == null || val == '';

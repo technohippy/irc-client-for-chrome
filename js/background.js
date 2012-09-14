@@ -1,5 +1,5 @@
 chrome.app.runtime.onLaunched.addListener(function() {
-  chrome.app.window.create('window.html', {
+  chrome.app.window.create('/html/window.html', {
     'width': 700,
     'minWidth': 700,
     'maxWidth': 700,
