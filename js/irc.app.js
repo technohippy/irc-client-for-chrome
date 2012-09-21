@@ -50,8 +50,6 @@ IRC.App.prototype.getCurrentChannel = function() {
   }
 };
 IRC.App.prototype.focus = function(serverNick, channelName, force) {
-console.log('>> focus', serverNick, channelName, force);
-console.log('>> focus', this.getServer(serverNick));
   if (force || this.getServer(serverNick).hasChannel(channelName)) {
     this.currentServerNick = serverNick;
     this.currentChannelName = channelName;

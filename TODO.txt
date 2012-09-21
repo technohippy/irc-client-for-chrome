@@ -1,7 +1,3 @@
-??
-- "content_security_policy": "img-src", 
-  - packaged appでは動作しない
-
 TODO
 - メッセージtimestampのz-indexを本文よりも小さく
 - @付きがaddされたときに@なし同名がいたら置き換える
@@ -32,6 +28,7 @@ TODO
 - 他の拡張機能に組み込めるようにAPI化
 
 DONE
+- 画像サムネイルの表示
 - 発言者の名前はニックネームから何かしらの数値を生成して色を変える
 - URLはリンクする
 - README
@@ -49,3 +46,9 @@ DONE
 - 多言語(chrome.getMessage)
 - 複数チャンネル
 - 複数サーバー
+
+MEMO
+- aタグを動的に追加する場合にはtarget=_blank必須
+- WebIntentsの引数に制限あり
+- "content_security_policy": "img-src", 
+  - packaged appでは動作しない

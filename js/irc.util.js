@@ -4,28 +4,56 @@ IRC.Util = {};
 IRC.Util.toColorClass = function(str) {
   return 'color' + (parseInt(str.toLowerCase().replace(/[^a-z0-9]/g, ''), 36) % 27);
 };
-IRC.Util.messageToHTML = function(message) {
-  var imageTags = '';
-  var htmlMessage = message.text.substring(1).replace('<', '&lt;');
-  htmlMessage = htmlMessage.replace(
-    /https?:\/\/([-a-zA-Z0-9_\.\/%=&?:;#]+)/, 
-    function(url, text) {
-      if (url.match(/\.(jpeg|jpg|png|gif)/i)) {
-        imageTags += '<br/><a href="' + url + '" target="_blank" title="' + url + '">' + 
-          '<img src="' + url + '"></a><br/>';
-      }
-      if (20 < text.length) text = text.substring(0, 20) + '...';
-      return '<a href="' + url + '" target="_blank" title="' + url + '">' + 
-        text + '</a>';
-    });
-  return '<div class="line ' + message.command.toLowerCase() + '">' +
-    '<span class="sender ' + IRC.Util.toColorClass(message.sender) + '">' + 
-    message.sender + '</span>' + 
-    '<span class="text">' + htmlMessage + imageTags + '</span>' +
-    '<span class="timestamp">' + message.timestamp.hm() + '</span></div>';
-};
 IRC.Util.appendMessage = function(container, message) {
-  container.append($(IRC.Util.messageToHTML(message)));
+  var lineElm = $('<div></div>')
+    .addClass('line')
+    .addClass(message.command.toLowerCase())
+    .appendTo(container);
+  var senderElm = $('<span></span>')
+    .addClass('sender')
+    .addClass(IRC.Util.toColorClass(message.sender))
+    .text(message.sender)
+    .appendTo(lineElm);
+  var textElm = $('<span></span>')
+    .addClass('text')
+    .appendTo(lineElm);
+  var timeElm = $('<span></span>')
+    .addClass('timestamp')
+    .text(message.timestamp.hm())
+    .appendTo(lineElm);
+
+  message = message.text.substring(1).replace('<', '&lt;');
+  while (true) {
+    if (message.match(/https?:\/\/([-a-zA-Z0-9_\.\/%=&?:;#]+)/)) {
+      var leftContext = RegExp.leftContext;
+      var url = RegExp.lastMatch;
+      var rightContext = RegExp.rightContext;
+      if (url.match(/\.(jpeg|jpg|png|gif)/i)) {
+        var label = url;
+        if (20 < label.length) label = label.substring(0, 20) + '...';
+        textElm
+          .append(leftContext)
+          .append('<a href="' + url + '" target="_blank">' + label + '</a>')
+          .append('<br/>');
+        var iframe = $('<iframe></iframe>')
+          .attr('src', 'image.html')
+          .appendTo(textElm);
+        iframe.get(0).contentWindow.postMessage({
+          src:url
+        }, '*');
+      }
+      else {
+        textElm
+          .append(leftContext)
+          .append('<a href="' + url + '" target="_blank">' + url + '</a>');
+      }
+      message = rightContext;
+    }
+    else {
+      break;
+    }
+  }
+  textElm.append(message);
   container.scrollTop(container.get(0).scrollHeight);
   return container;
 };
