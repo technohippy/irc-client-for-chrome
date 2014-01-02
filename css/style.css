@@ -38,7 +38,8 @@ li {
     .messages .line .sender {
       margin-right: 10px; }
     .messages .line .text {
-      color: #fff; }
+      color: #fff;
+      text-shadow: 2px 2px 2px #110022; }
       .messages .line .text a, .messages .line .text a:visited, .messages .line .text a:active, .messages .line .text a:hover {
         color: #aaf; }
       .messages .line .text img {
@@ -53,7 +54,8 @@ li {
     .messages .line .timestamp {
       color: gray;
       position: absolute;
-      right: 0; }
+      right: 0;
+      z-index: -1; }
   .messages .privmsg .text {
     color: #fff; }
   .messages .notice .text {

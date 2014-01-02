@@ -224,7 +224,7 @@ IRC.Server.prototype.connect = function() {
           }
         }
         else if (message.command == IRC.Errors.NICKNAMEINUSE) {
-          this.nick += '_';
+          this.nick += IRC.Settings.NICK_SUFFIX;
           this.forceSend(new IRC.Message('NICK', this.nick));
         }
         else if (message.command == IRC.Replies.ENDOFMOTD) {

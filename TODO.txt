@@ -1,21 +1,16 @@
 TODO
-- メッセージtimestampのz-indexを本文よりも小さく
 - @付きがaddされたときに@なし同名がいたら置き換える
-- jQuery
-- メッセージとログの横スクロールバーを非表示
 - アプリケーションアイコンはBJによろしくからお茶飲んでるシーンを拝借したい
 - オンライン/オフライン対応
   - navigator.onLine
   - document.body.addEventListener("offline", function () {}, false);
   - document.body.addEventListener("online", function () {}, false);
-- document.querySelector()
-- ログをchrome.storage.localに保存
-- ニックネームが衝突した場合につけるサフィックスを定数に
 - TOPIC表示
 - KICKされたとき対応
 - メンバーと個別に会話
 - IRC.Util.messageToHTMLの処理をconverterのチェーンに
 - ユーザー情報登録
+- テキストのコピペを可能に
 
 - ttsを使った読み上げ
 - webIntents
@@ -28,6 +23,11 @@ TODO
 - 他の拡張機能に組み込めるようにAPI化
 
 DONE
+- メッセージとログの横スクロールバーを非表示
+- ログをchrome.storage.localに保存
+- jQuery
+- メッセージtimestampのz-indexを本文よりも小さく
+- ニックネームが衝突した場合につけるサフィックスを定数に
 - 画像サムネイルの表示
 - 発言者の名前はニックネームから何かしらの数値を生成して色を変える
 - URLはリンクする

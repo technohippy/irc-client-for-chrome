@@ -44,6 +44,7 @@ li {
     }
     .text {
       color: #fff;
+      text-shadow:2px 2px 2px $background-color;
 
       a, a:visited, a:active, a:hover {
         color:#aaf;
@@ -64,6 +65,7 @@ li {
       color:gray;
       position:absolute;
       right:0;
+      z-index:-1;
     }
   }
   .privmsg {

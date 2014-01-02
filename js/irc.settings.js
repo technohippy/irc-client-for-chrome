@@ -27,6 +27,7 @@ IRC.Settings = function(server) {
 }
 IRC.Settings.MAX_MESSAGE_LOG = 10;
 IRC.Settings.KEY_SERVERS = 'servers';
+IRC.Settings.NICK_SUFFIX = '_';
 IRC.Settings.setupTestData = function() {
   var serverNick1 = 'freenode';
   var channels1 = ['#testmyclient1', '#testmyclient2'];
@@ -93,17 +94,17 @@ IRC.Settings.ifExists = function(thenCallback, elseCallback) {
   });
 };
 IRC.Settings.prototype.load = function(serverNick, callback) {
-  chrome.storage.sync.get(serverNick, function(item) {
-    if (!serverNick) return;
+  if (!serverNick) return this;
 
-    this.host = item[serverNick].host;
-    this.port = item[serverNick].port;
-    this.nick = item[serverNick].nick;
-    this.user = item[serverNick].user;
-    this.encoding = item[serverNick].encoding;
+  chrome.storage.sync.get(serverNick, function(items) {
+    this.host = items[serverNick].host;
+    this.port = items[serverNick].port;
+    this.nick = items[serverNick].nick;
+    this.user = items[serverNick].user;
+    this.encoding = items[serverNick].encoding;
     this.channels = [];
-    for (var i = 0; i < item[serverNick].channels.length; i++) {
-      var channel = item[serverNick].channels[i];
+    for (var i = 0; i < items[serverNick].channels.length; i++) {
+      var channel = items[serverNick].channels[i];
       if (typeof(channel) == 'string') this.channels.push(channel);
     }
     if (callback) callback(serverNick, this);

@@ -1,4 +1,4 @@
-<!doctype Html>
+<!doctype html>
 <html>
   <head>
   <script>
@@ -13,8 +13,8 @@
     image.alt = imageData.alt;
     image.title = imageData.title;
     image.src = imageData.src;
-    image.width = 200;
-    image.height = 150;
+    image.width = imageData.width || 200;
+    image.height = imageData.height || 150;
   });
   </script>
   <style>

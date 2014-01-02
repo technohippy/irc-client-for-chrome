@@ -38,9 +38,13 @@ IRC.Util.appendMessage = function(container, message) {
         var iframe = $('<iframe></iframe>')
           .attr('src', 'image.html')
           .appendTo(textElm);
-        iframe.get(0).contentWindow.postMessage({
-          src:url
-        }, '*');
+        setTimeout(function() {
+          iframe.get(0).contentWindow.postMessage({
+            src:url,
+            alt:url,
+            title:url
+          }, '*');
+        });
       }
       else {
         textElm
