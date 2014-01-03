@@ -2,7 +2,7 @@
   "name": "__MSG_appName__",
   "description": "__MSG_appDescription__",
   "manifest_version": 2,
-  "version": "0.1",
+  "version": "0.2",
   "default_locale": "en",
   "app": {
     "background": {
@@ -17,5 +17,5 @@
   "sandbox": {
     "pages": ["html/image.html"]
   },
-  "icons": { "16": "image/yunomi-16.png", "128": "image/yunomi-128.png" }
+  "icons": { "16": "image/img16.png", "128": "image/img128.png" }
 }
