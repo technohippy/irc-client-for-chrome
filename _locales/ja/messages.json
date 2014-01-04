@@ -1,7 +1,11 @@
 {
   "appName": {
-    "message": "黒茶",
+    "message": "黒茶 - IRCクライアント for Chrome",
     "description": "アプリケーション名"
+  },
+  "shortAppName": {
+    "message": "黒茶",
+    "description": "アプリケーション短縮名"
   },
   "appDescription": {
     "message": "Chrome用IRCクライアント",

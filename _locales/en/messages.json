@@ -1,7 +1,11 @@
 {
   "appName": {
-    "message": "ChroCha",
+    "message": "ChroCha - IRC client for Chrome",
     "description": "The name of the application"
+  },
+  "shortAppName": {
+    "message": "ChroCha",
+    "description": "The short name of the application"
   },
   "appDescription": {
     "message": "IRC Client for Chrome",

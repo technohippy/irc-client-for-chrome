@@ -14,21 +14,19 @@ li {
   list-style:none;
 }
 .container {
-  display:-webkit-box; 
-  height:100%; /* TODO */
+  display:-webkit-flex; 
   height:500px;
-  width:100%; /* TODO */
   width:700px;
 }
 .left-pane {
-  -webkit-box-flex:1;
-  -webkit-box-orient:vertical;
-  display:-webkit-box; 
+  -webkit-flex:1;
+  -webkit-flex-direction:column;
+  display:-webkit-flex; 
   overflow:hidden;
   border-right:$separator-border;
 }
 .messages {
-  -webkit-box-flex:1;
+  -webkit-flex:1;
   border-bottom:$separator-border;
   //overflow:scroll;
   overflow:auto;
@@ -115,12 +113,12 @@ li {
   }
 }
 .right-pane {
-  -webkit-box-orient:vertical;
-  display:-webkit-box; 
+  -webkit-flex-direction:column;
+  display:-webkit-flex; 
   width:200px;
 }
 .members {
-  -webkit-box-flex:1;
+  -webkit-flex:1;
   border-bottom:$separator-border;
   //overflow:scroll;
   overflow:auto;
@@ -163,10 +161,10 @@ li {
 .server-settings {
   border-bottom:1px solid black;
 
-  -webkit-box-orient:vertical;
+  -webkit-flex-direction:column;
   -webkit-transition:top 0.3s linear;
   background:-webkit-gradient(linear, left top, left bottom, from(#aae), to(#669));
-  display:-webkit-box; 
+  display:-webkit-flex; 
   height:230px;
   left:0;
   position:absolute;
@@ -213,13 +211,13 @@ li {
   }
 
   .settings-body {
-    -webkit-box-flex:1;
-    display:-webkit-box; 
+    -webkit-flex:1;
+    display:-webkit-flex; 
     width:100%;
     padding:10px;
 
     .general-settings {
-      -webkit-box-flex:1;
+      -webkit-flex:1;
 
       input {
         width:85%;
