@@ -77,12 +77,6 @@ li {
     }
   }
 }
-.horizontal-separator {
-  width:100%;
-  height:1px;
-  background:red;
-  cursor:row-resize;
-}
 .command {
   background:$background-color;
   color:white;
@@ -151,6 +145,17 @@ li {
   .closed {
     color:gray;
   }
+}
+.horizontal-separator {
+  width:100%;
+  height:1px;
+  cursor:row-resize;
+}
+.vertical-separator {
+  width:1px;
+  height:100%;
+  margin-left:-1px;
+  cursor:col-resize;
 }
 .settings-background {
   position:absolute;
