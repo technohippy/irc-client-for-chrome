@@ -1,0 +1,67 @@
+{
+  "appName": {
+    "message": "ChroCha - Ein IRC Client für Chrome",
+    "description": "The name of the application"
+  },
+  "shortAppName": {
+    "message": "ChroCha",
+    "description": "The short name of the application"
+  },
+  "appDescription": {
+    "message": "Ein IRC Client für Chrome",
+    "description": "The description for the application"
+  },
+  "inputMessage": {
+    "message": "Eingeben Ihre Nachricht",
+    "description": "Prompt for a message"
+  },
+  "addNewServer": {
+    "message": "[Neu Server]",
+    "description": "The label for the button to add new server"
+  },
+  "ok": {
+    "message": "OK",
+    "description": "The label for the OK button"
+  },
+  "cancel": {
+    "message": "Abbrechen",
+    "description": "The label for the cancel button"
+  },
+  "servernick": {
+    "message": "Server Rufname",
+    "description": "The label for the server name"
+  },
+  "host": {
+    "message": "Host",
+    "description": "The placeholder for the input for a host name"
+  },
+  "port": {
+    "message": "Port",
+    "description": "The placeholder for the input for a port number"
+  },
+  "nick": {
+    "message": "Rufname",
+    "description": "The placeholder for the input for a nickname"
+  },
+  "user": {
+    "message": "Benutzername",
+    "description": "The placeholder for the input for a username"
+  },
+  "pass": {
+    "message": "Passwort",
+    "description": "The placeholder for the input for a password"
+  },
+  "addChannel": {
+    "message": "Ergänzen Gesprächskanälen",
+    "description": "The placeholder for the input for a channel name"
+  },
+
+  "online": {
+    "message": "Verbindung",
+    "description": "Warning message"
+  },
+  "warnOffline": {
+    "message": "Unverbindung",
+    "description": "Warning message"
+  }
+}
