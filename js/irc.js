@@ -5,6 +5,15 @@ window.addEventListener('load', function(evt) {
   //IRC.Settings.clearAllStorage();
   //IRC.Settings.setupTestData();
   ircApp = IRC.App.start();
+
+  /*
+  $('.horizontal-separator').mousedown(function(evt) {
+    console.log(evt);
+  });
+  $('.horizontal-separator').mouseup(function(evt) {
+    console.log(evt);
+  });
+  */
 });
 /*
 window.addEventListener('unload', function(evt) {
