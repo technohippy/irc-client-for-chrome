@@ -17,19 +17,19 @@ window.addEventListener('load', function(evt) {
     mouseMoving = 'container';
   });
   $('.container').mousemove(function(evt) {
-    if (mouseMoving != null) {
-      if (mouseMoving == 'left-pane') {
-        var height = parseInt($('.container').css('height'));
-        $('.logs').css('height', (height - evt.pageY - 2) + 'px');
-      }
-      else if (mouseMoving == 'right-pane') {
-        var height = parseInt($('.container').css('height'));
-        $('.channels').css('height', (height - evt.pageY - 2) + 'px');
-      }
-      else if (mouseMoving == 'container') {
-        var width = parseInt($('.container').css('width'));
-        $('.right-pane').css('width', (width - evt.pageX - 1) + 'px');
-      }
+    if (mouseMoving == null) return;
+
+    if (mouseMoving == 'left-pane') {
+      var height = parseInt($('.container').css('height'));
+      $('.logs').css('height', (height - evt.pageY - 2) + 'px');
+    }
+    else if (mouseMoving == 'right-pane') {
+      var height = parseInt($('.container').css('height'));
+      $('.channels').css('height', (height - evt.pageY - 2) + 'px');
+    }
+    else if (mouseMoving == 'container') {
+      var width = parseInt($('.container').css('width'));
+      $('.right-pane').css('width', (width - evt.pageX - 1) + 'px');
     }
   });
   $('.container').mouseup(function(evt) {

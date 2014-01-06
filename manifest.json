@@ -3,7 +3,7 @@
   "short_name": "__MSG_shortAppName__",
   "description": "__MSG_appDescription__",
   "manifest_version": 2,
-  "version": "0.5",
+  "version": "0.6",
   "default_locale": "en",
   "app": {
     "background": {
