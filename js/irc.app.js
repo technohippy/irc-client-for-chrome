@@ -196,6 +196,13 @@ IRC.App.prototype.storeMessage = function(message) {
     chrome.storage.local.set(data);
   });
 };
+IRC.App.setBounds = function(bounds, shouldSetBounds) {
+  var win = chrome.app.window.current();
+  if (shouldSetBounds) win.setBounds(bounds);
+  var container = win.contentWindow.document.getElementsByClassName("container")[0];
+  container.style.width = bounds.width + 'px';
+  container.style.height = bounds.height + 'px';
+};
 IRC.App.start = function() {
   var app = new IRC.App();
   chrome.storage.local.get('current', function(data) {
@@ -303,6 +310,79 @@ IRC.App.start = function() {
   $('#add-new-server').click(function() {
     this.settingsApp.open();
   }.bind(app));
+
+  // window appearance
+  chrome.storage.local.get('frame', function(data) {
+    if (data.frame) {
+      if (data.frame.bounds) {
+        IRC.App.setBounds(data.frame.bounds, true);
+      }
+      if (data.frame.logsHeight) {
+        $('.logs').css('height', data.frame.logsHeight);
+      }
+      if (data.frame.channelsHeight) {
+        $('.channels').css('height', data.frame.channelsHeight);
+      }
+      if (data.frame.rightPaneWidth) {
+        $('.right-pane').css('width', data.frame.rightPaneWidth);
+      }
+    }
+  }.bind(app));
+
+  var win = chrome.app.window.current();
+  win.onBoundsChanged.addListener(function() {
+    var bounds = win.getBounds();
+    IRC.App.setBounds(bounds);
+    chrome.storage.local.get('frame', function(data) {
+      if (data['frame'] == null) data['frame'] = {};
+      data['frame']['bounds'] = bounds;
+      chrome.storage.local.set(data);
+    });
+  });
+
+  // change page sizes
+  var mouseMoving = null;
+  $('.left-pane .horizontal-separator').mousedown(function(evt) {
+    mouseMoving = 'left-pane';
+  });
+
+  $('.right-pane .horizontal-separator').mousedown(function(evt) {
+    mouseMoving = 'right-pane';
+  });
+
+  $('.container .vertical-separator').mousedown(function(evt) {
+    mouseMoving = 'container';
+  });
+
+  $('.container').mousemove(function(evt) {
+    if (mouseMoving == null) return;
+
+    if (mouseMoving == 'left-pane') {
+      var height = parseInt($('.container').css('height'));
+      $('.logs').css('height', (height - evt.pageY - 2) + 'px');
+    }
+    else if (mouseMoving == 'right-pane') {
+      var height = parseInt($('.container').css('height'));
+      $('.channels').css('height', (height - evt.pageY - 2) + 'px');
+    }
+    else if (mouseMoving == 'container') {
+      var width = parseInt($('.container').css('width'));
+      $('.right-pane').css('width', (width - evt.pageX - 1) + 'px');
+    }
+  });
+
+  $('.container').mouseup(function(evt) {
+    if (mouseMoving) {
+      mouseMoving = null;
+      chrome.storage.local.get('frame', function(data) {
+        if (data['frame'] == null) data['frame'] = {};
+        data['frame']['logsHeight'] = $('.logs').css('height');
+        data['frame']['channelsHeight'] = $('.channels').css('height');
+        data['frame']['rightPaneWidth'] = $('.right-pane').css('width');
+        chrome.storage.local.set(data);
+      });
+    }
+  });
 
   return app;
 };
