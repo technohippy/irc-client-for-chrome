@@ -15,6 +15,14 @@
     "message": "Eingeben Ihre Nachricht",
     "description": "Prompt for a message"
   },
+  "whoIs": {
+    "message": "Whois",
+    "description": "WHOIS command"
+  },
+  "privateMessage": {
+    "message": "Private Message",
+    "description": "PRIVMSG command"
+  },
   "addNewServer": {
     "message": "[Neu Server]",
     "description": "The label for the button to add new server"

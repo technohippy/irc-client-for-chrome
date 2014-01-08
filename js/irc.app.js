@@ -49,6 +49,18 @@ IRC.App.prototype.getCurrentChannel = function() {
     return null;
   }
 };
+IRC.App.prototype.addMember = function(member) {
+  var liElm = $('<li/>')
+    .addClass(IRC.Util.toColorClass(member))
+    .text(member)
+    .appendTo(this.membersElm);
+
+  liElm.click(function(evt) {
+    console.log(evt);
+    console.log(evt.target.innerHTML);
+    IRC.App.MENU.show(evt.target.innerHTML, evt.pageX, evt.pageY);
+  });
+};
 IRC.App.prototype.focus = function(serverNick, channelName, force) {
   if (force || this.getServer(serverNick).hasChannel(channelName)) {
     this.currentServerNick = serverNick;
@@ -63,11 +75,7 @@ IRC.App.prototype.focus = function(serverNick, channelName, force) {
     }
     this.membersElm.text('');
     for (var i = 0; i < channel.members.length; i++) {
-      var member = channel.members[i];
-      $('<li/>')
-        .addClass(IRC.Util.toColorClass(member))
-        .text(member)
-        .appendTo(this.membersElm);
+      this.addMember(channel.members[i]);
     }
 
     var channels = $('.channel');
@@ -112,6 +120,14 @@ IRC.App.prototype.replyListener = function(reply) {
     // TODO
     this.storeMessage(reply);
   }
+  else if (0 <= [IRC.Replies.WHOISUSER, IRC.Replies.WHOISSERVER, 
+            IRC.Replies.WHOISOPERATOR, IRC.Replies.WHOISCHANOP, IRC.Replies.WHOISIDLE, 
+            IRC.Replies.ENDOFWHOIS, IRC.Replies.WHOISCHANNELS].indexOf(reply.command)) {
+    reply.command = 'notice';
+    reply.sender = '[WHOIS]';
+    reply.text = reply.params.join(' ');
+    IRC.Util.appendMessage(this.messagesElm, reply);
+  }
 
   this.log(reply);
 };
@@ -120,11 +136,7 @@ IRC.App.prototype.memberListener = function(eventType, members, channel) {
     if (channel.name == this.currentChannelName) {
       if (!Array.isArray(members)) members = [members];
       for (var i = 0; i < members.length; i++) {
-        var member = members[i];
-        $('<li/>')
-          .addClass(IRC.Util.toColorClass(member))
-          .text(member)
-          .appendTo(this.membersElm);
+        this.addMember(members[i]);
       }
     }
   }
@@ -282,7 +294,10 @@ IRC.App.start = function() {
       var text = evt.target.value;
       if (text.replace(/\s+/, '').length == 0) return;
       var message;
-      if (text.match(/^\/(.+)/)) {
+      if (text == '//version') {
+        message = '[ChroCha] Ver. ' + IRC.VERSION;
+      }
+      else if (text.match(/^\/(.+)/)) {
         // TODO
         message = RegExp.$1;
         this.getCurrentServer().send(message);

@@ -25,7 +25,7 @@ IRC.Settings = function(server) {
     this.channels = [];
   }
 }
-IRC.Settings.MAX_MESSAGE_LOG = 10;
+IRC.Settings.MAX_MESSAGE_LOG = 100;
 IRC.Settings.KEY_SERVERS = 'servers';
 IRC.Settings.NICK_SUFFIX = '_';
 IRC.Settings.setupTestData = function() {

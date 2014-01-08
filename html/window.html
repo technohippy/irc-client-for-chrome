@@ -14,6 +14,7 @@
     <script src="../js/irc/irc.server.js"></script>
     <script src="../js/irc.util.js"></script>
     <script src="../js/irc.app.js"></script>
+    <script src="../js/irc.app.menu.js"></script>
     <script src="../js/irc.settings.js"></script>
     <script src="../js/irc.app.settings.js"></script>
     <script src="../js/irc.js"></script>
@@ -25,7 +26,7 @@
       <div class="left-pane">
         <div class="messages">
         </div>
-        <input id="command" class="command translate" placeholder="inputMessage"></input>
+        <input id="command" class="command translate" placeholder="inputMessage" x-webkit-speech></input>
         <div class="horizontal-separator"></div>
         <div class="logs">
         </div>
@@ -39,6 +40,13 @@
           <li id="add-new-server" class="translate">addNewServer</li>
         </ul>
       </div>
+    </div>
+    <div id="member-menu">
+      <h2 class="member-menu-name"></h2>
+      <ul>
+        <li class="who-is translate">whoIs</li>
+        <li class="private-message translate">privateMessage</li>
+      </ul>
     </div>
     <div id="settings-background" class="settings-background"></div>
     <div class="server-settings">

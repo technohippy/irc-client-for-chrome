@@ -15,6 +15,14 @@
     "message": "メッセージを入力して下さい",
     "description": "メッセージプロンプト"
   },
+  "whoIs": {
+    "message": "Whois",
+    "description": "WHOIS command"
+  },
+  "privateMessage": {
+    "message": "Private Message",
+    "description": "PRIVMSG command"
+  },
   "addNewServer": {
     "message": "[サーバー追加]",
     "description": "サーバー追加ボタンラベル"
