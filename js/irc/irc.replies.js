@@ -72,3 +72,9 @@ IRC.Replies = {
 IRC.isReply = function(command) {
   return command.match(/^[23]\d{2}$/);
 };
+
+IRC.isWhoisReply = function(command) {
+  return 0 <= [IRC.Replies.WHOISUSER, IRC.Replies.WHOISSERVER, 
+            IRC.Replies.WHOISOPERATOR, IRC.Replies.WHOISCHANOP, IRC.Replies.WHOISIDLE, 
+            /*IRC.Replies.ENDOFWHOIS,*/ IRC.Replies.WHOISCHANNELS].indexOf(command);
+};

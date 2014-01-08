@@ -24,7 +24,8 @@ IRC.App.Settings = function(app) {
     for (var i = 0; i < this.channelsElm.childNodes.length; i++) {
       var li = this.channelsElm.childNodes[i];
       if (li.nodeName != 'LI') continue;
-      this.settings.channels.push(li.childNodes[0].textContent);
+      var channel = li.childNodes[0].textContent;
+      this.settings.channels.push(channel);
     }
 
     if (!this.settings.isReady()) return;

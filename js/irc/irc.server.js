@@ -136,6 +136,11 @@ IRC.Server.prototype.send = function(message, force, callback) {
 
   if (force || this.ready) {
     this.tcpClient.sendMessage(message.toString(), callback);
+    if (message.command == 'PART') {
+      for (var j = 0; j < this.channelListeners.length; j++) {
+        this.channelListeners[j](IRC.Events.CHANNEL_REMOVED, this.getChannel(message.params[0]));
+      }
+    }
   }
   else {
     this.reservedCommands.push([message, callback]);

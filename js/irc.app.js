@@ -56,8 +56,6 @@ IRC.App.prototype.addMember = function(member) {
     .appendTo(this.membersElm);
 
   liElm.click(function(evt) {
-    console.log(evt);
-    console.log(evt.target.innerHTML);
     IRC.App.MENU.show(evt.target.innerHTML, evt.pageX, evt.pageY);
   });
 };
@@ -120,9 +118,7 @@ IRC.App.prototype.replyListener = function(reply) {
     // TODO
     this.storeMessage(reply);
   }
-  else if (0 <= [IRC.Replies.WHOISUSER, IRC.Replies.WHOISSERVER, 
-            IRC.Replies.WHOISOPERATOR, IRC.Replies.WHOISCHANOP, IRC.Replies.WHOISIDLE, 
-            /*IRC.Replies.ENDOFWHOIS,*/ IRC.Replies.WHOISCHANNELS].indexOf(reply.command)) {
+  else if (IRC.isWhoisReply(reply.command)) {
     reply.command = 'notice';
     reply.sender = '[WHOIS]';
     reply.text = reply.params.join(' ');
@@ -185,9 +181,10 @@ IRC.App.prototype.channelListener = function(eventType, channels) {
       var channel = channels[channelName];
       // TODO
       var serverUlElm = $('#server-' + channel.server.serverNick + ' ul');
-      for (var serverLiElm in serverUlElm.children('li')) {
-        if (serverLiElm.text() == channelName) {
-          serverUlElm.remote(serverLiElm);
+      for (var i in serverUlElm.children('li')) {
+        var serverLiElm = serverUlElm.children('li')[i];
+        if (serverLiElm.innerText == channelName) {
+          serverUlElm.get(0).removeChild(serverLiElm);
         }
       }
     }
