@@ -5,7 +5,8 @@ ChroCha (黒茶)
 
 Install
 -----------------
-https://chrome.google.com/webstore/detail/chrocha-irc-client-for-ch/eoajgjnmcikichkdpkjkpgoejkglinbd?
+
+https://chrome.google.com/webstore/detail/chrocha-irc-client-for-ch/eoajgjnmcikichkdpkjkpgoejkglinbd
 
 Libs from
 -----------------

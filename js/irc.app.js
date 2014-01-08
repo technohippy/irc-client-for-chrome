@@ -122,7 +122,7 @@ IRC.App.prototype.replyListener = function(reply) {
   }
   else if (0 <= [IRC.Replies.WHOISUSER, IRC.Replies.WHOISSERVER, 
             IRC.Replies.WHOISOPERATOR, IRC.Replies.WHOISCHANOP, IRC.Replies.WHOISIDLE, 
-            IRC.Replies.ENDOFWHOIS, IRC.Replies.WHOISCHANNELS].indexOf(reply.command)) {
+            /*IRC.Replies.ENDOFWHOIS,*/ IRC.Replies.WHOISCHANNELS].indexOf(reply.command)) {
     reply.command = 'notice';
     reply.sender = '[WHOIS]';
     reply.text = reply.params.join(' ');

@@ -22,9 +22,12 @@ IRC.App.Menu.prototype.hide = function() {
 };
 
 IRC.App.Menu.prototype.showWhoIs = function() {
-  // TODO
+  // TODO: ircApp (global object)
   ircApp.getCurrentServer().send(new IRC.Message('WHOIS', this.member));
 };
 
 IRC.App.Menu.prototype.sendPrivateMessage = function() {
+  // TODO: ircApp (global object)
+  ircApp.getCurrentServer().getOrCreateChannel(this.member);
+  ircApp.focus(ircApp.currentServerNick, this.member);
 };
