@@ -3,6 +3,10 @@ ChroCha (黒茶)
 
 ![Screenshot](https://raw.github.com/technohippy/irc-client-for-chrome/master/doc/img/chrocha_main_en.png)
 
+Install
+-----------------
+https://chrome.google.com/webstore/detail/chrocha-irc-client-for-ch/eoajgjnmcikichkdpkjkpgoejkglinbd?
+
 Libs from
 -----------------
 
