@@ -56,7 +56,7 @@ IRC.App.prototype.addMember = function(member) {
     .appendTo(this.membersElm);
 
   liElm.click(function(evt) {
-    IRC.App.MENU.show(evt.target.innerHTML, evt.pageX, evt.pageY);
+    IRC.App.MENU.show(evt.target.innerHTML.replace(/^@/, ''), evt.pageX, evt.pageY);
   });
 };
 IRC.App.prototype.focus = function(serverNick, channelName, force) {
