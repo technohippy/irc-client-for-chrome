@@ -7,7 +7,6 @@ window.addEventListener('load', function(evt) {
   //IRC.Settings.clearAllStorage();
   //IRC.Settings.setupTestData();
   
-  IRC.App.MENU = new IRC.App.Menu();
   ircApp = IRC.App.start();
 });
 /*

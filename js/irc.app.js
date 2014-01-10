@@ -50,14 +50,36 @@ IRC.App.prototype.getCurrentChannel = function() {
   }
 };
 IRC.App.prototype.addMember = function(member) {
+  /*
+  var liElm = $('<li/>')
+    .addClass(IRC.Util.toColorClass(member))
+    .text(member);
+  //var lis = this.membersElm.find('li');
+  var lis = $('.members li');
+  if (lis.size() == 0) {
+    liElm.appendTo(this.membersElm);
+  }
+  else {
+    for (var i = 0; i < lis.size(); i++) {
+      var li = lis.get(i);
+      //if (member < li.innerText) $(li).before(liElm);
+      if (li.innerText < member) $(li).after(liElm);
+    }
+  }
+  */
+  /*
   var liElm = $('<li/>')
     .addClass(IRC.Util.toColorClass(member))
     .text(member)
     .appendTo(this.membersElm);
-
-  liElm.click(function(evt) {
-    IRC.App.MENU.show(evt.target.innerHTML.replace(/^@/, ''), evt.pageX, evt.pageY);
-  });
+  */
+  var liElm = $('<li/>')
+  //var liElm = $('<li>' + member + '<button class="private-message-button">!</button><button class="whois-button">?</button></li>')
+    .addClass(IRC.Util.toColorClass(member))
+    .append(member)
+    .append($('<button/>').addClass('private-message-button'))
+    .append($('<button/>').addClass('whois-button'))
+    .appendTo(this.membersElm);
 };
 IRC.App.prototype.focus = function(serverNick, channelName, force) {
   if (force || this.getServer(serverNick).hasChannel(channelName)) {
@@ -317,6 +339,17 @@ IRC.App.start = function() {
       this.log(message);
       evt.target.value = '';
     }
+  }.bind(app));
+
+  $('.members li .private-message-button').live('click', function(evt) {
+    var member = $(evt.target).parent().contents().get(0).nodeValue.replace(/^@/, '');
+    this.getCurrentServer().getOrCreateChannel(member);
+    this.focus(ircApp.currentServerNick, member);
+  }.bind(app));
+
+  $('.members li .whois-button').live('click', function(evt) {
+    var member = $(evt.target).parent().contents().get(0).nodeValue.replace(/^@/, '');
+    this.getCurrentServer().send(new IRC.Message('WHOIS', member));
   }.bind(app));
 
   $('#add-new-server').click(function() {

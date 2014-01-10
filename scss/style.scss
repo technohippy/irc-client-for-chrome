@@ -30,8 +30,7 @@ li {
   border-bottom:$separator-border;
   //overflow:scroll;
   overflow:auto;
-  overflow-x:hidden;
-  padding:5px;
+    padding:5px;
 
   .line {
     width:100%;
@@ -125,8 +124,28 @@ li {
   overflow-x:hidden;
   padding:5px;
 
+  button {
+    float:right;
+    display:none;
+  }
+  button.private-message-button {
+    background-image:url(../image/privatemessage20.png);
+  }
+  button.whois-button {
+    background-image:url(../image/whois20.png);
+  }
+
   :hover {
     background:#006;
+    button {
+      display:inline;
+      width:12px;
+      height:12px;
+      border:none;
+      background-color:transparent;
+      background-size:contain;
+      margin:1px;
+    }
   }
   .selected {
     background:#009;

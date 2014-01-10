@@ -44,7 +44,7 @@ IRC.Util.appendMessage = function(container, message) {
             alt:url,
             title:url
           }, '*');
-        });
+        }, 500);
       }
       else {
         textElm

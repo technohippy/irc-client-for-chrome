@@ -26,7 +26,6 @@ li {
   -webkit-flex: 1;
   border-bottom: 1px solid #bbbbbb;
   overflow: auto;
-  overflow-x: hidden;
   padding: 5px; }
   .messages .line {
     width: 100%;
@@ -94,8 +93,23 @@ li {
   overflow: auto;
   overflow-x: hidden;
   padding: 5px; }
+  .members button {
+    float: right;
+    display: none; }
+  .members button.private-message-button {
+    background-image: url(../image/privatemessage20.png); }
+  .members button.whois-button {
+    background-image: url(../image/whois20.png); }
   .members :hover {
     background: #006; }
+    .members :hover button {
+      display: inline;
+      width: 12px;
+      height: 12px;
+      border: none;
+      background-color: transparent;
+      background-size: contain;
+      margin: 1px; }
   .members .selected {
     background: #009; }
 
