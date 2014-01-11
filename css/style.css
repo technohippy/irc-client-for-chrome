@@ -110,6 +110,10 @@ li {
       background-color: transparent;
       background-size: contain;
       margin: 1px; }
+    .members :hover button.private-message-button:hover {
+      background-image: url(../image/privatemessage20_g.png); }
+    .members :hover button.whois-button:hover {
+      background-image: url(../image/whois20_g.png); }
   .members .selected {
     background: #009; }
 

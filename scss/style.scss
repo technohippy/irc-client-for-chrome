@@ -146,6 +146,12 @@ li {
       background-size:contain;
       margin:1px;
     }
+    button.private-message-button:hover {
+      background-image:url(../image/privatemessage20_g.png);
+    }
+    button.whois-button:hover {
+      background-image:url(../image/whois20_g.png);
+    }
   }
   .selected {
     background:#009;
