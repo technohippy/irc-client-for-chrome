@@ -279,7 +279,7 @@ IRC.Server.prototype.disconnect = function(afterDisconnect) {
     this.tcpClient.disconnect(afterDisconnect);
   }
   else {
-    afterDisconnect();
+    if (afterDisconnect) afterDisconnect();
   }
 };
 IRC.Server.prototype.reconnect = function() {

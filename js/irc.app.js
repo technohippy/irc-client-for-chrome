@@ -112,6 +112,7 @@ IRC.App.prototype.isFocused = function() {
   return this.currentServerNick != null;
 };
 IRC.App.prototype.log = function(obj, cls) {
+  if (typeof obj == 'undefined') return;
   if (!cls) cls = 'message'; 
   var message = obj.toString();
   if (message.match(/^__(.+)__$/)) {
@@ -358,6 +359,8 @@ IRC.App.start = function() {
         IRC.Settings.clearAllStorage();
         message = '[ChroCha] Clean settings';
       }
+      //else if (text == '//reload') {
+      //}
       else if (text.match(/^\/(.+)/)) {
         // TODO
         message = RegExp.$1;
