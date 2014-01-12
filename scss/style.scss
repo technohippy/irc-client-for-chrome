@@ -169,6 +169,28 @@ li {
     .channel {
       font-weight:normal;
       margin-left:10px;
+
+      button {
+        float:right;
+        display:none;
+        background-image:url(../image/leave20.png);
+      }
+    }
+
+    .channel:hover {
+      background:#006;
+      button {
+        display:inline;
+        width:12px;
+        height:12px;
+        border:none;
+        background-color:transparent;
+        background-size:contain;
+        margin:1px;
+      }
+      button:hover {
+        background-image:url(../image/leave20_g.png);
+      }
     }
     .selected {
       background:#009;

@@ -74,7 +74,6 @@ IRC.App.prototype.addMember = function(member) {
     .appendTo(this.membersElm);
   */
   var liElm = $('<li/>')
-  //var liElm = $('<li>' + member + '<button class="private-message-button">!</button><button class="whois-button">?</button></li>')
     .addClass(IRC.Util.toColorClass(member))
     .append(member)
     .append($('<button/>').addClass('private-message-button'))
@@ -184,6 +183,7 @@ IRC.App.prototype.channelListener = function(eventType, channels) {
       var channel = channels[channelName];
       var serverElm = $('#server-' + channel.server.serverNick);
       var serverUlElm = $('#server-' + channel.server.serverNick + ' ul');
+/*
       var channelLiElm = $('<li/>')
         .text(channelName)
         .addClass('channel')
@@ -195,10 +195,44 @@ IRC.App.prototype.channelListener = function(eventType, channels) {
           evt.stopPropagation();
         }.bind(this))
         .appendTo(serverUlElm);
+*/
+      var channelLiElm = $('<li/>')
+        .addClass('channel')
+        .append(channelName)
+        .append($('<button/>').addClass('leave-button').click(function(evt) {
+          evt.stopPropagation();
+          // TODO
+          var channelName = $(evt.target).parent().contents().get(0).nodeValue;
+          var settings = new IRC.Settings(channel.server);
+          for (var i = 0; i < settings.channels.length; i++) {
+            if (settings.channels[i] == channelName) {
+              settings.channels.splice(i, 1);
+              break;
+            }
+          }
+          settings.save();
+          channel.server.send(new IRC.Message('PART', channelName));
+        }.bind(this)))
+        .click(function(evt) {
+          evt.stopPropagation();
+          // TODO
+          var channelName = $(evt.target).contents().get(0).nodeValue;
+          this.focus(channel.server.serverNick, channelName);
+        }.bind(this))
+        .bind('contextmenu', function(evt) {
+          evt.stopPropagation();
+        }.bind(this))
+        .appendTo(serverUlElm);
       if (channelName == this.currentChannelName) channelLiElm.addClass('selected');
     }
   }
   else if (eventType == IRC.Events.CHANNEL_REMOVED) {
+    if (!Array.isArray(channels)) {
+      var obj = {};
+      obj[channels.name] = channels;
+      channels = obj;
+    }
+
     for (var channelName in channels) {
       var channel = channels[channelName];
       // TODO
@@ -268,6 +302,10 @@ IRC.App.start = function() {
           });
 
           this.addServer(serverNick, server);
+          if (settings.channels.length == 0) {
+            this.settingsApp.open();
+            return;
+          }
           if (!this.isFocused()) {
             setTimeout(function() {
               this.focus(serverNick, settings.channels[0]);
@@ -316,6 +354,10 @@ IRC.App.start = function() {
       if (text == '//version') {
         message = '[ChroCha] Ver. ' + IRC.VERSION;
       }
+      else if (text == '//clear') {
+        IRC.Settings.clearAllStorage();
+        message = '[ChroCha] Clean settings';
+      }
       else if (text.match(/^\/(.+)/)) {
         // TODO
         message = RegExp.$1;
@@ -342,12 +384,14 @@ IRC.App.start = function() {
   }.bind(app));
 
   $('.members li .private-message-button').live('click', function(evt) {
+    // TODO
     var member = $(evt.target).parent().contents().get(0).nodeValue.replace(/^@/, '');
     this.getCurrentServer().getOrCreateChannel(member);
     this.focus(ircApp.currentServerNick, member);
   }.bind(app));
 
   $('.members li .whois-button').live('click', function(evt) {
+    // TODO
     var member = $(evt.target).parent().contents().get(0).nodeValue.replace(/^@/, '');
     this.getCurrentServer().send(new IRC.Message('WHOIS', member));
   }.bind(app));

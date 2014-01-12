@@ -127,6 +127,22 @@ li {
     .channels .server .channel {
       font-weight: normal;
       margin-left: 10px; }
+      .channels .server .channel button {
+        float: right;
+        display: none;
+        background-image: url(../image/leave20.png); }
+    .channels .server .channel:hover {
+      background: #006; }
+      .channels .server .channel:hover button {
+        display: inline;
+        width: 12px;
+        height: 12px;
+        border: none;
+        background-color: transparent;
+        background-size: contain;
+        margin: 1px; }
+      .channels .server .channel:hover button:hover {
+        background-image: url(../image/leave20_g.png); }
     .channels .server .selected {
       background: #009; }
     .channels .server .channel:hover {
