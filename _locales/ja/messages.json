@@ -16,12 +16,16 @@
     "description": "メッセージプロンプト"
   },
   "whoIs": {
-    "message": "Whois",
-    "description": "WHOIS command"
+    "message": "Whois表示",
+    "description": "WHOISボタンのツールチップ"
   },
   "privateMessage": {
-    "message": "Private Message",
-    "description": "PRIVMSG command"
+    "message": "プライベートメッセージ送信",
+    "description": "PRIVMSGボタンのツールチップ"
+  },
+  "leave": {
+    "message": "チャンネルから去る",
+    "description": "PARTボタンのツールチップ"
   },
   "addNewServer": {
     "message": "[サーバー追加]",

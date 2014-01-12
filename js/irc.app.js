@@ -76,8 +76,8 @@ IRC.App.prototype.addMember = function(member) {
   var liElm = $('<li/>')
     .addClass(IRC.Util.toColorClass(member))
     .append(member)
-    .append($('<button/>').addClass('private-message-button'))
-    .append($('<button/>').addClass('whois-button'))
+    .append($('<button/>').addClass('private-message-button').attr({'title':chrome.i18n.getMessage('privateMessage')}))
+    .append($('<button/>').addClass('whois-button').attr({'title':chrome.i18n.getMessage('whoIs')}))
     .appendTo(this.membersElm);
 };
 IRC.App.prototype.focus = function(serverNick, channelName, force) {
@@ -200,7 +200,7 @@ IRC.App.prototype.channelListener = function(eventType, channels) {
       var channelLiElm = $('<li/>')
         .addClass('channel')
         .append(channelName)
-        .append($('<button/>').addClass('leave-button').click(function(evt) {
+        .append($('<button/>').addClass('leave-button').attr({'title':chrome.i18n.getMessage('leave')}).click(function(evt) {
           evt.stopPropagation();
           // TODO
           var channelName = $(evt.target).parent().contents().get(0).nodeValue;

@@ -16,12 +16,16 @@
     "description": "Prompt for a message"
   },
   "whoIs": {
-    "message": "Whois",
-    "description": "WHOIS command"
+    "message": "Show Whois",
+    "description": "WHOIS button tooltip"
   },
   "privateMessage": {
-    "message": "Private Message",
-    "description": "PRIVMSG command"
+    "message": "Send Private Message",
+    "description": "PRIVMSG button tooltip"
+  },
+  "leave": {
+    "message": "Leave This Channel",
+    "description": "PART button tooltip"
   },
   "addNewServer": {
     "message": "[New Server]",
