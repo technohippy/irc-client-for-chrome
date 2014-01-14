@@ -363,8 +363,9 @@ IRC.App.start = function() {
         IRC.Settings.clearAllStorage();
         message = '[ChroCha] Clean settings';
       }
-      //else if (text == '//reload') {
-      //}
+      else if (text == '//reload') {
+        chrome.runtime.reload();
+      }
       else if (text.match(/^\/(.+)/)) {
         // TODO
         message = RegExp.$1;
