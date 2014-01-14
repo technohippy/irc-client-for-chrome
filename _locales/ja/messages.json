@@ -24,7 +24,7 @@
     "description": "PRIVMSGボタンのツールチップ"
   },
   "leave": {
-    "message": "チャンネルから去る",
+    "message": "退室",
     "description": "PARTボタンのツールチップ"
   },
   "addNewServer": {

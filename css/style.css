@@ -124,6 +124,10 @@ li {
   overflow-x: hidden; }
   .channels .server {
     font-weight: bold; }
+    .channels .server button.settings {
+      float: right;
+      display: none;
+      background-image: url(../image/settings20.png); }
     .channels .server .channel {
       font-weight: normal;
       margin-left: 10px; }
@@ -147,6 +151,18 @@ li {
       background: #009; }
     .channels .server .channel:hover {
       background: #006; }
+  .channels .server:hover {
+    /*background:#006;*/ }
+    .channels .server:hover button.settings {
+      display: inline;
+      width: 12px;
+      height: 12px;
+      border: none;
+      background-color: transparent;
+      background-size: contain;
+      margin: 1px; }
+    .channels .server:hover button.settings:hover {
+      background-image: url(../image/settings20_g.png); }
   .channels .closed {
     color: gray; }
 
@@ -220,20 +236,20 @@ li {
   .server-settings .settings-head {
     width: 100%;
     height: 30px;
-    padding: 5px;
     padding-top: 20px; }
     .server-settings .settings-head input {
       width: 70%;
-      float: left; }
+      float: left;
+      margin-left: 5px; }
     .server-settings .settings-head button {
       float: left; }
   .server-settings .settings-body {
     -webkit-flex: 1;
     display: -webkit-flex;
-    width: 100%;
-    padding: 10px; }
+    width: 100%; }
     .server-settings .settings-body .general-settings {
-      -webkit-flex: 1; }
+      -webkit-flex: 1;
+      margin-left: 10px; }
       .server-settings .settings-body .general-settings input {
         width: 85%; }
       .server-settings .settings-body .general-settings select {

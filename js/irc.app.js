@@ -17,9 +17,13 @@ IRC.App.prototype.addServer = function(serverNick, server) {
     .attr('id', 'server-' + serverNick)
     .addClass('server')
     .text(serverNick)
+    .append($('<button/>').addClass('settings').click(function(evt) {
+      this.settingsApp.open(server)
+    }.bind(this)))
     .append($('<ul/>'))
-    .click(function() {this.settingsApp.open(server)}.bind(this))
-    .bind('contextmenu', function(evt) {evt.preventDefault()}.bind(this))
+    .click(function() {
+      console.log('TODO: show notice for the server');
+    }.bind(this))
     .appendTo(this.channelsElm);
 
   server.serverNick = serverNick;

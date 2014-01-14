@@ -166,6 +166,12 @@ li {
   .server {
     font-weight:bold;
 
+    button.settings {
+      float:right;
+      display:none;
+      background-image:url(../image/settings20.png);
+    }
+
     .channel {
       font-weight:normal;
       margin-left:10px;
@@ -199,6 +205,24 @@ li {
       background:#006;
     }
   }
+
+  .server:hover {
+    /*background:#006;*/
+
+    button.settings {
+      display:inline;
+      width:12px;
+      height:12px;
+      border:none;
+      background-color:transparent;
+      background-size:contain;
+      margin:1px;
+    }
+    button.settings:hover {
+      background-image:url(../image/settings20_g.png);
+    }
+  }
+
   .closed {
     color:gray;
   }
@@ -287,12 +311,12 @@ li {
   .settings-head {
     width:100%;
     height:30px;
-    padding:5px;
     padding-top:20px;
 
     input {
       width:70%;
       float:left;
+      margin-left:5px;
     }
 
     button {
@@ -304,10 +328,10 @@ li {
     -webkit-flex:1;
     display:-webkit-flex; 
     width:100%;
-    padding:10px;
 
     .general-settings {
       -webkit-flex:1;
+      margin-left:10px;
 
       input {
         width:85%;
