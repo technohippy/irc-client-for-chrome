@@ -1,0 +1,115 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <!-- build:css styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+
+    <!-- build:js scripts/jquery.min.js -->
+    <script src="bower_components/jquery/jquery.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:js scripts/irc.lib.min.js -->
+    <script src="scripts/lib/encoding-indexes.js"></script>
+    <script src="scripts/lib/encoding.js"></script>
+    <script src="scripts/lib/tcp-client.js"></script>
+    <script src="scripts/lib/translate.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:js scripts/irc.min.js -->
+    <script src="scripts/irc/irc.errors.js"></script>
+    <script src="scripts/irc/irc.replies.js"></script>
+    <script src="scripts/irc/irc.events.js"></script>
+    <script src="scripts/irc/irc.message.js"></script>
+    <script src="scripts/irc/irc.channel.js"></script>
+    <script src="scripts/irc/irc.server.js"></script>
+    <script src="scripts/irc.util.js"></script>
+    <script src="scripts/irc.app.js"></script>
+    <script src="scripts/irc.settings.js"></script>
+    <script src="scripts/irc.app.settings.js"></script>
+    <script src="scripts/irc.js"></script>
+    <!-- endbuild -->
+
+    <title>IRC Client for Chrome</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="left-pane">
+        <div class="messages">
+        </div>
+        <input id="command" class="command translate" placeholder="inputMessage" x-webkit-speech></input>
+        <div class="horizontal-separator"></div>
+        <div class="logs">
+        </div>
+      </div>
+      <div class="vertical-separator"></div>
+      <div class="right-pane">
+        <ul class="members">
+        </ul>
+        <div class="horizontal-separator"></div>
+        <ul class="channels">
+          <li id="add-new-server" class="translate">addNewServer</li>
+        </ul>
+      </div>
+    </div>
+    <div id="member-menu">
+      <h2 class="member-menu-name"></h2>
+      <ul>
+        <li class="who-is translate">whoIs</li>
+        <li class="private-message translate">privateMessage</li>
+      </ul>
+    </div>
+    <div id="settings-background" class="settings-background"></div>
+    <div class="server-settings">
+      <div class="settings-head">
+        <input id="servernick" name="servernick" class="translate" placeholder="servernick" />
+        <button id="ok" class="translate">ok</button>
+        <button id="cancel" class="translate">cancel</button>
+      </div>
+      <div class="settings-body">
+        <div class="general-settings">
+          <input id="host" name="host" class="translate" placeholder="host" /><br />
+          <input id="port" name="port" class="translate" placeholder="port" value="6667" /><br />
+          <input id="nick" name="nick" class="translate" placeholder="nick" /><br />
+          <input id="user" name="user" class="translate" placeholder="user" /><br />
+          <input id="pass" name="pass" class="translate" placeholder="pass" />
+          <select id="encoding" name="encoding">
+            <option value="utf-8" selected="true">UTF8</option>
+
+            <option value="iso-8859-2">ISO-8859-2</option>
+            <option value="iso-8859-7">ISO-8859-7 (Greek)</option>
+            <option value="iso-8859-8">ISO-8859-8 (Hebrew)</option>
+            <!--option value="iso-8859-9">ISO-8859-9 (Turkish)</option-->
+            <!--option value="iso-8859-11">ISO-8859-11 (Thai)</option-->
+            <option value="iso-8859-15">ISO-8859-15</option>
+
+            <option value="iso-2022-jp">ISO-2022-JP (Japanese)</option>
+            <!--option value="cp949">CP949 (Korean)</option-->
+            <option value="euc-kr">EUC-KR (Korean)</option>
+            <option value="gbk">GBK (Chinese)</option>
+            <option value="gb18030">GB18030 (Chinese)</option>
+            <option value="big5">BIG5 (Chinese)</option>
+
+            <option value="koi8-u">KOI8-U (Ukrainian)</option>
+            <option value="koi8-r">KOI8-R (Cyrillic)</option>
+            <option value="windows-1251">WINDOWS-1251 (Cyrillic)</option>
+            <option value="windows-1256">WINDOWS-1256 (Arabic)</option>
+            <option value="windows-1257">WINDOWS-1257 (Baltic)</option>
+          </select>
+        </div>
+        <div class="channel-list">
+          <input id="new-channel" name="new-channel" class="translate" placeholder="addChannel" />
+          <button id="add-channel">+</button>
+          <ul id="channel-list">
+          </ul>
+        </div>
+        <div class="channel-settings">
+          <input type="password" id="password" name="password" placeholder="Password" /><br />
+          <input type="checkbox" id="join-on-connect" name="join-on-connect" />
+          <label for="join-on-connect">Join on connect</label>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

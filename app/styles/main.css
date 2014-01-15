@@ -1,0 +1,346 @@
+* {
+  margin: 0;
+  padding: 0; }
+
+body {
+  background: #110022;
+  color: white;
+  overflow: hidden; }
+
+li {
+  list-style: none; }
+
+.container {
+  display: -webkit-flex;
+  height: 500px;
+  width: 700px; }
+
+.left-pane {
+  -webkit-flex: 1;
+  -webkit-flex-direction: column;
+  display: -webkit-flex;
+  overflow: hidden;
+  border-right: 1px solid #bbbbbb; }
+
+.messages {
+  -webkit-flex: 1;
+  border-bottom: 1px solid #bbbbbb;
+  overflow: auto;
+  padding: 5px; }
+  .messages .line {
+    width: 100%;
+    position: relative; }
+    .messages .line .sender {
+      margin-right: 10px; }
+    .messages .line .text {
+      color: #fff;
+      text-shadow: 2px 2px 2px #110022; }
+      .messages .line .text a, .messages .line .text a:visited, .messages .line .text a:active, .messages .line .text a:hover {
+        color: #aaf; }
+      .messages .line .text img {
+        width: 200px;
+        height: 150px;
+        border: 1px solid white; }
+      .messages .line .text iframe {
+        width: 200px;
+        height: 150px;
+        border: 1px solid white;
+        margin-left: 10px; }
+    .messages .line .timestamp {
+      color: gray;
+      position: absolute;
+      right: 0;
+      z-index: -1; }
+  .messages .privmsg .text {
+    color: #fff; }
+  .messages .notice .text {
+    color: #999; }
+
+.command {
+  background: #110022;
+  color: white;
+  font-size: 12px;
+  height: 25px;
+  width: 98%;
+  padding: 0 5px;
+  border: none; }
+
+.logs {
+  border-top: 1px solid #bbbbbb;
+  font-size: 12px;
+  height: 150px;
+  overflow: auto;
+  overflow-x: hidden;
+  padding: 5px; }
+  .logs .timestamp {
+    color: gray;
+    margin-right: 5px; }
+  .logs .notice {
+    color: gray; }
+  .logs .warn {
+    color: red; }
+  .logs .error {
+    color: red; }
+
+.right-pane {
+  -webkit-flex-direction: column;
+  display: -webkit-flex;
+  width: 200px; }
+
+.members {
+  -webkit-flex: 1;
+  border-bottom: 1px solid #bbbbbb;
+  overflow: auto;
+  overflow-x: hidden;
+  padding: 5px; }
+  .members button {
+    float: right;
+    display: none; }
+  .members button.private-message-button {
+    background-image: url(../images/privatemessage20.png); }
+  .members button.whois-button {
+    background-image: url(../images/whois20.png); }
+  .members :hover {
+    background: #006; }
+    .members :hover button {
+      display: inline;
+      width: 12px;
+      height: 12px;
+      border: none;
+      background-color: transparent;
+      background-size: contain;
+      margin: 1px; }
+    .members :hover button.private-message-button:hover {
+      background-image: url(../images/privatemessage20_g.png); }
+    .members :hover button.whois-button:hover {
+      background-image: url(../images/whois20_g.png); }
+  .members .selected {
+    background: #009; }
+
+.channels {
+  height: 300px;
+  padding: 5px;
+  overflow: auto;
+  overflow-x: hidden; }
+  .channels .server {
+    font-weight: bold; }
+    .channels .server button.settings {
+      float: right;
+      display: none;
+      background-image: url(../images/settings20.png); }
+    .channels .server .channel {
+      font-weight: normal;
+      margin-left: 10px; }
+      .channels .server .channel button {
+        float: right;
+        display: none;
+        background-image: url(../images/leave20.png); }
+    .channels .server .channel:hover {
+      background: #006; }
+      .channels .server .channel:hover button {
+        display: inline;
+        width: 12px;
+        height: 12px;
+        border: none;
+        background-color: transparent;
+        background-size: contain;
+        margin: 1px; }
+      .channels .server .channel:hover button:hover {
+        background-image: url(../images/leave20_g.png); }
+    .channels .server .selected {
+      background: #009; }
+    .channels .server .channel:hover {
+      background: #006; }
+  .channels .server:hover {
+    /*background:#006;*/ }
+    .channels .server:hover button.settings {
+      display: inline;
+      width: 12px;
+      height: 12px;
+      border: none;
+      background-color: transparent;
+      background-size: contain;
+      margin: 1px; }
+    .channels .server:hover button.settings:hover {
+      background-image: url(../images/settings20_g.png); }
+  .channels .closed {
+    color: gray; }
+
+.horizontal-separator {
+  width: 100%;
+  height: 1px;
+  cursor: row-resize; }
+
+.vertical-separator {
+  width: 1px;
+  height: 100%;
+  margin-left: -1px;
+  cursor: col-resize; }
+
+#member-menu {
+  -webkit-box-shadow: 0 0 10px #CCC;
+  position: absolute;
+  border: 1px solid white;
+  background: #221144;
+  padding: 5px;
+  display: none;
+  z-index: 1000; }
+  #member-menu h2 {
+    font-size: 1.2em;
+    margin-bottom: 4px; }
+  #member-menu ul {
+    margin-left: 6px; }
+    #member-menu ul li:hover {
+      background: #006; }
+
+.settings-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 100, 0.5);
+  display: none; }
+
+.settings-background.show {
+  display: block; }
+
+.server-settings {
+  border-bottom: 1px solid black;
+  -webkit-flex-direction: column;
+  -webkit-transition: top 0.3s linear;
+  background: -webkit-gradient(linear, left top, left bottom, from(#aaaaee), to(#666699));
+  display: -webkit-flex;
+  height: 230px;
+  left: 0;
+  position: absolute;
+  top: -300px;
+  width: 350px;
+  left: 50%;
+  margin-left: -175px; }
+  .server-settings button {
+    border: 1px solid black;
+    border-radius: 2px;
+    color: white;
+    padding: 2px 5px;
+    margin-left: 3px;
+    background: -webkit-gradient(linear, left top, left bottom, from(#aaaaee), to(#666699));
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+    border-left: 1px solid rgba(255, 255, 255, 0.5);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+    border-right: 1px solid rgba(0, 0, 0, 0.5); }
+  .server-settings #channel-list li {
+    font-size: small; }
+  .server-settings #cancel, .server-settings #channel-list li button {
+    background: -webkit-gradient(linear, left top, left bottom, from(#eeaaaa), to(#996666)); }
+  .server-settings .settings-head {
+    width: 100%;
+    height: 30px;
+    padding-top: 20px; }
+    .server-settings .settings-head input {
+      width: 70%;
+      float: left;
+      margin-left: 5px; }
+    .server-settings .settings-head button {
+      float: left; }
+  .server-settings .settings-body {
+    -webkit-flex: 1;
+    display: -webkit-flex;
+    width: 100%; }
+    .server-settings .settings-body .general-settings {
+      -webkit-flex: 1;
+      margin-left: 10px; }
+      .server-settings .settings-body .general-settings input {
+        width: 85%; }
+      .server-settings .settings-body .general-settings select {
+        width: 85%; }
+    .server-settings .settings-body .channel-list {
+      width: 50%; }
+    .server-settings .settings-body .channel-settings {
+      width: 30%;
+      display: none; }
+
+.server-settings.show {
+  -webkit-box-shadow: 0 0 30px 3px black;
+  top: 0; }
+
+.color0 {
+  color: #bbb; }
+
+.color1 {
+  color: #bbd; }
+
+.color2 {
+  color: #bbf; }
+
+.color3 {
+  color: #bdb; }
+
+.color4 {
+  color: #bdd; }
+
+.color5 {
+  color: #bdf; }
+
+.color6 {
+  color: #bfb; }
+
+.color7 {
+  color: #bfd; }
+
+.color8 {
+  color: #bff; }
+
+.color9 {
+  color: #dbb; }
+
+.color10 {
+  color: #dbd; }
+
+.color11 {
+  color: #dbf; }
+
+.color12 {
+  color: #ddb; }
+
+.color13 {
+  color: #ddd; }
+
+.color14 {
+  color: #ddf; }
+
+.color15 {
+  color: #dfb; }
+
+.color16 {
+  color: #dfd; }
+
+.color17 {
+  color: #dff; }
+
+.color18 {
+  color: #fbb; }
+
+.color19 {
+  color: #fbd; }
+
+.color20 {
+  color: #fbf; }
+
+.color21 {
+  color: #fdb; }
+
+.color22 {
+  color: #fdd; }
+
+.color23 {
+  color: #fdf; }
+
+.color24 {
+  color: #ffb; }
+
+.color25 {
+  color: #ffd; }
+
+.color26 {
+  color: #fff; }
