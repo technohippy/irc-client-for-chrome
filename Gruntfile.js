@@ -78,8 +78,9 @@ module.exports = function (grunt) {
             },
             all: [
                 'Gruntfile.js',
-                //'<%= yeoman.app %>/scripts/{,*/}*.js',
-                //'test/spec/{,*/}*.js'
+                '<%= yeoman.app %>/scripts/*.js',
+                '<%= yeoman.app %>/scripts/irc/*.js',
+                'test/spec/{,*/}*.js'
             ]
         },
         mocha: {
@@ -283,7 +284,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('default', [
         'jshint',
-        //'test',
+        'test',
         'build'
     ]);
 };

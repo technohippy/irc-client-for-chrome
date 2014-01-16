@@ -1,6 +1,9 @@
 // http://www.irchelp.org/irchelp/ircii/server-numerics.txt
 // ref. http://www.mirc.net/raws/
-if (typeof(IRC) == 'undefined') var IRC = {};
+'use strict';
+
+var IRC;
+if (typeof IRC === 'undefined') IRC = {};
 
 IRC.Errors = {
   NOSUCHNICK: '401',

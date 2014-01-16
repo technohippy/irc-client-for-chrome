@@ -1,4 +1,7 @@
-if (typeof(IRC) == 'undefined' || !IRC.App) throw 'load error';
+'use strict';
+
+var IRC;
+if (typeof IRC === 'undefined' || !IRC.App) throw 'load error';
 
 IRC.App.Settings = function(app) {
   this.app = app;
@@ -21,9 +24,10 @@ IRC.App.Settings = function(app) {
   document.getElementById('ok').addEventListener('click', function() {
     // TODO
     this.settings.channels = [];
-    for (var i = 0; i < this.channelsElm.childNodes.length; i++) {
+    var i;
+    for (i = 0; i < this.channelsElm.childNodes.length; i++) {
       var li = this.channelsElm.childNodes[i];
-      if (li.nodeName != 'LI') continue;
+      if (li.nodeName !== 'LI') continue;
       var channel = li.childNodes[0].textContent;
       this.settings.channels.push(channel);
     }
@@ -34,34 +38,34 @@ IRC.App.Settings = function(app) {
     if (this.server) {
       // updated
       var shouldReconnect = false;
-      var shouldRejoin = false;
-      if (this.settings.serverNick != this.server.serverNick) {
+      //var shouldRejoin = false;
+      if (this.settings.serverNick !== this.server.serverNick) {
         document.querySelector('#server-' + this.server.serverNick
           ).childNodes[0].textContent = this.settings.serverNick;
         delete this.app.servers[this.server.serverNick];
         this.app.servers[this.settings.serverNick] = this.server;
         this.server.serverNick = this.settings.serverNick;
       }
-      if (this.settings.host != this.server.host) {
+      if (this.settings.host !== this.server.host) {
         this.server.disconnect();
         this.server.host = this.settings.host;
         shouldReconnect = true;
       }
-      if (this.settings.port != this.server.port) {
+      if (this.settings.port !== this.server.port) {
         this.server.disconnect();
-        this.server.port = parseInt(this.settings.port);
+        this.server.port = parseInt(this.settings.port, 10);
         shouldReconnect = true;
       }
-      if (this.settings.encoding != this.server.encoding) {
+      if (this.settings.encoding !== this.server.encoding) {
         this.server.disconnect();
         this.server.encoding = this.settings.encoding;
         shouldReconnect = true;
       }
-      if (this.settings.user != this.server.user) {
+      if (this.settings.user !== this.server.user) {
         // TODO
         this.server.user = this.settings.user;
       }
-      if (this.settings.nick != this.server.nick) {
+      if (this.settings.nick !== this.server.nick) {
         this.server.nick = this.settings.nick;
         this.server.send(new IRC.Message('NICK', this.server.nick));
       }
@@ -71,7 +75,7 @@ IRC.App.Settings = function(app) {
         serverChannels.push(channelName);
       }
       var removedChannels = [];
-      for (var i = 0; i < serverChannels.length; i++) {
+      for (i = 0; i < serverChannels.length; i++) {
         var serverChannelName = serverChannels[i];
         if (this.settings.channels.indexOf(serverChannelName) < 0) {
           removedChannels.push(serverChannelName);
@@ -79,7 +83,7 @@ IRC.App.Settings = function(app) {
         }
       }
       var addedChannels = [];
-      for (var i = 0; i < this.settings.channels.length; i++) {
+      for (i = 0; i < this.settings.channels.length; i++) {
         var settingsChannelName = this.settings.channels[i];
         if (serverChannels.indexOf(settingsChannelName) < 0) {
           addedChannels.push(settingsChannelName);
@@ -92,11 +96,11 @@ IRC.App.Settings = function(app) {
         this.server.joinAll();
       }
       else {
-        for (var i = 0; i < removedChannels.length; i++) {
+        for (i = 0; i < removedChannels.length; i++) {
           // TODO: removedChannels[i].part();
           this.server.send(new IRC.Message('PART', removedChannels[i]));
         }
-        for (var i = 0; i < addedChannels.length; i++) {
+        for (i = 0; i < addedChannels.length; i++) {
           // TODO: addedChannels[i].join();
           this.server.send(new IRC.Message('JOIN', addedChannels[i]));
         }
@@ -106,7 +110,7 @@ IRC.App.Settings = function(app) {
       // created
       var server = new IRC.Server(this.settings.host, this.settings.port, 
         this.settings.nick, this.settings.user, this.settings.pass, this.settings.encoding);
-      for (var i = 0; i < this.settings.channels.length; i++) {
+      for (i = 0; i < this.settings.channels.length; i++) {
         server.addChannel(this.settings.channels[i]);
       }
       this.app.addServer(this.settings.serverNick, server); // TODO

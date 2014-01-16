@@ -1,9 +1,12 @@
-if (typeof(IRC) == 'undefined' || !IRC.App) throw 'load error';
+'use strict';
 
-IRC.VERSION = chrome.runtime.getManifest()['version'];
+var IRC;
+if (typeof IRC === 'undefined' || !IRC.App) throw 'load error';
+
+IRC.VERSION = chrome.runtime.getManifest().version;
 
 var ircApp;
-window.addEventListener('load', function(evt) {
+window.addEventListener('load', function() {
   //IRC.Settings.clearAllStorage();
   //IRC.Settings.setupTestData();
   

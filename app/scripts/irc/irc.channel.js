@@ -1,4 +1,7 @@
-if (typeof(IRC) == 'undefined') var IRC = {};
+'use strict';
+
+var IRC;
+if (typeof IRC === 'undefined') IRC = {};
 
 IRC.Channel = function(server, name) {
   this.server = server;

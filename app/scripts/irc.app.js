@@ -1,4 +1,7 @@
-if (typeof(IRC) == 'undefined') var IRC = {};
+'use strict';
+
+var IRC;
+if (typeof IRC === 'undefined') IRC = {};
 
 IRC.App = function() {
   this.messagesElm = $('.messages');
@@ -10,15 +13,15 @@ IRC.App = function() {
   this.servers = {};
   this.currentServerNick = null;
   this.currentChannelName = null;
-}
+};
 IRC.App.DELAY = 100;
 IRC.App.prototype.addServer = function(serverNick, server) {
   $('<li/>')
     .attr('id', 'server-' + serverNick)
     .addClass('server')
     .text(serverNick)
-    .append($('<button/>').addClass('settings').click(function(evt) {
-      this.settingsApp.open(server)
+    .append($('<button/>').addClass('settings').click(function() {
+      this.settingsApp.open(server);
     }.bind(this)))
     .append($('<ul/>'))
     .click(function() {
@@ -60,7 +63,7 @@ IRC.App.prototype.addMember = function(member) {
     .text(member);
   //var lis = this.membersElm.find('li');
   var lis = $('.members li');
-  if (lis.size() == 0) {
+  if (lis.size() === 0) {
     liElm.appendTo(this.membersElm);
   }
   else {
@@ -77,7 +80,7 @@ IRC.App.prototype.addMember = function(member) {
     .text(member)
     .appendTo(this.membersElm);
   */
-  var liElm = $('<li/>')
+  $('<li/>')
     .addClass(IRC.Util.toColorClass(member))
     .append(member)
     .append($('<button/>').addClass('private-message-button').attr({'title':chrome.i18n.getMessage('privateMessage')}))
@@ -97,18 +100,18 @@ IRC.App.prototype.focus = function(serverNick, channelName, force) {
       IRC.Util.appendMessage(this.messagesElm, channel.messages[i]);
     }
     this.membersElm.text('');
-    for (var i = 0; i < channel.members.length; i++) {
+    for (i = 0; i < channel.members.length; i++) {
       this.addMember(channel.members[i]);
     }
 
     var channels = $('.channel');
-    for (var i = 0; i < channels.length; i++) {
-      var channel = $(channels[i]);
-      channel[channel.text() == channelName ? 'addClass' : 'removeClass']('selected');
+    for (i = 0; i < channels.length; i++) {
+      var channelElm = $(channels[i]);
+      channelElm[channelElm.text() === channelName ? 'addClass' : 'removeClass']('selected');
     }
   }
   else {
-    throw 'The channel named "' + channelName + 
+    throw 'The channel named "' + channelName +
       '" does not exist on the server named "' + serverNick + '."';
   }
 };
@@ -116,7 +119,7 @@ IRC.App.prototype.isFocused = function() {
   return this.currentServerNick != null;
 };
 IRC.App.prototype.log = function(obj, cls) {
-  if (typeof obj == 'undefined') return;
+  if (typeof obj === 'undefined') return;
   if (!cls) cls = 'message'; 
   var message = obj.toString();
   if (message.match(/^__(.+)__$/)) {
@@ -134,10 +137,10 @@ IRC.App.prototype.logWarn = function(obj) {
 IRC.App.prototype.replyListener = function(reply) {
   // TODO
   //console.log(reply.toString());
-  if (reply.command == 'PRIVMSG' || reply.command == 'NOTICE') {
+  if (reply.command === 'PRIVMSG' || reply.command === 'NOTICE') {
     //reply.interprete();
     var channelName = reply.isToChannel ? reply.channelName : reply.sender;
-    if (channelName == this.currentChannelName) {
+    if (channelName === this.currentChannelName) {
       IRC.Util.appendMessage(this.messagesElm, reply);
     }
 
@@ -154,28 +157,29 @@ IRC.App.prototype.replyListener = function(reply) {
   this.log(reply);
 };
 IRC.App.prototype.memberListener = function(eventType, members, channel) {
-  if (eventType == IRC.Events.MEMBER_ADDED) {
-    if (channel.name == this.currentChannelName) {
+  var i, j;
+  if (eventType === IRC.Events.MEMBER_ADDED) {
+    if (channel.name === this.currentChannelName) {
       if (!Array.isArray(members)) members = [members];
-      for (var i = 0; i < members.length; i++) {
+      for (i = 0; i < members.length; i++) {
         this.addMember(members[i]);
       }
     }
   }
-  else if (eventType == IRC.Events.MEMBER_QUITTED) {
-    if (channel.name == this.currentChannelName) {
+  else if (eventType === IRC.Events.MEMBER_QUITTED) {
+    if (channel.name === this.currentChannelName) {
       if (!Array.isArray(members)) members = [members];
       var removedLis = [];
-      for (var i = 0; i < members.length; i++) {
+      for (i = 0; i < members.length; i++) {
         var member = members[i];
         var lis = this.membersElm.children('li');
-        for (var j = 0; j < lis.length; j++) {
-          if (lis[j].innerHTML == member) {
+        for (j = 0; j < lis.length; j++) {
+          if (lis[j].innerHTML === member) {
             removedLis.push(lis[j]);
           }
         }
       }
-      for (var i = 0; i < removedLis.length; i++) {
+      for (i = 0; i < removedLis.length; i++) {
         var removedLi = removedLis[i];
         removedLi.parentNode.removeChild(removedLi);
       }
@@ -183,74 +187,65 @@ IRC.App.prototype.memberListener = function(eventType, members, channel) {
   }
 };
 IRC.App.prototype.channelListener = function(eventType, channels) {
-  if (eventType == IRC.Events.CHANNEL_ADDED) {
-    for (var channelName in channels) {
+  var channel, channelName;
+  if (eventType === IRC.Events.CHANNEL_ADDED) {
+    var leaveHandler = function(evt) {
+      evt.stopPropagation();
+      // TODO
+      channelName = $(evt.target).parent().contents().get(0).nodeValue;
+      channel = channels[channelName];
+      var settings = new IRC.Settings(channel.server);
+      for (var i = 0; i < settings.channels.length; i++) {
+        if (settings.channels[i] === channelName) {
+          settings.channels.splice(i, 1);
+          break;
+        }
+      }
+      settings.save();
+      channel.server.send(new IRC.Message('PART', channelName));
+    }.bind(this);
+
+    var focusHandler = function(evt) {
+      evt.stopPropagation();
+      // TODO
+      var channelName = $(evt.target).contents().get(0).nodeValue;
       var channel = channels[channelName];
-      var serverElm = $('#server-' + channel.server.serverNick);
-      var serverUlElm = $('#server-' + channel.server.serverNick + ' ul');
-/*
-      var channelLiElm = $('<li/>')
-        .text(channelName)
-        .addClass('channel')
-        .click(function(evt) {
-          evt.stopPropagation();
-          this.focus(channel.server.serverNick, evt.target.innerHTML);
-        }.bind(this))
-        .bind('contextmenu', function(evt) {
-          evt.stopPropagation();
-        }.bind(this))
-        .appendTo(serverUlElm);
-*/
+      this.focus(channel.server.serverNick, channelName);
+    }.bind(this);
+
+    for (var addedChannelName in channels) {
+      var addedChannel = channels[addedChannelName];
+      //var serverElm = $('#server-' + addedChannel.server.serverNick);
+      var serverUlElm = $('#server-' + addedChannel.server.serverNick + ' ul');
       var channelLiElm = $('<li/>')
         .addClass('channel')
-        .append(channelName)
-        .append($('<button/>').addClass('leave-button').attr({'title':chrome.i18n.getMessage('leave')}).click(function(evt) {
-          evt.stopPropagation();
-          // TODO
-          var channelName = $(evt.target).parent().contents().get(0).nodeValue;
-          var settings = new IRC.Settings(channel.server);
-          for (var i = 0; i < settings.channels.length; i++) {
-            if (settings.channels[i] == channelName) {
-              settings.channels.splice(i, 1);
-              break;
-            }
-          }
-          settings.save();
-          channel.server.send(new IRC.Message('PART', channelName));
-        }.bind(this)))
-        .click(function(evt) {
-          evt.stopPropagation();
-          // TODO
-          var channelName = $(evt.target).contents().get(0).nodeValue;
-          this.focus(channel.server.serverNick, channelName);
-        }.bind(this))
-        .bind('contextmenu', function(evt) {
-          evt.stopPropagation();
-        }.bind(this))
+        .append(addedChannelName)
+        .append($('<button/>').addClass('leave-button').attr({'title':chrome.i18n.getMessage('leave')}).click(leaveHandler))
+        .click(focusHandler)
         .appendTo(serverUlElm);
-      if (channelName == this.currentChannelName) channelLiElm.addClass('selected');
+      if (addedChannelName === this.currentChannelName) channelLiElm.addClass('selected');
     }
   }
-  else if (eventType == IRC.Events.CHANNEL_REMOVED) {
+  else if (eventType === IRC.Events.CHANNEL_REMOVED) {
     if (!Array.isArray(channels)) {
       var obj = {};
       obj[channels.name] = channels;
       channels = obj;
     }
 
-    for (var channelName in channels) {
-      var channel = channels[channelName];
+    for (var removedChannelName in channels) {
+      var removedChannel = channels[removedChannelName];
       // TODO
-      var serverUlElm = $('#server-' + channel.server.serverNick + ' ul');
-      for (var i in serverUlElm.children('li')) {
-        var serverLiElm = serverUlElm.children('li')[i];
-        if (serverLiElm.innerText == channelName) {
-          serverUlElm.get(0).removeChild(serverLiElm);
+      var removedServerUlElm = $('#server-' + removedChannel.server.serverNick + ' ul');
+      for (var i in removedServerUlElm.children('li')) {
+        var serverLiElm = removedServerUlElm.children('li')[i];
+        if (serverLiElm.innerText === removedChannelName) {
+          removedServerUlElm.get(0).removeChild(serverLiElm);
         }
       }
     }
   }
-  else if (eventType == IRC.Events.CHANNEL_CLOSED) {
+  else if (eventType === IRC.Events.CHANNEL_CLOSED) {
     var server = channels;
     $('#server-' + server.serverNick).addClass('closed');
   }
@@ -269,7 +264,7 @@ IRC.App.prototype.storeMessage = function(message) {
 IRC.App.setBounds = function(bounds, shouldSetBounds) {
   var win = chrome.app.window.current();
   if (shouldSetBounds) win.setBounds(bounds);
-  var container = win.contentWindow.document.getElementsByClassName("container")[0];
+  var container = win.contentWindow.document.getElementsByClassName('container')[0];
   container.style.width = bounds.width + 'px';
   container.style.height = bounds.height + 'px';
 };
@@ -282,49 +277,50 @@ IRC.App.start = function() {
   }.bind(app));
   IRC.Settings.ifExists(
     function(serverNicks) {
-      for (var i = 0; i < serverNicks.length; i++) {
-        var serverNick = serverNicks[i];
-        var settings = IRC.Settings.load(serverNick, function(serverNick, settings) {
-          // TODO
-          var server = new IRC.Server(settings.host, settings.port, 
-            settings.nick, settings.user, settings.pass, settings.encoding);
-          for (var j = 0; j < settings.channels.length; j++) {
-            server.addChannel(settings.channels[j]);
-          }
+      var afterLoadHandler = function(serverNick, settings) {
+        // TODO
+        var server = new IRC.Server(settings.host, settings.port, 
+          settings.nick, settings.user, settings.pass, settings.encoding);
+        for (var j = 0; j < settings.channels.length; j++) {
+          server.addChannel(settings.channels[j]);
+        }
 
-          // TODO
-          chrome.storage.local.get(null, function(data) {
-            for (var channelName in server.channels) {
-              var channel = server.getChannel(channelName);
-              var messages = data[channel.getFqn()];
-              if (messages) {
-                for (var j = 0; j < messages.length; j++) {
-                  messages[j] = IRC.Message.fromJson(messages[j], server);
-                }
-                channel.messages = messages;
+        // TODO
+        chrome.storage.local.get(null, function(data) {
+          for (var channelName in server.channels) {
+            var channel = server.getChannel(channelName);
+            var messages = data[channel.getFqn()];
+            if (messages) {
+              for (var j = 0; j < messages.length; j++) {
+                messages[j] = IRC.Message.fromJson(messages[j], server);
               }
+              channel.messages = messages;
             }
-          });
+          }
+        });
 
-          this.addServer(serverNick, server);
-          if (settings.channels.length == 0) {
-            this.settingsApp.open();
-            return;
-          }
-          if (!this.isFocused()) {
-            setTimeout(function() {
-              this.focus(serverNick, settings.channels[0]);
-            }.bind(this), IRC.App.DELAY);
-          }
+        this.addServer(serverNick, server);
+        if (settings.channels.length === 0) {
+          this.settingsApp.open();
+          return;
+        }
+        if (!this.isFocused()) {
+          setTimeout(function() {
+            this.focus(serverNick, settings.channels[0]);
+          }.bind(this), IRC.App.DELAY);
+        }
 
-          if (navigator.onLine) {
-            server.connect();
-            server.joinAllOnConnect();
-          }
-          else {
-            this.logWarn('__warnOffline__');
-          }
-        }.bind(this));
+        if (navigator.onLine) {
+          server.connect();
+          server.joinAllOnConnect();
+        }
+        else {
+          this.logWarn('__warnOffline__');
+        }
+      }.bind(this);
+
+      for (var i = 0; i < serverNicks.length; i++) {
+        IRC.Settings.load(serverNicks[i], afterLoadHandler);
       }
     }.bind(app),
     function() {
@@ -334,11 +330,13 @@ IRC.App.start = function() {
 
   window.addEventListener('online', function() {
     app.log('__online__');
+
+    var connectAndJoinWithServer = function() {
+      this.connect();
+      this.joinAllOnConnect();
+    };
     for (var serverName in this.servers) {
-      setTimeout(function() {
-        this.connect();
-        this.joinAllOnConnect();
-      }.bind(this.getServer(serverName)), 50);
+      setTimeout(connectAndJoinWithServer.bind(this.getServer(serverName)), 50);
     }
   }.bind(app), false);
 
@@ -352,18 +350,18 @@ IRC.App.start = function() {
   }.bind(app), false);
 
   $('#command').bind('keypress', function(evt) {
-    if (evt.keyCode == 13) { // enter key
+    if (evt.keyCode === 13) { // enter key
       var text = evt.target.value;
-      if (text.replace(/\s+/, '').length == 0) return;
+      if (text.replace(/\s+/, '').length === 0) return;
       var message;
-      if (text == '//version') {
+      if (text === '//version') {
         message = '[ChroCha] Ver. ' + IRC.VERSION;
       }
-      else if (text == '//clear') {
+      else if (text === '//clear') {
         IRC.Settings.clearAllStorage();
         message = '[ChroCha] Clean settings';
       }
-      else if (text == '//reload') {
+      else if (text === '//reload') {
         chrome.runtime.reload();
       }
       else if (text.match(/^\/(.+)/)) {
@@ -372,7 +370,7 @@ IRC.App.start = function() {
         this.getCurrentServer().send(message);
       }
       else {
-        if (!text.match(/^:/)) text = ':' + text
+        if (!text.match(/^:/)) text = ':' + text;
         var channel = this.getCurrentChannel();
         var command = evt.ctrlKey ? 'NOTICE' : 'PRIVMSG';
         // TODO
@@ -391,7 +389,6 @@ IRC.App.start = function() {
     }
   }.bind(app));
 
-//  $('.members li .private-message-button').live('click', function(evt) {
   $(document).on('click', '.members li .private-message-button', function(evt) {
     // TODO
     var member = $(evt.target).parent().contents().get(0).nodeValue.replace(/^@/, '');
@@ -399,7 +396,6 @@ IRC.App.start = function() {
     this.focus(ircApp.currentServerNick, member);
   }.bind(app));
 
-//  $('.members li .whois-button').live('click', function(evt) {
   $(document).on('click', '.members li .whois-button', function(evt) {
     // TODO
     var member = $(evt.target).parent().contents().get(0).nodeValue.replace(/^@/, '');
@@ -433,51 +429,50 @@ IRC.App.start = function() {
     var bounds = win.getBounds();
     IRC.App.setBounds(bounds);
     chrome.storage.local.get('frame', function(data) {
-      if (data['frame'] == null) data['frame'] = {};
-      data['frame']['bounds'] = bounds;
+      if (data.frame == null) data.frame = {};
+      data.frame.bounds = bounds;
       chrome.storage.local.set(data);
     });
   });
 
   // change page sizes
   var mouseMoving = null;
-  $('.left-pane .horizontal-separator').mousedown(function(evt) {
+  $('.left-pane .horizontal-separator').mousedown(function() {
     mouseMoving = 'left-pane';
   });
 
-  $('.right-pane .horizontal-separator').mousedown(function(evt) {
+  $('.right-pane .horizontal-separator').mousedown(function() {
     mouseMoving = 'right-pane';
   });
 
-  $('.container .vertical-separator').mousedown(function(evt) {
+  $('.container .vertical-separator').mousedown(function() {
     mouseMoving = 'container';
   });
 
   $('.container').mousemove(function(evt) {
     if (mouseMoving == null) return;
 
-    if (mouseMoving == 'left-pane') {
-      var height = parseInt($('.container').css('height'));
+    var height = parseInt($('.container').css('height'), 10);
+    var width = parseInt($('.container').css('width'), 10);
+    if (mouseMoving === 'left-pane') {
       $('.logs').css('height', (height - evt.pageY - 2) + 'px');
     }
-    else if (mouseMoving == 'right-pane') {
-      var height = parseInt($('.container').css('height'));
+    else if (mouseMoving === 'right-pane') {
       $('.channels').css('height', (height - evt.pageY - 2) + 'px');
     }
-    else if (mouseMoving == 'container') {
-      var width = parseInt($('.container').css('width'));
+    else if (mouseMoving === 'container') {
       $('.right-pane').css('width', (width - evt.pageX - 1) + 'px');
     }
   });
 
-  $('.container').mouseup(function(evt) {
+  $('.container').mouseup(function() {
     if (mouseMoving) {
       mouseMoving = null;
       chrome.storage.local.get('frame', function(data) {
-        if (data['frame'] == null) data['frame'] = {};
-        data['frame']['logsHeight'] = $('.logs').css('height');
-        data['frame']['channelsHeight'] = $('.channels').css('height');
-        data['frame']['rightPaneWidth'] = $('.right-pane').css('width');
+        if (data.frame == null) data.frame = {};
+        data.frame.logsHeight = $('.logs').css('height');
+        data.frame.channelsHeight = $('.channels').css('height');
+        data.frame.rightPaneWidth = $('.right-pane').css('width');
         chrome.storage.local.set(data);
       });
     }

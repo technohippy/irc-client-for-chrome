@@ -1,4 +1,7 @@
-if (typeof(IRC) == 'undefined') var IRC = {};
+'use strict';
+
+var IRC;
+if (typeof IRC === 'undefined') IRC = {};
 
 IRC.Events = {
   CHANNEL_ADDED: 'channel_added',

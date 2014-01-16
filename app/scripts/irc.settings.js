@@ -1,4 +1,7 @@
-if (typeof(IRC) == 'undefined') throw 'load error';
+'use strict';
+
+var IRC;
+if (typeof IRC === 'undefined') IRC = {};
 
 IRC.Settings = function(server) {
   if (server) {
@@ -24,7 +27,7 @@ IRC.Settings = function(server) {
     this.encoding = 'utf-8';
     this.channels = [];
   }
-}
+};
 IRC.Settings.MAX_MESSAGE_LOG = 100;
 IRC.Settings.KEY_SERVERS = 'servers';
 IRC.Settings.NICK_SUFFIX = '_';
@@ -75,7 +78,7 @@ IRC.Settings.load = function(serverNick, callback) {
   return new IRC.Settings().load(serverNick, callback);
 };
 IRC.Settings.loadAll = function(callback) {
-  if (arguments.length == 0) throw 'callback is a mandatory argument.';
+  if (arguments.length === 0) throw 'callback is a mandatory argument.';
   chrome.storage.sync.get(IRC.Settings.KEY_SERVERS, function(data) {
     var serverNicks = data.servers;
     for (var i = 0; i < serverNicks.length; i++) {
@@ -105,7 +108,7 @@ IRC.Settings.prototype.load = function(serverNick, callback) {
     this.channels = [];
     for (var i = 0; i < items[serverNick].channels.length; i++) {
       var channel = items[serverNick].channels[i];
-      if (typeof(channel) == 'string') this.channels.push(channel);
+      if (typeof channel === 'string') this.channels.push(channel);
     }
     if (callback) callback(serverNick, this);
   }.bind(this));
@@ -134,5 +137,5 @@ IRC.Settings.prototype.isReady = function() {
     !IRC.Util.isBlank(this.nick) &&
     !IRC.Util.isBlank(this.user) &&
     !IRC.Util.isBlank(this.encoding) &&
-    this.channels.length != 0;
+    this.channels.length !== 0;
 };

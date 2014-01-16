@@ -1,4 +1,7 @@
-if (typeof(IRC) == 'undefined') var IRC = {};
+'use strict';
+
+var IRC;
+if (typeof IRC === 'undefined') IRC = {};
 
 IRC.Util = {};
 IRC.Util.toColorClass = function(str) {
@@ -9,7 +12,7 @@ IRC.Util.appendMessage = function(container, message) {
     .addClass('line')
     .addClass(message.command.toLowerCase())
     .appendTo(container);
-  var senderElm = $('<span></span>')
+  $('<span></span>')
     .addClass('sender')
     .addClass(IRC.Util.toColorClass(message.sender))
     .text(message.sender)
@@ -17,10 +20,20 @@ IRC.Util.appendMessage = function(container, message) {
   var textElm = $('<span></span>')
     .addClass('text')
     .appendTo(lineElm);
-  var timeElm = $('<span></span>')
+  $('<span></span>')
     .addClass('timestamp')
     .text(message.timestamp.hm())
     .appendTo(lineElm);
+
+  var delayedShowImage = function(iframe, url) {
+    setTimeout(function() {
+      iframe.get(0).contentWindow.postMessage({
+        src:url,
+        alt:url,
+        title:url
+      }, '*');
+    }, 500);
+  };
 
   message = message.text.substring(1).replace('<', '&lt;');
   while (true) {
@@ -38,6 +51,8 @@ IRC.Util.appendMessage = function(container, message) {
         var iframe = $('<iframe></iframe>')
           .attr('src', 'image.html')
           .appendTo(textElm);
+        delayedShowImage(iframe, url);
+        /*
         setTimeout(function() {
           iframe.get(0).contentWindow.postMessage({
             src:url,
@@ -45,6 +60,7 @@ IRC.Util.appendMessage = function(container, message) {
             title:url
           }, '*');
         }, 500);
+        */
       }
       else {
         textElm
@@ -62,11 +78,11 @@ IRC.Util.appendMessage = function(container, message) {
   return container;
 };
 IRC.Util.isBlank = function(val) {
-  return val == null || val == '';
+  return val == null || val === '';
 };
 
 Date.prototype.ymdhm = function() {
-  function fillZero(n) {return (n < 10 ? '0' : '') + n}
+  function fillZero(n) {return (n < 10 ? '0' : '') + n;}
   var year = this.getFullYear();
   var month = this.getMonth() + 1;
   var date = this.getDate();
@@ -77,7 +93,7 @@ Date.prototype.ymdhm = function() {
 };
 
 Date.prototype.hm = function() {
-  function fillZero(n) {return (n < 10 ? '0' : '') + n}
+  function fillZero(n) {return (n < 10 ? '0' : '') + n;}
   var hours = this.getHours();
   var minutes = this.getMinutes();
   return '' + fillZero(hours) + ':' + fillZero(minutes);
