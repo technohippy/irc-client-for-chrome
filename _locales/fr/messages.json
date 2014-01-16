@@ -1,0 +1,79 @@
+{
+  "appName": {
+    "message": "ChroCha - Client IRC pour Chrome",
+    "description": "The name of the application"
+  },
+  "shortAppName": {
+    "message": "ChroCha",
+    "description": "The short name of the application"
+  },
+  "appDescription": {
+    "message": "Client IRC pour Chrome",
+    "description": "The description for the application"
+  },
+  "inputMessage": {
+    "message": "Entrez votre message",
+    "description": "Prompt for a message"
+  },
+  "whoIs": {
+    "message": "Voir le Whois",
+    "description": "WHOIS button tooltip"
+  },
+  "privateMessage": {
+    "message": "Envoyer un message privé",
+    "description": "PRIVMSG button tooltip"
+  },
+  "leave": {
+    "message": "Quitter ce canal",
+    "description": "PART button tooltip"
+  },
+  "addNewServer": {
+    "message": "[Nouveau serveur]",
+    "description": "The label for the button to add new server"
+  },
+  "ok": {
+    "message": "OK",
+    "description": "The label for the OK button"
+  },
+  "cancel": {
+    "message": "Annuler",
+    "description": "The label for the cancel button"
+  },
+  "servernick": {
+    "message": "Nom du serveur",
+    "description": "The label for the server name"
+  },
+  "host": {
+    "message": "Serveur",
+    "description": "The placeholder for the input for a host name"
+  },
+  "port": {
+    "message": "Port",
+    "description": "The placeholder for the input for a port number"
+  },
+  "nick": {
+    "message": "Pseudonyme",
+    "description": "The placeholder for the input for a nickname"
+  },
+  "user": {
+    "message": "Nom d'usager",
+    "description": "The placeholder for the input for a username"
+  },
+  "pass": {
+    "message": "Mot de passe",
+    "description": "The placeholder for the input for a password"
+  },
+  "addChannel": {
+    "message": "Ajouter un canal",
+    "description": "The placeholder for the input for a channel name"
+  },
+
+  "online": {
+    "message": "Connecté",
+    "description": "Warning message"
+  },
+  "warnOffline": {
+    "message": "Déconnecté",
+    "description": "Warning message"
+  }
+}
